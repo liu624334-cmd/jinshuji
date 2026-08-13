@@ -1263,6 +1263,22 @@ body[data-icon="plain"] .app-icon .ico {
 [data-theme="chill"] .me-photo-pick .mpp-item { background: rgba(0,0,0,.05) !important; }
 [data-theme="chill"] .me-photo-pick .mpp-add { background: rgba(0,0,0,.07) !important; color: #6d7280 !important; }
 [data-theme="chill"] .music-item.playing { background: rgba(251,191,36,.18) !important; }
+/* ---- 首页防溢出：禁止手机浏览器自动放大字体 ---- */
+html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
+/* ---- 极简模式首页紧凑化：给图标区腾出高度，避免显示不完全 ---- */
+[data-theme="chill"] .view-home { padding-top: 56px !important; }
+[data-theme="chill"] .widgets { gap: 8px !important; margin-bottom: 8px !important; }
+[data-theme="chill"] .w-card { padding: 12px 16px !important; }
+[data-theme="chill"] .w-card .w-time { font-size: 44px !important; }
+[data-theme="chill"] .w-card .w-date { margin-top: 4px !important; }
+[data-theme="chill"] .w-card.w-weather .w-emoji { font-size: 28px !important; }
+[data-theme="chill"] .w-card.w-weather .w-temp { font-size: 30px !important; }
+[data-theme="chill"] .w-card.w-weather .w-loc { margin-right: 58px !important; }
+[data-theme="chill"] .w-card .w-big { font-size: 24px !important; }
+[data-theme="chill"] .w-card .w-note { font-size: 13px !important; line-height: 1.45 !important; }
+[data-theme="chill"] .w-card .w-sub { margin-top: 4px !important; }
+[data-theme="chill"] .page-dots { padding: 4px 0 6px !important; }
+[data-theme="chill"] .dock { margin: 0 14px 8px !important; padding: 10px 20px !important; }
 </style>
     <style id="user-css"></style>
 </head>
@@ -3865,7 +3881,7 @@ setTimeout(() => {
    v8 浅色主题（参考 chill.kkk.kkk.ruiyaxin.xyz）
    [data-theme="chill"] 属性驱动 CSS 覆盖层，localStorage 持久化
    ============================================================ */
-let chillTheme = lsGet('simphone_chill', false);
+let chillTheme = lsGet('simphone_chill_v2', true);
 function applyChill() {
     if (chillTheme) document.body.setAttribute('data-theme', 'chill');
     else document.body.removeAttribute('data-theme');
@@ -3875,7 +3891,7 @@ function applyChill() {
 }
 function toggleChill() {
     chillTheme = !chillTheme;
-    lsSet('simphone_chill', chillTheme);
+    lsSet('simphone_chill_v2', chillTheme);
     applyChill();
     toast(chillTheme ? '已切换：浅色主题 ☁️' : '已切换：深色主题 🌙');
 }
