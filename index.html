@@ -651,6 +651,8 @@ body[data-icon="plain"] .app-icon .ico {
 .chat-bubble.in { align-self: flex-start; background: #262a38; color: #e8eaf2; border-bottom-left-radius: 6px; }
 .chat-bubble.out { align-self: flex-end; background: #0a84ff; color: #fff; border-bottom-right-radius: 6px; }
 .chat-day { text-align: center; color: #6d7488; font-size: 11px; padding: 6px 0; }
+.chat-typing { align-self: flex-start; color: #8f96ab; font-size: 12px; padding: 4px 14px; animation: typingPulse 1.2s ease-in-out infinite; }
+@keyframes typingPulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
 .chat-input-row { position: absolute; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 10px 14px 26px; background: linear-gradient(180deg, transparent, #10131f 40%); }
 .chat-input { flex: 1; height: 38px; border-radius: 19px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); color: #fff; font-size: 14px; padding: 0 16px; outline: none; font-family: inherit; }
 .chat-send { width: 38px; height: 38px; border-radius: 50%; border: none; background: #0a84ff; color: #fff; font-size: 15px; cursor: pointer; flex-shrink: 0; }
@@ -3229,12 +3231,15 @@ function momentAutoComment(mid) {
         const n = 1 + Math.floor(Math.random() * Math.min(2, friends.length));
         const picked = friends.sort(() => Math.random() - 0.5).slice(0, n);
         picked.forEach((f, i) => {
-            setTimeout(() => {
+            setTimeout(async () => {
                 const cur = state.moments.find(x => x.id === mid);
                 if (!cur) return;
-                const txt = (state.apiConfig.base && state.apiConfig.key)
-                    ? null // 有 API 时留空走下方本地兜底，避免复杂请求
-                    : MOMENT_POOL[Math.floor(Math.random() * MOMENT_POOL.length)];
+                // v9.1：有 API 配置时让好友评论也走真实模型；失败则回退本地模板
+                let txt = MOMENT_POOL[Math.floor(Math.random() * MOMENT_POOL.length)];
+                if (hasApiConfig()) {
+                    const r = await callApiReply(f, m.text);
+                    if (r) txt = r;
+                }
                 cur.comments.push({ name: f.name, avatar: f.avatar, bg: f.bg, text: txt, time: momentTime() });
                 lsSet('simphone_moments', state.moments);
                 if (state.app === 'moments') openApp('moments');
@@ -3657,33 +3662,71 @@ HANDLERS.browser = {
 /* ============================================================
     ⑪ 信息（玩家自建联系人 + 聊天 + 可选自动回复）
     ============================================================ */
-const AUTO_REPLIES = [
-    '收到！😊', '哈哈，真的假的？', '好的好的，马上安排', '嗯嗯，晚点详细说',
-    '明白了！👍', '太棒了！', '在忙，稍后回你', '你说得对，我也这么觉得',
-    '笑死，哈哈哈哈', '好的～周末见！', '让我想想…🤔', '没问题，交给我吧',
-];
 const CONTACT_EMOJIS = ['😀', '😎', '🤖', '👩', '👨', '👧', '👦', '🐱', '🐶', '🦊', '🐼', '👾', '🧑‍🚀', '💃', '🧙'];
 const CONTACT_COLORS = ['#5e5ce6', '#ff9f0a', '#34c759', '#ff375f', '#0a84ff', '#ffd60a', '#ff2d55', '#64d2ff', '#8e8e93'];
-const PERSONA_REPLIES = {
-    '温柔': ['好呀好呀，都听你的～', '别急嘛，慢慢来，我一直在哦', '嗯嗯，你说的我都记着呢', '辛苦啦，抱抱你 🫂', '没事的，有我呢'],
-    '高冷': ['嗯。', '哦。', '……继续说', '还行。', '随便你。'],
-    '毒舌': ['就这？就这点水平？', '你是不是又熬夜了，脸都垮了', '行行行，你最美，满意了吧', '这你都信？没救了', '啧，幼稚'],
-    '活泼': ['哇！！！真的吗！！', '走走走，现在就出发！', '哈哈哈哈笑死我了', '好耶好耶！', '快点快点，我等不及啦！'],
-    '学霸': ['这个问题我昨天刚研究过，结论是……', '建议先查证再下结论哦', '数据表明，你这个想法有87%的概率是错的', '逻辑上有个小漏洞，我帮你补上', '推导一下就明白了，很简单的'],
-};
-function pickReply(c) {
-    // 1) 有导入素材 → 随机引用素材里的句子（像 TA 用自己的文档回你）
-    if (c.personaDoc) {
-        const lines = String(c.personaDoc).split(/\n+/).map(s => s.trim()).filter(s => s.length > 1 && s.length < 80);
-        if (lines.length) return lines[Math.floor(Math.random() * lines.length)];
+/* ============================================================
+   ⑪.5 v9.1：联系人回复改走真实大模型 API（OpenAI 兼容接口）
+   未配置 API（base/key/model 任一为空）→ 对方回复不了，静默不回复
+   ============================================================ */
+function hasApiConfig() {
+    const c = state.apiConfig;
+    return !!(c && c.base && c.key && c.model);
+}
+function buildReplySystemPrompt(c) {
+    const who = (c.myNote || c.name) || '我';
+    const p = ['你正在一部手机上，和「' + (c.taNote || '我') + '」用微信聊天，你的名字是「' + who + '」。'];
+    p.push('请像真实人类朋友一样自然回复对方刚发来的消息：只输出回复内容本身，不要加引号、不要解释、不要暴露你是AI；口语化，1~2句话，50字以内，允许少量语气词和emoji。');
+    if (c.sign) p.push('你的个性签名是：“' + c.sign + '”。');
+    if (c.persona) p.push('你的性格设定：' + c.persona + '，回复要贴合这个性格。');
+    if (c.personaDoc) p.push('以下是你平时说话的素材，尽量模仿这个语气与用词习惯：' + String(c.personaDoc).trim().slice(0, 600));
+    return p.join('\n');
+}
+async function callApiReply(c, userText) {
+    if (!hasApiConfig()) return null;
+    const cfg = state.apiConfig;
+    const url = cfg.base.replace(/\/+$/, '') + '/chat/completions';
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 20000);
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.key },
+            body: JSON.stringify({
+                model: cfg.model,
+                messages: [
+                    { role: 'system', content: buildReplySystemPrompt(c) },
+                    { role: 'user', content: String(userText || '') },
+                ],
+                temperature: 0.9,
+                max_tokens: 120,
+            }),
+            signal: ctrl.signal,
+        });
+        clearTimeout(timer);
+        if (!res.ok) return null;
+        const data = await res.json();
+        const txt = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+        const s = txt ? String(txt).trim() : '';
+        return s || null;
+    } catch (e) {
+        clearTimeout(timer);
+        return null;
     }
-    // 2) 设置了人设 → 从对应人设词库回
-    if (c.persona) {
-        const pool = PERSONA_REPLIES[c.persona];
-        if (pool) return pool[Math.floor(Math.random() * pool.length)];
-    }
-    // 3) 默认随机回复
-    return AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+}
+let typingEl = null;
+function showTyping() {
+    const body = document.querySelector('.chat-body');
+    if (!body || typingEl) return;
+    typingEl = document.createElement('div');
+    typingEl.className = 'chat-typing';
+    typingEl.textContent = '对方正在输入…';
+    body.appendChild(typingEl);
+    const ab = $('app-body');
+    if (ab) ab.scrollTop = ab.scrollHeight;
+}
+function hideTyping() {
+    if (typingEl && typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
+    typingEl = null;
 }
 
 function getContact(id) { return state.contacts.find(c => c.id === id); }
@@ -3830,20 +3873,27 @@ function sendMsg() {
     inp.value = '';
     renderChat(state.currentChat);
     if (c.autoReply) {
+        // v9.1：自动回复 = 调用真实大模型 API；未配置 API → 对方回复不了（静默不回复）
+        if (!hasApiConfig()) return;
         state.chatBusy = true;
-        setTimeout(() => {
-            const reply = pickReply(c);
+        showTyping();
+        setTimeout(async () => {
+            const reply = await callApiReply(c, text);
+            hideTyping();
             const cid = state.currentChat;
-            if (cid && state.chats[cid]) {
+            if (reply && cid && state.chats[cid]) {
                 state.chats[cid].push({ from: 'in', text: reply, time: fmtTime(new Date()) });
                 persistContacts();
                 if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === cid) {
                     renderChat(cid);
                     toast('收到新消息 💬');
                 }
+            } else {
+                // 已配置但调用失败/超时：对方回复不了，轻提示原因
+                toast('对方没有回复（API调用失败）📡');
             }
             state.chatBusy = false;
-        }, 1400 + Math.random() * 1600);
+        }, 600 + Math.random() * 900);
     }
 }
 APPS.messages = {
