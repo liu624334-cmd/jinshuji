@@ -850,6 +850,55 @@ body[data-icon="plain"] .app-icon .ico {
 .form-row .switch { margin-left: auto; }
 .hint-note { font-size: 11.5px; color: #6d7488; line-height: 1.6; padding: 4px 2px; }
 
+/* ============================================================
+   新建联系人增强（v9：参考样式 + 自由发挥）
+   ============================================================ */
+.cf-head { display: flex; align-items: center; gap: 12px; padding: 2px 2px 16px; }
+.cf-head-avatar { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.cf-head-name { font-size: 17px; font-weight: 600; color: #fff; }
+.cf-head-sub { font-size: 12px; color: #8f96ab; margin-top: 2px; }
+.form-chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.form-chip {
+    padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.07); color: #e8eaf2; font-size: 13px; cursor: pointer; font-family: inherit;
+}
+.form-chip.sel { background: #0a84ff; border-color: #0a84ff; color: #fff; }
+.persona-skip {
+    margin-top: 8px; padding: 7px 14px; border-radius: 999px;
+    border: 1px dashed rgba(255,255,255,.22); background: none; color: #8f96ab;
+    font-size: 12.5px; cursor: pointer; font-family: inherit;
+}
+.persona-skip:active { background: rgba(255,255,255,.06); }
+.import-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;
+    padding: 10px 0; border-radius: 12px; border: 1px dashed rgba(255,255,255,.25);
+    background: rgba(255,255,255,.05); color: #e8eaf2; font-size: 13px; cursor: pointer; font-family: inherit;
+}
+.import-status { font-size: 11.5px; color: #34c759; margin-top: 6px; padding-left: 2px; }
+.ms-gender {
+    font-size: 10px; color: #8f96ab; border: 1px solid rgba(255,255,255,.16);
+    border-radius: 999px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px;
+}
+.chat-sign {
+    align-self: center; text-align: center; font-size: 11.5px; color: #8f96ab;
+    padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.05); cursor: pointer;
+    max-width: 92%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* 联系人资料卡 */
+.cc-mask { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(4px); }
+.cc-card { width: min(320px, 86vw); background: #161926; border: 1px solid rgba(255,255,255,.1); border-radius: 22px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+.cc-head { padding: 26px 20px 18px; text-align: center; background: linear-gradient(160deg, rgba(10,132,255,.25), transparent); }
+.cc-avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 34px; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+.cc-name { font-size: 18px; font-weight: 600; color: #fff; margin-top: 10px; }
+.cc-sub { font-size: 12px; color: #8f96ab; margin-top: 4px; }
+.cc-sign { font-size: 12.5px; color: #b9c0d4; margin-top: 8px; font-style: italic; }
+.cc-rows { padding: 6px 20px 14px; }
+.cc-row { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 13px; }
+.cc-row .cc-k { color: #8f96ab; flex-shrink: 0; }
+.cc-row .cc-v { color: #e8eaf2; text-align: right; word-break: break-word; }
+.cc-clear { width: calc(100% - 40px); margin: 4px 20px 10px; padding: 10px 0; border-radius: 12px; border: none; background: rgba(255,59,48,.15); color: #ff453a; font-size: 13.5px; cursor: pointer; font-family: inherit; }
+.cc-close-btn { width: calc(100% - 40px); margin: 0 20px 18px; padding: 11px 0; border-radius: 12px; border: none; background: #0a84ff; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
 /* 联系人列表 */
 .contact-item { display: flex; align-items: center; gap: 12px; padding: 13px 8px; border-radius: 14px; cursor: pointer; }
 .contact-item:hover { background: rgba(255,255,255,.05); }
@@ -1262,6 +1311,19 @@ body[data-icon="plain"] .app-icon .ico {
 [data-theme="chill"] input[type=range] { accent-color: #1a1a1a !important; }
 [data-theme="chill"] .me-photo-pick .mpp-item { background: rgba(0,0,0,.05) !important; }
 [data-theme="chill"] .me-photo-pick .mpp-add { background: rgba(0,0,0,.07) !important; color: #6d7280 !important; }
+/* v9 新建联系人增强：浅色适配 */
+[data-theme="chill"] .cf-head-name { color: #1a1a1a !important; }
+[data-theme="chill"] .form-chip { background: #f2f2f5 !important; border-color: rgba(0,0,0,.12) !important; color: #1a1a1a !important; }
+[data-theme="chill"] .form-chip.sel { background: #0a84ff !important; border-color: #0a84ff !important; color: #fff !important; }
+[data-theme="chill"] .persona-skip { color: #8a8f9a !important; border-color: rgba(0,0,0,.18) !important; }
+[data-theme="chill"] .import-btn { color: #1a1a1a !important; background: #f2f2f5 !important; border-color: rgba(0,0,0,.18) !important; }
+[data-theme="chill"] .chat-sign { color: #8a8f9a !important; background: rgba(0,0,0,.04) !important; }
+[data-theme="chill"] .cc-card { background: #ffffff !important; border-color: rgba(0,0,0,.08) !important; }
+[data-theme="chill"] .cc-head { background: linear-gradient(160deg, rgba(10,132,255,.12), transparent) !important; }
+[data-theme="chill"] .cc-name { color: #1a1a1a !important; }
+[data-theme="chill"] .cc-row { border-bottom-color: rgba(0,0,0,.06) !important; }
+[data-theme="chill"] .cc-row .cc-v { color: #1a1a1a !important; }
+[data-theme="chill"] .ms-gender { color: #8a8f9a !important; border-color: rgba(0,0,0,.16) !important; }
 [data-theme="chill"] .music-item.playing { background: rgba(251,191,36,.18) !important; }
 /* ---- 首页防溢出：禁止手机浏览器自动放大字体 ---- */
 html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }
@@ -1502,7 +1564,7 @@ const state = {
     currentChat: null,      // 信息：当前聊天联系人 id
     chatBusy: false,
     msgView: 'list',        // 信息：'list' | 'chat' | 'form'
-    contactForm: { avatar: '😀', bg: '#5e5ce6', autoReply: true },
+    contactForm: { avatar: '😀', bg: '#5e5ce6', autoReply: true, myNote: '', taNote: '', sign: '', gender: '保密', persona: '', personaDoc: '' },
     passcode: '',           // 锁屏密码（4-10位数字，空 = 未开启）
     passTry: '',            // 正在输入的密码
     fb: { show: true, img: '', size: 56, opacity: 90, color: '#ffffff' },  // 悬浮球
@@ -2037,13 +2099,15 @@ buildHome();
         if (state.locked) return;
         dragging = true;
         sx = e.clientX; sy = e.clientY;
-        hp.setPointerCapture(e.pointerId);
     });
     hp.addEventListener('pointermove', (e) => {
         if (!dragging) return;
         const dx = e.clientX - sx, dy = e.clientY - sy;
         if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
             dragging = false;
+            // 确认是滑动后再捕获指针：避免提前捕获把普通点击的 click 目标劫持到容器上，
+            // 导致 `.app-icon` 点击永远无法打开应用
+            try { hp.setPointerCapture(e.pointerId); } catch (err) {}
             window.__homeSwipedAt = Date.now();
             goHomePage(state.homePage + (dx < 0 ? 1 : -1));
         }
@@ -2292,6 +2356,17 @@ $('app-body').addEventListener('change', (e) => {
             toast('悬浮球图片已更新 🪄');
         };
         r.readAsDataURL(f);
+    } else if (t.id === 'cf-import-file') {
+        const r = new FileReader();
+        r.onload = () => {
+            const txt = String(r.result || '').trim();
+            if (!txt) { toast('文件是空的'); return; }
+            state.contactForm.personaDoc = txt;
+            const st = $('cf-import-status');
+            if (st) st.textContent = '✅ 已导入素材 ' + txt.length + ' 字';
+            toast('素材已导入 📄 TA 会引用它回你');
+        };
+        r.readAsText(f);
     }
 });
 
@@ -3589,6 +3664,27 @@ const AUTO_REPLIES = [
 ];
 const CONTACT_EMOJIS = ['😀', '😎', '🤖', '👩', '👨', '👧', '👦', '🐱', '🐶', '🦊', '🐼', '👾', '🧑‍🚀', '💃', '🧙'];
 const CONTACT_COLORS = ['#5e5ce6', '#ff9f0a', '#34c759', '#ff375f', '#0a84ff', '#ffd60a', '#ff2d55', '#64d2ff', '#8e8e93'];
+const PERSONA_REPLIES = {
+    '温柔': ['好呀好呀，都听你的～', '别急嘛，慢慢来，我一直在哦', '嗯嗯，你说的我都记着呢', '辛苦啦，抱抱你 🫂', '没事的，有我呢'],
+    '高冷': ['嗯。', '哦。', '……继续说', '还行。', '随便你。'],
+    '毒舌': ['就这？就这点水平？', '你是不是又熬夜了，脸都垮了', '行行行，你最美，满意了吧', '这你都信？没救了', '啧，幼稚'],
+    '活泼': ['哇！！！真的吗！！', '走走走，现在就出发！', '哈哈哈哈笑死我了', '好耶好耶！', '快点快点，我等不及啦！'],
+    '学霸': ['这个问题我昨天刚研究过，结论是……', '建议先查证再下结论哦', '数据表明，你这个想法有87%的概率是错的', '逻辑上有个小漏洞，我帮你补上', '推导一下就明白了，很简单的'],
+};
+function pickReply(c) {
+    // 1) 有导入素材 → 随机引用素材里的句子（像 TA 用自己的文档回你）
+    if (c.personaDoc) {
+        const lines = String(c.personaDoc).split(/\n+/).map(s => s.trim()).filter(s => s.length > 1 && s.length < 80);
+        if (lines.length) return lines[Math.floor(Math.random() * lines.length)];
+    }
+    // 2) 设置了人设 → 从对应人设词库回
+    if (c.persona) {
+        const pool = PERSONA_REPLIES[c.persona];
+        if (pool) return pool[Math.floor(Math.random() * pool.length)];
+    }
+    // 3) 默认随机回复
+    return AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+}
 
 function getContact(id) { return state.contacts.find(c => c.id === id); }
 function contactMsgs(id) { return state.chats[id] || []; }
@@ -3604,10 +3700,12 @@ function renderMsgList() {
         html += state.contacts.map(c => {
             const msgs = contactMsgs(c.id);
             const last = msgs[msgs.length - 1];
+            const display = c.myNote || c.name;
+            const gemo = { '男生': '🙋', '女生': '💃', '保密': '🤖', '未知': '🪐' }[c.gender] || '';
             return '<div class="msg-session" data-act="open-chat" data-v="' + c.id + '">' +
                 '<div class="msg-avatar" style="background:' + c.bg + '">' + c.avatar + '</div>' +
-                '<div class="ms-body"><div class="ms-name">' + esc(c.name) + '</div>' +
-                '<div class="ms-preview">' + (last ? (last.from === 'out' ? '我：' : '') + esc(last.text) : '开始聊天吧～') + '</div></div>' +
+                '<div class="ms-body"><div class="ms-name">' + esc(display) + (gemo ? '<span class="ms-gender">' + gemo + '</span>' : '') + '</div>' +
+                '<div class="ms-preview">' + (last ? (last.from === 'out' ? '我：' : '') + esc(last.text) : (c.sign ? '「' + esc(c.sign) + '」' : '开始聊天吧～')) + '</div></div>' +
                 '<div style="text-align:right"><div class="ms-time">' + (last ? last.time : '') + '</div></div></div>';
         }).join('');
     }
@@ -3621,22 +3719,47 @@ function renderContactForm() {
     const colors = CONTACT_COLORS.map(c =>
         '<div class="form-color ' + (state.contactForm.bg === c ? 'sel' : '') + '" data-act="cf-color" data-v="' + c + '" style="background:' + c + '"></div>'
     ).join('');
+    const genders = [['男生', '🙋'], ['女生', '💃'], ['保密', '🤖'], ['未知', '🪐']];
+    const genderBtns = genders.map(g =>
+        '<button class="form-chip ' + (state.contactForm.gender === g[0] ? 'sel' : '') + '" data-act="cf-gender" data-v="' + g[0] + '">' + g[1] + ' ' + g[0] + '</button>'
+    ).join('');
+    const personas = ['温柔', '高冷', '毒舌', '活泼', '学霸'];
+    const personaBtns = personas.map(p =>
+        '<button class="form-chip ' + (state.contactForm.persona === p ? 'sel' : '') + '" data-act="cf-persona-chip" data-v="' + p + '">' + p + '</button>'
+    ).join('');
     return '<div class="setting-group" style="margin:4px">' +
-        '<div class="form-row"><label class="form-label">称呼</label>' +
-        '<input class="form-input" id="cf-name" placeholder="输入联系人名称（必填）" maxlength="12"></div>' +
+        '<div class="cf-head"><div class="cf-head-avatar" id="cf-preview-avatar" style="background:linear-gradient(135deg,' + state.contactForm.bg + ',' + state.contactForm.bg + 'cc)">' + state.contactForm.avatar + '</div>' +
+        '<div><div class="cf-head-name" id="cf-preview-name">新朋友</div><div class="cf-head-sub">填写资料，让 TA 更像真人</div></div></div>' +
+        '<div class="form-row"><label class="form-label">联系人的名字（TA自己叫什么）</label>' +
+        '<input class="form-input" id="cf-name" placeholder="TA的名字（必填）" maxlength="12"></div>' +
+        '<div class="form-row"><label class="form-label">你对TA的备注（显示名称）</label>' +
+        '<input class="form-input" id="cf-note" placeholder="显示在列表里的名字（可留空）" maxlength="12"></div>' +
+        '<div class="form-row"><label class="form-label">TA对你的备注（TA怎么叫你）</label>' +
+        '<input class="form-input" id="cf-ta-note" placeholder="TA在聊天里怎么叫你（可留空）" maxlength="12"></div>' +
         '<div class="form-row"><label class="form-label">头像</label><div class="form-emoji-row">' + emojis + '</div></div>' +
         '<div class="form-row"><label class="form-label">颜色</label><div class="form-color-row">' + colors + '</div></div>' +
+        '<div class="form-row"><label class="form-label">个性签名</label>' +
+        '<input class="form-input" id="cf-sign" placeholder="一句话介绍 TA（可留空）" maxlength="30"></div>' +
+        '<div class="form-row"><label class="form-label">性别</label><div class="form-chip-row">' + genderBtns + '</div></div>' +
+        '<div class="form-row"><label class="form-label">人设（TA的性格，自动回复会更像TA）</label>' +
+        '<input class="form-input" id="cf-persona" placeholder="如：温柔、慢热、喜欢说反话" maxlength="40">' +
+        '<div class="form-chip-row" style="margin-top:8px">' + personaBtns + '</div>' +
+        '<button class="persona-skip" data-act="cf-persona-skip">跳过（模型本体）</button></div>' +
+        '<div class="form-row"><label class="form-label">导入TA的说话素材（txt/docx）</label>' +
+        '<input type="file" id="cf-import-file" accept=".txt,.doc,.docx" style="display:none">' +
+        '<button class="import-btn" data-act="cf-import">📄 导入 txt/docx</button>' +
+        '<div class="import-status" id="cf-import-status"></div></div>' +
         '<div class="form-row" style="display:flex;align-items:center"><label class="form-label" style="margin:0">自动回复（对方会回你消息）</label>' +
         '<div class="switch ' + (state.contactForm.autoReply ? 'on' : '') + '" data-act="cf-reply"></div></div>' +
         '<button class="form-save" data-act="contact-save">保存联系人</button>' +
-        '<div class="hint-note">💡 开启自动回复后，对方会像真人一样回你消息</div></div>';
+        '<div class="hint-note">💡 开启自动回复后，对方会像真人一样回你消息；导入素材后 TA 会引用素材内容回你</div></div>';
 }
 function renderChat(id) {
     const c = getContact(id);
     if (!c) { state.msgView = 'list'; openApp('messages'); return; }
     state.msgView = 'chat';
     state.currentChat = id;
-    $('app-title').textContent = c.name;
+    $('app-title').textContent = c.myNote || c.name;
     $('app-body').innerHTML = renderChatHTML(c);
     const inp = $('chat-input');
     if (inp) {
@@ -3648,7 +3771,11 @@ function renderChat(id) {
 }
 function renderChatHTML(c) {
     const msgs = contactMsgs(c.id);
+    const gemo = { '男生': '🙋', '女生': '💃', '保密': '🤖', '未知': '🪐' }[c.gender] || '';
+    const signBar = '<div class="chat-sign" data-act="cc-open" data-v="' + c.id + '">' +
+        (c.sign ? '“' + esc(c.sign) + '” · ' : '') + gemo + ' 查看资料 ›</div>';
     return '<div class="chat-body">' +
+        signBar +
         '<div class="chat-day">' + fmtDate(new Date()) + '</div>' +
         (msgs.length ? msgs.map(m =>
             '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + '">' + esc(m.text) + '<div class="chat-time">' + m.time + '</div></div>'
@@ -3656,6 +3783,39 @@ function renderChatHTML(c) {
         '</div>' +
         '<div class="chat-input-row"><input class="chat-input" id="chat-input" placeholder="发消息…">' +
         '<button class="chat-send" data-act="send">➤</button></div>';
+}
+// 联系人资料卡（自由发挥：点聊天页签名条弹出）
+function showContactCard(c) {
+    const gemo = { '男生': '🙋', '女生': '💃', '保密': '🤖', '未知': '🪐' }[c.gender] || '🤖';
+    const row = (k, v) => '<div class="cc-row"><span class="cc-k">' + k + '</span><span class="cc-v">' + v + '</span></div>';
+    const mask = document.createElement('div');
+    mask.className = 'cc-mask';
+    mask.innerHTML = '<div class="cc-card">' +
+        '<div class="cc-head"><div class="cc-avatar" style="background:' + c.bg + '">' + c.avatar + '</div>' +
+        '<div class="cc-name">' + esc(c.myNote || c.name) + '</div>' +
+        (c.taNote ? '<div class="cc-sub">TA叫你：' + esc(c.taNote) + '</div>' : '') +
+        (c.sign ? '<div class="cc-sign">“' + esc(c.sign) + '”</div>' : '') +
+        '</div>' +
+        '<div class="cc-rows">' +
+        row('真实名字', esc(c.name)) +
+        row('性别', gemo + ' ' + (c.gender || '保密')) +
+        (c.myNote ? row('你的备注', esc(c.myNote)) : '') +
+        row('人设', c.persona ? esc(c.persona) : '模型本体（无预设）') +
+        (c.personaDoc ? row('素材库', c.personaDoc.length + ' 字 · TA会引用它回你') : '') +
+        row('消息', ((state.chats[c.id] || []).length) + ' 条') +
+        '</div>' +
+        '<button class="cc-clear" id="cc-clear">清空聊天记录</button>' +
+        '<button class="cc-close-btn" id="cc-close">关闭</button></div>';
+    mask.addEventListener('click', (e) => { if (e.target === mask) mask.remove(); });
+    mask.querySelector('#cc-clear').addEventListener('click', () => {
+        state.chats[c.id] = [];
+        persistContacts();
+        mask.remove();
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) renderChat(c.id);
+        toast('聊天记录已清空 🧹');
+    });
+    mask.querySelector('#cc-close').addEventListener('click', () => mask.remove());
+    document.body.appendChild(mask);
 }
 function sendMsg() {
     const inp = $('chat-input');
@@ -3672,7 +3832,7 @@ function sendMsg() {
     if (c.autoReply) {
         state.chatBusy = true;
         setTimeout(() => {
-            const reply = AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+            const reply = pickReply(c);
             const cid = state.currentChat;
             if (cid && state.chats[cid]) {
                 state.chats[cid].push({ from: 'in', text: reply, time: fmtTime(new Date()) });
@@ -3691,11 +3851,11 @@ APPS.messages = {
     render() {
         if (state.msgView === 'chat' && state.currentChat && getContact(state.currentChat)) {
             const c = getContact(state.currentChat);
-            $('app-title').textContent = c.name;
+            $('app-title').textContent = c.myNote || c.name;
             return renderChatHTML(c);
         }
         if (state.msgView === 'form') {
-            $('app-title').textContent = '新联系人';
+            $('app-title').textContent = '新建联系人';
             return renderContactForm();
         }
         state.msgView = 'list';
@@ -3710,27 +3870,55 @@ HANDLERS.messages = {
     'cf-emoji': (b) => {
         state.contactForm.avatar = b.dataset.v;
         document.querySelectorAll('.form-emoji').forEach(el => el.classList.toggle('sel', el === b));
+        const pa = $('cf-preview-avatar'); if (pa) pa.textContent = b.dataset.v;
     },
     'cf-color': (b) => {
         state.contactForm.bg = b.dataset.v;
         document.querySelectorAll('.form-color').forEach(el => el.classList.toggle('sel', el === b));
+        const pa = $('cf-preview-avatar'); if (pa) pa.style.background = 'linear-gradient(135deg,' + b.dataset.v + ',' + b.dataset.v + 'cc)';
     },
     'cf-reply': (b) => {
         state.contactForm.autoReply = !state.contactForm.autoReply;
         b.classList.toggle('on', state.contactForm.autoReply);
     },
+    'cf-gender': (b) => {
+        state.contactForm.gender = b.dataset.v;
+        document.querySelectorAll('.form-chip[data-act="cf-gender"]').forEach(el => el.classList.toggle('sel', el === b));
+    },
+    'cf-persona-chip': (b) => {
+        state.contactForm.persona = b.dataset.v;
+        const inp = $('cf-persona'); if (inp) inp.value = b.dataset.v;
+        document.querySelectorAll('.form-chip[data-act="cf-persona-chip"]').forEach(el => el.classList.toggle('sel', el === b));
+    },
+    'cf-persona-skip': () => {
+        state.contactForm.persona = '';
+        const inp = $('cf-persona'); if (inp) inp.value = '';
+        document.querySelectorAll('.form-chip[data-act="cf-persona-chip"]').forEach(el => el.classList.remove('sel'));
+        toast('已跳过：使用模型本体 🤖');
+    },
+    'cf-import': () => { const f = $('cf-import-file'); if (f) f.click(); },
     'contact-save': () => {
         const nameEl = $('cf-name');
         const name = (nameEl ? nameEl.value : '').trim();
         if (!name) { toast('请输入联系人名称'); return; }
+        const note = ($('cf-note') ? $('cf-note').value : '').trim();
+        const taNote = ($('cf-ta-note') ? $('cf-ta-note').value : '').trim();
+        const sign = ($('cf-sign') ? $('cf-sign').value : '').trim();
+        const persona = ($('cf-persona') ? $('cf-persona').value : '').trim();
         const id = 'c' + Date.now();
-        state.contacts.push({ id, name, avatar: state.contactForm.avatar, bg: state.contactForm.bg, autoReply: state.contactForm.autoReply });
+        state.contacts.push({
+            id, name, avatar: state.contactForm.avatar, bg: state.contactForm.bg,
+            autoReply: state.contactForm.autoReply, myNote: note, taNote, sign,
+            gender: state.contactForm.gender, persona, personaDoc: state.contactForm.personaDoc || ''
+        });
         state.chats[id] = [];
         persistContacts();
+        state.contactForm = { avatar: '😀', bg: '#5e5ce6', autoReply: true, myNote: '', taNote: '', sign: '', gender: '保密', persona: '', personaDoc: '' };
         state.msgView = 'list';
         openApp('messages');
         toast('已添加联系人 ✓');
     },
+    'cc-open': (b) => { const c = getContact(b.dataset.v); if (c) showContactCard(c); },
     send: sendMsg,
 };
 // 返回列表（信息应用：聊天 / 表单 → 列表）
