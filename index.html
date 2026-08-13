@@ -144,7 +144,10 @@ body {
 .sb-grab:active { background: rgba(255,255,255,.14); }
 .battery { width: 25px; height: 12px; border: 1.5px solid rgba(255,255,255,.85); border-radius: 3.5px; padding: 1.5px; position: relative; }
 .battery::after { content: ''; position: absolute; right: -4px; top: 3px; width: 2px; height: 5px; background: rgba(255,255,255,.85); border-radius: 1px; }
-.battery .level { height: 100%; width: 86%; background: #34c759; border-radius: 1.5px; }
+.battery .level { height: 100%; width: 86%; background: #34c759; border-radius: 1.5px; transition: width .4s ease; }
+.battery.charging .level { animation: batteryPulse 1.5s ease infinite; }
+.battery.low .level { background: #ff453a; }
+@keyframes batteryPulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
 
 /* 视图基类 */
 .view {
@@ -1277,6 +1280,35 @@ function updateClockUI() {
 }
 setInterval(updateClockUI, 1000);
 updateClockUI();
+
+/* ============================================================
+   真实电量同步（v6）：Battery Status API 实时读取设备电量
+   锁屏/主屏/应用页状态栏图标 + 设置页电池健康 同步显示
+   ============================================================ */
+let simBattery = 86; // 浏览器不支持 Battery API 时的模拟值
+function updateBatteryUI(pct, charging) {
+    pct = Math.max(0, Math.min(100, Math.round(pct)));
+    document.querySelectorAll('.battery').forEach(el => {
+        const lv = el.querySelector('.level');
+        if (lv) lv.style.width = pct + '%';
+        el.classList.toggle('charging', !!charging);
+        el.classList.toggle('low', pct <= 20 && !charging);
+    });
+    const sb = document.getElementById('set-battery');
+    if (sb) sb.textContent = pct + '% · ' + (charging ? '正在充电 ⚡' : (pct <= 20 ? '低电量提醒' : '巅峰性能'));
+}
+function initBattery() {
+    if (navigator.getBattery) {
+        navigator.getBattery().then(b => {
+            updateBatteryUI(b.level * 100, b.charging);
+            b.addEventListener('levelchange', () => updateBatteryUI(b.level * 100, b.charging));
+            b.addEventListener('chargingchange', () => updateBatteryUI(b.level * 100, b.charging));
+        }).catch(() => updateBatteryUI(simBattery, false));
+    } else {
+        updateBatteryUI(simBattery, false);
+    }
+}
+initBattery();
 
 function applyWallpaper() {
     if (state.customWallpaper) {
@@ -2532,7 +2564,7 @@ APPS.settings = {
             '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">📱</span><div>型号</div></div><span style="font-size:13px">锦书 Phone Pro</span></div>' +
             '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">⚙️</span><div>系统版本</div></div><span style="font-size:13px">锦书OS 1.0</span></div>' +
             '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">💾</span><div>存储空间</div></div><span style="font-size:13px">128 / 256 GB</span></div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔋</span><div>电池健康</div></div><span style="font-size:13px">100% · 巅峰性能</span></div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔋</span><div>电池健康</div></div><span id="set-battery" style="font-size:13px">100% · 巅峰性能</span></div>' +
             '</div>';
     },
     init() {
