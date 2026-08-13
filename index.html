@@ -1030,7 +1030,7 @@ body[data-icon="plain"] .app-icon .ico {
 .anniv-empty { text-align: center; color: #8f96ab; font-size: 13px; padding: 40px 0 20px; }
 .anniv-empty .big { font-size: 44px; display: block; margin-bottom: 10px; }
 /* ============================================================
-   v8 Chill 浅色主题覆盖层（参考 chill.kkk.kkk.ruiyaxin.xyz 设计语言）
+   v8 浅色主题覆盖层（参考 chill.kkk.kkk.ruiyaxin.xyz 设计语言）
    机制：[data-theme="chill"] 时整套浅色样式生效
    不动原有深色规则 → 切换零回归；与参考站 [data-theme="dark"] 切换机制同构
    ============================================================ */
@@ -1457,7 +1457,7 @@ body[data-icon="plain"] .app-icon .ico {
 </div>
 <div class="fb-menu" id="fb-menu">
     <div class="fbm-nick" id="fbm-nick">JINSHUJI</div>
-    <div class="fbm-item" data-fba="chill"><span class="fbm-ico">☁️</span><div><div class="fbm-title">Chill 浅色主题</div><div class="fbm-desc">一键切换极简浅色</div></div></div>
+    <div class="fbm-item" data-fba="chill"><span class="fbm-ico">☁️</span><div><div class="fbm-title">浅色主题</div><div class="fbm-desc">一键切换极简浅色</div></div></div>
     <div class="fbm-item" data-fba="chat-jump"><span class="fbm-ico">💬</span><div><div class="fbm-title">跳转聊天</div><div class="fbm-desc">快速找到 TA</div></div></div>
     <div class="fbm-item" data-fba="app-launch"><span class="fbm-ico">🚀</span><div><div class="fbm-title">快捷启动</div><div class="fbm-desc">直接打开任意应用</div></div></div>
     <div class="fbm-item" data-fba="preset"><span class="fbm-ico">🎨</span><div><div class="fbm-title">切换预设</div><div class="fbm-desc">CSS / 字体 / API 快速切换</div></div></div>
@@ -2874,7 +2874,7 @@ APPS.settings = {
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">个性化</div>' +
             '<div class="setting-row" data-act="beauty" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎨</span><div>自定义美化<div class="sr-sub">' + (state.customCss || state.customWallpaper ? '已启用自定义外观' : '壁纸 / CSS') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
-            '<div class="setting-row" data-act="chill-toggle" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">☁️</span><div>Chill 浅色主题<div class="sr-sub">极简浅色 · 一键切换</div></div></div><div class="switch' + (chillTheme ? ' on' : '') + '" data-act="chill-toggle"></div></div>' +
+            '<div class="setting-row" data-act="chill-toggle" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">☁️</span><div>浅色主题<div class="sr-sub">极简浅色 · 一键切换</div></div></div><div class="switch' + (chillTheme ? ' on' : '') + '" data-act="chill-toggle"></div></div>' +
             '<div class="setting-row" data-act="preset" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎛️</span><div>预设切换<div class="sr-sub">CSS 主题 / 字体 / API</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '<div class="setting-row" data-act="music-mgr" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎵</span><div>音乐管理<div class="sr-sub">' + state.customTracks.length + ' 首本地歌曲</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '<div class="setting-row" data-act="chat-jump" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">💬</span><div>跳转聊天<div class="sr-sub">快速进入与 TA 的对话</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
@@ -3862,7 +3862,7 @@ setTimeout(() => {
 }, 900);
 
 /* ============================================================
-   v8 Chill 浅色主题（参考 chill.kkk.kkk.ruiyaxin.xyz）
+   v8 浅色主题（参考 chill.kkk.kkk.ruiyaxin.xyz）
    [data-theme="chill"] 属性驱动 CSS 覆盖层，localStorage 持久化
    ============================================================ */
 let chillTheme = lsGet('simphone_chill', false);
@@ -3877,7 +3877,7 @@ function toggleChill() {
     chillTheme = !chillTheme;
     lsSet('simphone_chill', chillTheme);
     applyChill();
-    toast(chillTheme ? '已切换：Chill 浅色主题 ☁️' : '已切换：深色主题 🌙');
+    toast(chillTheme ? '已切换：浅色主题 ☁️' : '已切换：深色主题 🌙');
 }
 applyChill();
 </script>
