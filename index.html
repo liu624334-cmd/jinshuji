@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="description" content="锦书机 —— 纯 HTML/CSS/JS 打造的可玩互动小手机，参考多款小手机理念，独立设计">
 <title>锦书机</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    锦书机 · 全部样式（参考多款小手机理念，独立设计）
@@ -15,6 +18,9 @@
     --pw: 100vw;
     --ph: 100dvh;
     --wp: linear-gradient(180deg, #0b1026 0%, #1b2a5e 45%, #2c3e7a 100%);
+    /* v7 双字体方案：外链同款字体 + 本地回退栈（加载失败自动降级，不影响离线） */
+    --font-serif: 'Cormorant Garamond', 'Songti SC', 'STSong', 'SimSun', 'KaiTi', serif;
+    --font-sans: 'Montserrat', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
 }
 
 html, body {
@@ -31,7 +37,7 @@ body {
     min-height: 100dvh;
     height: 100vh;
     height: 100dvh;
-    font-family: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-family: var(--font-sans);
     background: #000;
     display: flex;
     flex-direction: column;
@@ -136,7 +142,9 @@ body {
     padding: 0 24px;
     color: #fff;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 300;
+    font-family: var(--font-sans);
+    letter-spacing: .02em;
     z-index: 8;
 }
 .sb-left, .sb-right { display: flex; align-items: center; gap: 6px; }
@@ -173,19 +181,23 @@ body {
     padding-bottom: 58px;
     z-index: 30;
 }
-.lock-time { font-size: 86px; font-weight: 200; color: #fff; letter-spacing: 2px; text-shadow: 0 2px 24px rgba(0,0,0,.4); line-height: 1; }
-.lock-date { font-size: 16px; color: rgba(255,255,255,.92); margin-top: 8px; text-shadow: 0 1px 8px rgba(0,0,0,.35); }
+/* v7 小心机风：衬线品牌字 + 银白渐变发光 */
+.lock-brand { font-family: var(--font-serif); font-weight: 300; font-size: 16px; letter-spacing: .72em; text-indent: .72em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-bottom: 16px; text-shadow: 0 0 22px rgba(255,255,255,.4); }
+.lock-time { font-family: var(--font-serif); font-weight: 300; font-size: 92px; letter-spacing: 4px; line-height: 1; background: linear-gradient(180deg, #ffffff 20%, #d6dae2 60%, #9aa1ad 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; text-shadow: 0 0 34px rgba(255,255,255,.16); filter: drop-shadow(0 2px 18px rgba(255,255,255,.14)); }
+.lock-date { font-family: var(--font-sans); font-weight: 200; font-size: 13.5px; letter-spacing: .52em; text-indent: .52em; text-transform: uppercase; color: rgba(255,255,255,.8); margin-top: 12px; text-shadow: 0 1px 10px rgba(0,0,0,.3); }
 .lock-actions { display: flex; gap: 64px; margin: 44px 0 30px; }
 .lock-btn {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: rgba(255,255,255,.17);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: none;
+    width: 54px; height: 54px; border-radius: 18px;
+    background: rgba(255,255,255,.13);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.35), 0 8px 24px rgba(0,0,0,.18);
     display: flex; align-items: center; justify-content: center;
     font-size: 22px; color: #fff; cursor: pointer;
-    transition: transform .15s;
+    transition: transform .15s, box-shadow .2s;
 }
+.lock-btn:hover { box-shadow: inset 0 1px 1px rgba(255,255,255,.5), 0 10px 30px rgba(0,0,0,.24); }
 .lock-btn:active { transform: scale(.88); }
 .swipe-hint {
     display: flex; flex-direction: column; align-items: center; gap: 12px;
@@ -193,13 +205,21 @@ body {
     cursor: grab; user-select: none; -webkit-user-select: none;
     padding: 14px 46px;
 }
-.swipe-bar { width: 150px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.4); position: relative; overflow: hidden; }
-.swipe-bar::after {
-    content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 55%;
-    border-radius: 3px; background: rgba(255,255,255,.92);
-    animation: swiping 1.7s ease-in-out infinite;
+.swipe-bar {
+    width: 168px; height: 6px; border-radius: 1px;
+    background: rgba(255,255,255,.14);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.3);
+    position: relative; overflow: hidden;
 }
-@keyframes swiping { 0% { transform: translateX(0); } 50% { transform: translateX(160%); } 100% { transform: translateX(0); } }
+.swipe-bar::after {
+    content: ''; position: absolute; top: 0; left: -55%; height: 100%; width: 45%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.75), transparent);
+    animation: swipeSweep 2.2s ease-in-out infinite;
+}
+@keyframes swipeSweep { 0% { left: -55%; } 55%, 100% { left: 135%; } }
 
 /* ============================================================
    主屏
@@ -229,13 +249,26 @@ body {
     transition: transform .15s;
 }
 .w-card:active { transform: scale(.98); }
-.w-card .w-time { font-size: 42px; font-weight: 200; letter-spacing: 1px; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.w-card .w-date { font-size: 13px; opacity: .92; margin-top: 4px; }
+.w-card:hover { transform: translateY(-2px); }
+.w-card .w-time { font-size: 54px; font-weight: 200; letter-spacing: -1px; line-height: 1.05; font-variant-numeric: tabular-nums; font-family: var(--font-sans); }
+.w-card .w-date { font-size: 11.5px; opacity: .9; margin-top: 6px; font-family: var(--font-sans); font-weight: 300; letter-spacing: .28em; text-transform: uppercase; }
 .w-card.w-weather { display: flex; align-items: center; justify-content: space-between; }
 .w-card.w-weather .w-main { display: flex; align-items: center; gap: 12px; }
-.w-card.w-weather .w-emoji { font-size: 30px; }
-.w-card.w-weather .w-temp { font-size: 30px; font-weight: 300; }
-.w-card.w-weather .w-loc { font-size: 13px; opacity: .9; }
+.w-card.w-weather .w-emoji { font-size: 34px; }
+.w-card.w-weather .w-temp { font-size: 36px; font-weight: 200; font-family: var(--font-sans); letter-spacing: -1px; }
+.w-card.w-weather .w-loc { font-size: 12.5px; opacity: .9; margin-right: 76px; font-weight: 300; letter-spacing: .06em; }
+/* FOCUS 式胶囊标签（白 20% 玻璃 + blur + 全圆角） */
+.w-tag {
+    position: absolute; top: 12px; right: 12px;
+    font-family: var(--font-sans); font-weight: 400; font-size: 9.5px;
+    letter-spacing: .2em; text-indent: .2em; text-transform: uppercase;
+    color: rgba(255,255,255,.78);
+    background: rgba(255,255,255,.18);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.18);
+    padding: 3px 10px; border-radius: 999px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+}
 .w-card .w-k { font-size: 12px; color: rgba(255,255,255,.65); letter-spacing: 2px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
 .w-card .w-big { font-size: 30px; font-weight: 300; line-height: 1.25; }
 .w-card .w-sub { font-size: 12px; opacity: .8; margin-top: 6px; }
@@ -346,9 +379,10 @@ body[data-icon="plain"] .app-icon .ico {
 .dock {
     display: flex; justify-content: space-around; align-items: center;
     margin: 0 -16px; padding: 10px 14px;
-    background: rgba(255,255,255,.16);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.18);
+    backdrop-filter: blur(28px) saturate(160%); -webkit-backdrop-filter: blur(28px) saturate(160%);
+    border-top: 1px solid rgba(255,255,255,.18);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 8px 30px rgba(0,0,0,.3);
 }
 .dock .app-icon .ico { width: 52px; height: 52px; font-size: 24px; border-radius: 13px; }
 
@@ -361,11 +395,11 @@ body[data-icon="plain"] .app-icon .ico {
     padding: 56px 12px 8px; color: #fff;
 }
 .app-back { background: none; border: none; color: #0a84ff; font-size: 24px; cursor: pointer; padding: 2px 10px; line-height: 1; }
-.app-title { font-size: 15px; font-weight: 600; }
+.app-title { font-size: 15px; font-weight: 300; font-family: var(--font-sans); letter-spacing: .04em; }
 .app-top-space { width: 34px; }
 .app-body { flex: 1; overflow-y: auto; padding: 4px 14px 64px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .app-body::-webkit-scrollbar { display: none; }
-.app-page-title { color: #fff; font-size: 26px; font-weight: 700; padding: 10px 4px 14px; }
+.app-page-title { color: #fff; font-size: 26px; font-weight: 200; font-family: var(--font-sans); letter-spacing: .02em; padding: 10px 4px 14px; }
 
 /* ============================================================
    计算器
@@ -473,13 +507,23 @@ body[data-icon="plain"] .app-icon .ico {
 /* ============================================================
    设置
    ============================================================ */
-.setting-group { margin-bottom: 18px; }
-.setting-group-title { color: #8f96ab; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; }
+.setting-group {
+    margin-bottom: 16px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 18px;
+    padding: 6px 12px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+.setting-group-title { color: #9aa1b5; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; padding: 12px 4px 8px; font-family: var(--font-sans); font-weight: 400; }
 .setting-row {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 13px 10px; color: #e8eaf2; font-size: 14.5px;
+    padding: 13px 12px; color: #e8eaf2; font-size: 14.5px;
     background: rgba(255,255,255,.045);
-    border-radius: 12px; margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,.05);
+    border-radius: 14px; margin-bottom: 8px;
+    font-family: var(--font-sans); font-weight: 300;
 }
 .setting-row .sr-left { display: flex; align-items: center; gap: 11px; }
 .setting-row .sr-emoji { font-size: 19px; }
@@ -919,6 +963,7 @@ body[data-icon="plain"] .app-icon .ico {
 .fbm-ico { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
 .fbm-title { font-size: 14px; color: var(--fb-color); font-weight: 500; transition: color .3s; }
 .fbm-desc { font-size: 11px; color: var(--fb-color); opacity: .55; margin-top: 2px; transition: color .3s; }
+.fbm-nick { padding: 8px 12px 6px; font-size: 11px; color: var(--fb-color); opacity: .65; letter-spacing: .16em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 6px; font-family: var(--font-sans); font-weight: 300; }
 
 /* 预设选择行 */
 .preset-group { margin-bottom: 18px; }
@@ -1021,6 +1066,7 @@ body[data-icon="plain"] .app-icon .ico {
                 <div class="sb-left"><span class="sb-time">10:09</span></div>
                 <div class="sb-right"><span>📶</span><span>✈</span><span class="battery"><span class="level"></span></span></div>
             </div>
+            <div class="lock-brand">JINSHU<br>锦 书</div>
             <div class="lock-time" id="lock-time">10:09</div>
             <div class="lock-date" id="lock-date">8月13日 星期四</div>
             <div class="lock-actions">
@@ -1176,6 +1222,9 @@ body[data-icon="plain"] .app-icon .ico {
     <div class="fb-icon" id="fb-icon">🚀</div>
 </div>
 <div class="fb-menu" id="fb-menu">
+    <div class="fbm-nick" id="fbm-nick">JINSHUJI</div>
+    <div class="fbm-item" data-fba="chat-jump"><span class="fbm-ico">💬</span><div><div class="fbm-title">跳转聊天</div><div class="fbm-desc">快速找到 TA</div></div></div>
+    <div class="fbm-item" data-fba="app-launch"><span class="fbm-ico">🚀</span><div><div class="fbm-title">快捷启动</div><div class="fbm-desc">直接打开任意应用</div></div></div>
     <div class="fbm-item" data-fba="preset"><span class="fbm-ico">🎨</span><div><div class="fbm-title">切换预设</div><div class="fbm-desc">CSS / 字体 / API 快速切换</div></div></div>
     <div class="fbm-item" data-fba="fb"><span class="fbm-ico">⚙️</span><div><div class="fbm-title">悬浮球设置</div><div class="fbm-desc">外观 / 大小 / 颜色</div></div></div>
     <div class="fbm-item" data-fba="hide"><span class="fbm-ico">🙈</span><div><div class="fbm-title">关闭悬浮球</div><div class="fbm-desc">可在「设置」中重新开启</div></div></div>
@@ -1206,6 +1255,7 @@ const state = {
     passcode: '',           // 锁屏密码（4-10位数字，空 = 未开启）
     passTry: '',            // 正在输入的密码
     fb: { show: true, img: '', size: 56, opacity: 90, color: '#ffffff' },  // 悬浮球
+    nickname: '',           // 称呼设置：TA 对你的称呼
     cssPreset: 0,           // CSS 主题预设索引
     fontPreset: 0,          // 字体预设索引
     homePage: 0,            // 主屏第几页
@@ -1339,6 +1389,7 @@ function loadPersist() {
     state.widgets = lsGet('simphone_widgets', ['clock', 'weather']);
     state.moments = lsGet('simphone_moments', []);
     state.annivs = lsGet('simphone_annivs', []);
+    state.nickname = lsGet('simphone_nickname', '');
     applyFB();
     applyWallpaper();
     applyIconStyle();
@@ -1389,6 +1440,9 @@ function applyFB() {
     // 菜单文字颜色（参考站：可自定义字体颜色）
     const menu = $('fb-menu');
     if (menu) menu.style.setProperty('--fb-color', state.fb.color || '#ffffff');
+    // 称呼设置：悬浮球菜单顶部显示 TA 对你的称呼
+    const nick = $('fbm-nick');
+    if (nick) nick.textContent = state.nickname ? '· ' + state.nickname + ' ·' : 'JINSHUJI';
 }
 function persistFB() { lsSet('simphone_fb', state.fb); }
 loadPersist(); // 必须在 THEMES/FONTS/applyPresets 定义之后调用（修复 TDZ 黑屏 bug）
@@ -1514,6 +1568,14 @@ function forgotOK() {
             state.settingsPage = 'fb';
             openApp('settings');
             $('app-title').textContent = '悬浮球设置';
+        } else if (act === 'chat-jump') {
+            state.settingsPage = 'chat-jump';
+            openApp('settings');
+            $('app-title').textContent = '跳转聊天';
+        } else if (act === 'app-launch') {
+            state.settingsPage = 'app-launch';
+            openApp('settings');
+            $('app-title').textContent = '快捷启动';
         }
     });
 })();
@@ -1678,8 +1740,9 @@ function renderWidgets() {
         else if (w === 'weather') inner = '<div class="w-main"><span class="w-emoji">⛅</span><span class="w-temp">--°</span></div><div class="w-loc">…</div>';
         else if (w === 'anniv') inner = annivWidgetHTML();
         else if (w === 'notes') inner = notesWidgetHTML();
+        const TAG = { clock: 'CLOCK', weather: 'WEATHER', anniv: 'ANNIV', notes: 'NOTES' };
         const del = state.widgetEdit ? '<button class="w-del" data-act="wdel" data-i="' + i + '">✕</button>' : '';
-        return '<div class="w-card w-' + w + '" data-app="' + w + '">' + del + inner + '</div>';
+        return '<div class="w-card w-' + w + '" data-app="' + w + '">' + del + '<span class="w-tag">' + (TAG[w] || '') + '</span>' + inner + '</div>';
     }).join('');
     const tip = state.widgetEdit ? '<div class="widget-edit-tip">✏️ 点 ✕ 删除 · 点空白处完成</div>' : '';
     const add = state.widgetEdit ? '<button class="w-add" id="w-add">＋ 添加小组件</button>' : '';
@@ -2530,6 +2593,35 @@ APPS.settings = {
                 '<input type="color" id="fb-color" value="' + esc(state.fb.color) + '" style="width:100%;height:42px;border:none;border-radius:10px;background:transparent;cursor:pointer"></div>' +
                 '<div class="hint-note">💡 修改实时生效并自动保存；关闭悬浮球后可在本页重新开启。</div></div>';
         }
+        // —— 跳转聊天子页面（参考 YAN：联系人快速跳转）——
+        if (state.settingsPage === 'chat-jump') {
+            const rows = state.contacts.length ? state.contacts.map(c =>
+                '<div class="setting-row" data-act="chat-jump" data-v="' + c.id + '" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">' + esc(c.avatar) + '</span><div>' + esc(c.name) +
+                '<div class="sr-sub">' + (state.chats[c.id] ? state.chats[c.id].length + ' 条消息' : '暂无消息') + '</div></div></div><span style="color:#0a84ff;font-size:15px">›</span></div>'
+            ).join('') : '<div class="empty-state"><div class="es-emoji">💬</div>还没有联系人<br>先去「信息」App 添加一个吧</div>';
+            return '<div class="setting-group"><div class="setting-group-title">💬 跳转聊天</div>' +
+                backRow + rows +
+                '<div class="hint-note">💡 点击联系人直接进入聊天，不用翻找会话列表。</div></div>';
+        }
+        // —— 快捷启动子页面（参考 YAN：App 网格弹窗）——
+        if (state.settingsPage === 'app-launch') {
+            const cells = GRID_APPS.map(a =>
+                '<div class="app-icon" data-app="' + a[0] + '" style="width:25%;margin-bottom:6px"><div class="ico" style="background:' + (state.iconStyle === 'color' ? a[3] : 'rgba(255,255,255,.14)') + '">' + a[2] + '</div><span class="lbl">' + a[1] + '</span></div>'
+            ).join('');
+            return '<div class="setting-group"><div class="setting-group-title">🚀 快捷启动</div>' +
+                backRow +
+                '<div style="display:flex;flex-wrap:wrap;padding:4px 0 10px">' + cells + '</div>' +
+                '<div class="hint-note">💡 点击任意应用立即打开，不用返回主屏翻页。</div></div>';
+        }
+        // —— 称呼设置子页面（参考 YAN：TA 对你的称呼）——
+        if (state.settingsPage === 'nickname') {
+            return '<div class="setting-group"><div class="setting-group-title">💌 称呼设置</div>' +
+                backRow +
+                '<div class="form-row"><label class="form-label">TA 对你的称呼</label>' +
+                '<input class="form-input" id="nick-input" maxlength="12" placeholder="如：宝贝 / 烬哥 / 主人…" value="' + esc(state.nickname) + '"></div>' +
+                '<button class="form-save" data-act="nick-save">保存称呼</button>' +
+                '<div class="hint-note">💡 保存后悬浮球菜单顶部将显示该称呼，让锦书机更像「TA」专属。</div></div>';
+        }
         // —— 主页面 ——
         return '' +
             '<div class="setting-group"><div class="setting-group-title">帮助</div>' +
@@ -2547,6 +2639,9 @@ APPS.settings = {
             '<div class="setting-row" data-act="beauty" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎨</span><div>自定义美化<div class="sr-sub">' + (state.customCss || state.customWallpaper ? '已启用自定义外观' : '壁纸 / CSS') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '<div class="setting-row" data-act="preset" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎛️</span><div>预设切换<div class="sr-sub">CSS 主题 / 字体 / API</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '<div class="setting-row" data-act="music-mgr" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎵</span><div>音乐管理<div class="sr-sub">' + state.customTracks.length + ' 首本地歌曲</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="chat-jump" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">💬</span><div>跳转聊天<div class="sr-sub">快速进入与 TA 的对话</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="app-launch" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🚀</span><div>快捷启动<div class="sr-sub">直接打开任意应用</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="nickname" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">💌</span><div>称呼设置<div class="sr-sub">' + (state.nickname ? 'TA 叫你：' + esc(state.nickname) : 'TA 对你的称呼') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">安全</div>' +
             '<div class="setting-row" data-act="passcode" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🔒</span><div>锁屏密码<div class="sr-sub">' + (state.passcode ? '已开启' : '未开启') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
@@ -2604,6 +2699,28 @@ HANDLERS.settings = {
     preset: () => { state.settingsPage = 'preset'; openApp('settings'); $('app-title').textContent = '预设切换'; },
     fb: () => { state.settingsPage = 'fb'; openApp('settings'); $('app-title').textContent = '悬浮球设置'; },
     'settings-back': () => { state.settingsPage = 'main'; openApp('settings'); },
+    'chat-jump': (b) => {
+        const id = b && b.dataset ? b.dataset.v : null;
+        if (id && getContact(id)) {
+            state.msgView = 'chat';
+            state.currentChat = id;
+            openApp('messages');
+        } else {
+            state.settingsPage = 'chat-jump';
+            openApp('settings');
+            $('app-title').textContent = '跳转聊天';
+        }
+    },
+    'app-launch': () => { state.settingsPage = 'app-launch'; openApp('settings'); $('app-title').textContent = '快捷启动'; },
+    nickname: () => { state.settingsPage = 'nickname'; openApp('settings'); $('app-title').textContent = '称呼设置'; },
+    'nick-save': () => {
+        const inp = $('nick-input');
+        if (!inp) return;
+        state.nickname = inp.value.trim().slice(0, 12);
+        lsSet('simphone_nickname', state.nickname);
+        applyFB();
+        toast(state.nickname ? '称呼已保存：' + state.nickname + ' 💌' : '已清除称呼');
+    },
     'api-save': () => {
         const b = $('api-base'), k = $('api-key'), m = $('api-model');
         state.apiConfig = {
