@@ -1,0 +1,3477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="锦书机 —— 纯 HTML/CSS/JS 打造的可玩互动小手机，参考多款小手机理念，独立设计">
+<title>锦书机</title>
+<style>
+/* ============================================================
+   锦书机 · 全部样式（参考多款小手机理念，独立设计）
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --pw: 100vw;
+    --ph: 100dvh;
+    --wp: linear-gradient(180deg, #0b1026 0%, #1b2a5e 45%, #2c3e7a 100%);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    overscroll-behavior: none;
+}
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
+    font-family: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #e8eaf2;
+    overflow: hidden;
+}
+
+/* ============================================================
+   手机外壳
+   ============================================================ */
+.phone {
+    position: relative;
+    width: var(--pw);
+    height: var(--ph);
+    border-radius: 26px;
+    background: linear-gradient(150deg, #3a3f4b 0%, #171a20 60%, #262a33 100%);
+    padding: 5px;
+    flex-shrink: 0;
+    box-shadow:
+        0 0 0 1px #08090d,
+        0 30px 80px rgba(0,0,0,.55);
+}
+/* 边框高光 */
+.phone::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border-radius: 22px;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.28),
+        inset 0 -2px 6px rgba(0,0,0,.5);
+    pointer-events: none;
+    z-index: 4;
+}
+
+/* 侧边按键（全屏贴边） */
+.btn-side { position: absolute; width: 6px; background: linear-gradient(90deg, #4a5060, #22262e); border-radius: 3px; z-index: 70; cursor: pointer; transition: filter .1s; opacity: .9; }
+.btn-side:active { filter: brightness(1.7); }
+.btn-vup  { left: 1px; top: 150px; height: 56px; }
+.btn-vdown{ left: 1px; top: 216px; height: 56px; }
+.btn-power{ right: 1px; top: 260px; height: 90px; }
+
+/* ============================================================
+   屏幕
+   ============================================================ */
+.screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #000;
+}
+/* 玻璃反光 */
+.screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background: linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 26%, rgba(255,255,255,0) 72%, rgba(255,255,255,.045) 100%);
+    pointer-events: none;
+    z-index: 61;
+}
+
+/* 灵动岛 */
+.island {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 118px;
+    height: 34px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 13px;
+    box-shadow: inset 0 0 3px rgba(255,255,255,.08);
+}
+.island-cam {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #22365c, #000 62%);
+}
+.island-wave { display: none; align-items: center; gap: 2px; height: 14px; }
+.island-wave span { width: 2.5px; background: #4ade80; border-radius: 2px; animation: iwave .75s ease-in-out infinite; }
+.island.playing .island-wave { display: flex; }
+.island.playing .island-cam { display: none; }
+@keyframes iwave { 0%,100% { height: 4px; } 50% { height: 13px; } }
+
+/* 状态栏 */
+.statusbar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 8;
+}
+.sb-left, .sb-right { display: flex; align-items: center; gap: 6px; }
+.sb-grab { padding: 0 6px; height: 52px; display: flex; align-items: center; cursor: pointer; border-radius: 10px; }
+.sb-grab:active { background: rgba(255,255,255,.14); }
+.battery { width: 25px; height: 12px; border: 1.5px solid rgba(255,255,255,.85); border-radius: 3.5px; padding: 1.5px; position: relative; }
+.battery::after { content: ''; position: absolute; right: -4px; top: 3px; width: 2px; height: 5px; background: rgba(255,255,255,.85); border-radius: 1px; }
+.battery .level { height: 100%; width: 86%; background: #34c759; border-radius: 1.5px; }
+
+/* 视图基类 */
+.view {
+    position: absolute; inset: 0;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .32s ease, transform .32s ease;
+}
+.view.active { opacity: 1; visibility: visible; pointer-events: auto; }
+.view-app.active { animation: appIn .28s ease; }
+@keyframes appIn { from { transform: scale(1.07); opacity: .4; } to { transform: scale(1); opacity: 1; } }
+
+/* ============================================================
+   锁屏
+   ============================================================ */
+.view-lock {
+    background-image: var(--wp);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 58px;
+    z-index: 30;
+}
+.lock-time { font-size: 86px; font-weight: 200; color: #fff; letter-spacing: 2px; text-shadow: 0 2px 24px rgba(0,0,0,.4); line-height: 1; }
+.lock-date { font-size: 16px; color: rgba(255,255,255,.92); margin-top: 8px; text-shadow: 0 1px 8px rgba(0,0,0,.35); }
+.lock-actions { display: flex; gap: 64px; margin: 44px 0 30px; }
+.lock-btn {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,.17);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: #fff; cursor: pointer;
+    transition: transform .15s;
+}
+.lock-btn:active { transform: scale(.88); }
+.swipe-hint {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    color: rgba(255,255,255,.9); font-size: 13px;
+    cursor: grab; user-select: none; -webkit-user-select: none;
+    padding: 14px 46px;
+}
+.swipe-bar { width: 150px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.4); position: relative; overflow: hidden; }
+.swipe-bar::after {
+    content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 55%;
+    border-radius: 3px; background: rgba(255,255,255,.92);
+    animation: swiping 1.7s ease-in-out infinite;
+}
+@keyframes swiping { 0% { transform: translateX(0); } 50% { transform: translateX(160%); } 100% { transform: translateX(0); } }
+
+/* ============================================================
+   主屏
+   ============================================================ */
+.view-home {
+    background-image: var(--wp);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 16px 0;
+    z-index: 10;
+}
+.widgets { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; position: relative; }
+/* 小组件卡片（毛玻璃，参考站风格） */
+.w-card {
+    position: relative;
+    border-radius: 24px;
+    padding: 16px 20px;
+    color: #fff;
+    background: rgba(26, 28, 36, .45);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, .14);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .12);
+    cursor: pointer;
+    transition: transform .15s;
+}
+.w-card:active { transform: scale(.98); }
+.w-card .w-time { font-size: 42px; font-weight: 200; letter-spacing: 1px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.w-card .w-date { font-size: 13px; opacity: .92; margin-top: 4px; }
+.w-card.w-weather { display: flex; align-items: center; justify-content: space-between; }
+.w-card.w-weather .w-main { display: flex; align-items: center; gap: 12px; }
+.w-card.w-weather .w-emoji { font-size: 30px; }
+.w-card.w-weather .w-temp { font-size: 30px; font-weight: 300; }
+.w-card.w-weather .w-loc { font-size: 13px; opacity: .9; }
+.w-card .w-k { font-size: 12px; color: rgba(255,255,255,.65); letter-spacing: 2px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.w-card .w-big { font-size: 30px; font-weight: 300; line-height: 1.25; }
+.w-card .w-sub { font-size: 12px; opacity: .8; margin-top: 6px; }
+.w-card .w-note { font-size: 15px; line-height: 1.5; opacity: .95; }
+/* 编辑模式：删除按钮 + 添加按钮 */
+.w-card .w-del {
+    position: absolute; top: -8px; right: -6px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #ff453a; color: #fff; border: 2px solid rgba(255,255,255,.85);
+    font-size: 13px; line-height: 1; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,.4);
+}
+.w-add {
+    border-radius: 20px; padding: 14px; color: rgba(255,255,255,.92);
+    background: rgba(255,255,255,.12);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1.5px dashed rgba(255,255,255,.4);
+    font-size: 14px; cursor: pointer; letter-spacing: 1px;
+}
+.w-add:active { background: rgba(255,255,255,.22); }
+.widget-edit-tip {
+    position: absolute; top: -30px; left: 0; right: 0;
+    font-size: 11.5px; color: rgba(255,255,255,.92); text-align: center;
+    background: rgba(20,22,30,.72); border-radius: 10px; padding: 5px 8px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+}
+/* 小组件选择弹层 */
+.widget-picker {
+    position: fixed; left: 50%; top: 46%;
+    transform: translate(-50%, -50%);
+    width: 280px; border-radius: 24px; padding: 18px;
+    background: rgba(28, 30, 40, .92);
+    backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+    border: 1px solid rgba(255,255,255,.16);
+    box-shadow: 0 24px 60px rgba(0,0,0,.5);
+    z-index: 99;
+}
+.widget-picker .wp-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 12px; text-align: center; letter-spacing: 1px; }
+.wp-item {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; padding: 12px 14px; margin-bottom: 8px;
+    border-radius: 16px; border: none; cursor: pointer;
+    background: rgba(255,255,255,.08); color: #fff; font-size: 15px;
+    text-align: left;
+}
+.wp-item:active { background: rgba(255,255,255,.18); }
+.wp-item .wp-ico { font-size: 22px; }
+.wp-item.used { opacity: .35; pointer-events: none; }
+
+.home-pages {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    touch-action: pan-y;
+}
+.home-page {
+    position: absolute; inset: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px 8px;
+    padding: 8px 6px;
+    align-content: stretch;
+    transition: transform .32s cubic-bezier(.22,.9,.3,1), opacity .32s;
+}
+.home-page.pg-off { pointer-events: none; }
+.page-dots {
+    display: flex; justify-content: center; align-items: center;
+    gap: 7px; padding: 6px 0 8px;
+}
+.page-dots i {
+    width: 7px; height: 7px; border-radius: 4px;
+    background: rgba(255,255,255,.35);
+    transition: width .25s, background .25s;
+}
+.page-dots i.on { width: 18px; background: rgba(255,255,255,.92); }
+.app-icon { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.app-icon .ico {
+    width: 58px; height: 58px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 27px; color: #fff;
+    box-shadow: 0 6px 16px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25);
+    transition: transform .14s;
+    position: relative;
+    overflow: hidden;
+}
+.app-icon:active .ico { transform: scale(.86); }
+.app-icon .lbl { font-size: 11px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+/* 图标美化：毛玻璃（默认）/ 彩色卡片 / 简约透明 */
+body[data-icon="glass"] .app-icon .ico {
+    background: rgba(255,255,255,.14);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.28), inset 0 -6px 14px rgba(255,255,255,.06);
+}
+body[data-icon="color"] .app-icon .ico {
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.3), inset 0 -3px 8px rgba(0,0,0,.18);
+}
+body[data-icon="plain"] .app-icon .ico {
+    background: transparent; border: none; box-shadow: none;
+    font-size: 34px;
+    text-shadow: 0 4px 14px rgba(0,0,0,.45);
+}
+.dock {
+    display: flex; justify-content: space-around; align-items: center;
+    margin: 0 -16px; padding: 10px 14px;
+    background: rgba(255,255,255,.16);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255,255,255,.14);
+}
+.dock .app-icon .ico { width: 52px; height: 52px; font-size: 24px; border-radius: 13px; }
+
+/* ============================================================
+   应用通用
+   ============================================================ */
+.view-app { background: #10131f; display: flex; flex-direction: column; z-index: 20; }
+.app-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 56px 12px 8px; color: #fff;
+}
+.app-back { background: none; border: none; color: #0a84ff; font-size: 24px; cursor: pointer; padding: 2px 10px; line-height: 1; }
+.app-title { font-size: 15px; font-weight: 600; }
+.app-top-space { width: 34px; }
+.app-body { flex: 1; overflow-y: auto; padding: 4px 14px 64px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.app-body::-webkit-scrollbar { display: none; }
+.app-page-title { color: #fff; font-size: 26px; font-weight: 700; padding: 10px 4px 14px; }
+
+/* ============================================================
+   计算器
+   ============================================================ */
+.calc { display: flex; flex-direction: column; gap: 12px; padding: 16px 4px 8px; }
+.calc-display {
+    text-align: right; font-size: 54px; font-weight: 200; color: #fff;
+    padding: 12px 14px; min-height: 82px; word-break: break-all;
+    display: flex; align-items: flex-end; justify-content: flex-end;
+}
+.calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.calc-btn {
+    height: 66px; border-radius: 33px; border: none;
+    font-size: 24px; font-weight: 500; color: #fff; background: #33343c;
+    cursor: pointer; transition: filter .12s, transform .08s;
+    font-family: inherit;
+}
+.calc-btn:active { filter: brightness(1.55); transform: scale(.96); }
+.calc-btn.gray { background: #a5a5ad; color: #111; }
+.calc-btn.orange { background: #ff9f0a; }
+.calc-btn.wide { grid-column: span 2; text-align: left; padding-left: 30px; }
+
+/* ============================================================
+   相机
+   ============================================================ */
+.camera { position: relative; height: 100%; min-height: 520px; border-radius: 22px; overflow: hidden; }
+.cam-scene { position: absolute; inset: 0; background: linear-gradient(180deg, #6fb7f0 0%, #b7e3fb 52%, #79b06a 53%, #3f7d45 100%); }
+.cam-sun { position: absolute; top: 14%; right: 18%; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, #fff8d9, #ffd76e 65%, transparent 70%); }
+.cam-cloud { position: absolute; width: 110px; height: 34px; border-radius: 20px; background: rgba(255,255,255,.9); animation: cloudmove 16s linear infinite; }
+.cam-cloud::before, .cam-cloud::after { content: ''; position: absolute; background: rgba(255,255,255,.9); border-radius: 50%; }
+.cam-cloud::before { width: 44px; height: 44px; top: -22px; left: 18px; }
+.cam-cloud::after { width: 34px; height: 34px; top: -14px; right: 16px; }
+.cam-cloud.c1 { top: 12%; left: -130px; }
+.cam-cloud.c2 { top: 30%; left: -190px; animation-duration: 22s; animation-delay: -8s; transform: scale(.8); }
+@keyframes cloudmove { to { transform: translateX(560px); } }
+.cam-mountain { position: absolute; bottom: 0; left: 0; right: 0; height: 46%; background: linear-gradient(180deg, #2e6b3a, #1d4a28); clip-path: polygon(0 60%, 18% 22%, 32% 55%, 48% 10%, 62% 52%, 78% 26%, 100% 60%, 100% 100%, 0 100%); }
+.cam-gridlines { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.cam-gridlines::before, .cam-gridlines::after { content: ''; position: absolute; background: rgba(255,255,255,.3); }
+.cam-gridlines::before { left: 33.3%; top: 0; bottom: 0; width: 1px; }
+.cam-gridlines::after { left: 66.6%; top: 0; bottom: 0; width: 1px; }
+.cam-hline { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,.3); top: 33.3%; }
+.cam-hline.h2 { top: 66.6%; }
+.cam-timer { position: absolute; top: 14px; left: 14px; z-index: 3; color: #fff; font-size: 13px; background: rgba(0,0,0,.35); padding: 4px 10px; border-radius: 999px; }
+.cam-switch { position: absolute; top: 14px; right: 14px; z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,.35); border: none; color: #fff; font-size: 17px; cursor: pointer; }
+.cam-bar { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; padding: 18px 26px 26px; }
+.cam-thumb { width: 40px; height: 40px; border-radius: 8px; background: #fff center/cover; border: 2px solid rgba(255,255,255,.6); cursor: pointer; }
+.cam-shutter { width: 70px; height: 70px; border-radius: 50%; border: 4px solid #fff; background: rgba(255,255,255,.25); cursor: pointer; position: relative; }
+.cam-shutter::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: #fff; transition: transform .1s; }
+.cam-shutter:active::after { transform: scale(.82); }
+.cam-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 5; }
+.cam-flash.go { animation: camflash .45s ease; }
+@keyframes camflash { 0% { opacity: 0; } 30% { opacity: .95; } 100% { opacity: 0; } }
+
+/* ============================================================
+   相册
+   ============================================================ */
+.photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.photo { aspect-ratio: 1; background-size: cover; background-position: center; cursor: pointer; border-radius: 2px; transition: transform .15s; }
+.photo:active { transform: scale(.94); }
+.photo-viewer {
+    position: absolute; inset: 0; z-index: 25; background: #000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: opacity .25s;
+}
+.photo-viewer.open { opacity: 1; visibility: visible; }
+.photo-viewer img { max-width: 100%; max-height: 82%; border-radius: 6px; }
+.photo-viewer .pv-close { position: absolute; top: 66px; right: 18px; color: #fff; background: rgba(255,255,255,.18); border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 17px; cursor: pointer; z-index: 2; }
+
+/* ============================================================
+   音乐
+   ============================================================ */
+.music-wrap { text-align: center; }
+.music-cover {
+    width: 210px; height: 210px; margin: 18px auto 20px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center; font-size: 72px;
+    background: linear-gradient(135deg, #f43f5e, #f97316 55%, #facc15);
+    box-shadow: 0 16px 40px rgba(244,63,94,.4);
+}
+.music-cover.spin { animation: spin 6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.music-name { color: #fff; font-size: 18px; font-weight: 600; }
+.music-artist { color: #8f96ab; font-size: 13px; margin-top: 4px; }
+.music-progress { margin: 18px 8px 8px; }
+.music-track { height: 4px; border-radius: 2px; background: #2c3040; position: relative; cursor: pointer; }
+.music-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; border-radius: 2px; background: linear-gradient(90deg, #fb7185, #fbbf24); }
+.music-times { display: flex; justify-content: space-between; color: #8f96ab; font-size: 11px; margin-top: 6px; }
+.music-ctrl { display: flex; align-items: center; justify-content: center; gap: 34px; margin: 14px 0 22px; }
+.music-btn { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; opacity: .85; transition: transform .12s; }
+.music-btn:active { transform: scale(.85); }
+.music-btn.play {
+    width: 62px; height: 62px; border-radius: 50%; font-size: 24px;
+    background: linear-gradient(135deg, #fb7185, #fbbf24);
+    box-shadow: 0 8px 24px rgba(244,63,94,.45);
+}
+.music-list { text-align: left; margin-top: 6px; }
+.music-item { display: flex; align-items: center; gap: 12px; padding: 11px 8px; border-radius: 12px; cursor: pointer; color: #d7dbe8; }
+.music-item:hover { background: rgba(255,255,255,.06); }
+.music-item .mi-ico { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.music-item .mi-name { font-size: 14px; font-weight: 500; }
+.music-item .mi-artist { font-size: 12px; color: #8f96ab; }
+.music-item.playing .mi-name { color: #fbbf24; }
+.music-eq { display: none; font-size: 14px; }
+.music-item.playing .music-eq { display: inline; }
+
+/* ============================================================
+   设置
+   ============================================================ */
+.setting-group { margin-bottom: 18px; }
+.setting-group-title { color: #8f96ab; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; }
+.setting-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 10px; color: #e8eaf2; font-size: 14.5px;
+    background: rgba(255,255,255,.045);
+    border-radius: 12px; margin-bottom: 8px;
+}
+.setting-row .sr-left { display: flex; align-items: center; gap: 11px; }
+.setting-row .sr-emoji { font-size: 19px; }
+.setting-row .sr-sub { font-size: 12px; color: #8f96ab; margin-top: 2px; }
+.switch { width: 47px; height: 28px; border-radius: 14px; background: #393c46; position: relative; cursor: pointer; transition: background .22s; flex-shrink: 0; }
+.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: left .22s; box-shadow: 0 2px 5px rgba(0,0,0,.35); }
+.switch.on { background: #34c759; }
+.switch.on::after { left: 21px; }
+.wallpaper-row { display: flex; gap: 10px; padding: 4px 6px; }
+.wp-thumb { width: 52px; height: 68px; border-radius: 10px; cursor: pointer; border: 2px solid transparent; background-size: cover; background-position: center; }
+.wp-thumb.sel { border-color: #0a84ff; }
+.wp-thumb.t1 { background-image: linear-gradient(180deg,#0b1026,#1b2a5e 45%,#2c3e7a); }
+.wp-thumb.t2 { background-image: radial-gradient(1.5px 1.5px at 20% 25%,#fff,transparent 60%),radial-gradient(1px 1px at 70% 15%,#fff,transparent 60%),radial-gradient(2px 2px at 40% 60%,#fff,transparent 60%),radial-gradient(1px 1px at 85% 45%,#fff,transparent 60%),linear-gradient(180deg,#05070f,#101b3a 70%,#1a2b56); }
+.wp-thumb.t3 { background-image: linear-gradient(180deg,#0e4d64,#1b7a8c 50%,#38b2ac); }
+.wp-thumb.t4 { background-image: linear-gradient(180deg,#2d1b69,#a4508b 45%,#f2994a); }
+.about-cell { text-align: left; font-size: 13px; color: #b9c0d4; padding: 4px 8px; }
+.about-cell b { color: #fff; }
+
+/* ============================================================
+   天气
+   ============================================================ */
+.weather-hero {
+    border-radius: 22px; padding: 26px 22px; color: #fff; text-align: center;
+    background: linear-gradient(150deg, #2b6de0, #47a3ff 60%, #7cc4ff);
+    box-shadow: 0 14px 34px rgba(43,109,224,.35); margin-bottom: 16px;
+}
+.weather-hero .wh-temp { font-size: 64px; font-weight: 200; line-height: 1; margin: 6px 0 2px; }
+.weather-hero .wh-desc { font-size: 15px; opacity: .95; }
+.weather-hero .wh-range { font-size: 13px; opacity: .85; margin-top: 6px; }
+.weather-hero .wh-emoji { font-size: 44px; }
+.weather-detail { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.wd-item { background: rgba(255,255,255,.05); border-radius: 14px; padding: 14px 8px; text-align: center; color: #e8eaf2; }
+.wd-item .wd-v { font-size: 17px; font-weight: 600; margin-top: 4px; }
+.wd-item .wd-k { font-size: 11px; color: #8f96ab; }
+.city-list { display: flex; flex-direction: column; gap: 8px; }
+.city-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,.05); border-radius: 14px; padding: 13px 16px; color: #e8eaf2; cursor: pointer; }
+.city-item:active { background: rgba(255,255,255,.1); }
+.city-item .ci-temp { font-size: 20px; font-weight: 600; }
+
+/* ============================================================
+   时钟
+   ============================================================ */
+.clock-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.clock-tab { flex: 1; padding: 9px 0; border-radius: 999px; background: rgba(255,255,255,.06); border: none; color: #9aa3b8; font-size: 13px; cursor: pointer; font-family: inherit; }
+.clock-tab.on { background: rgba(255,255,255,.16); color: #fff; }
+.world-row { display: flex; align-items: center; justify-content: space-between; padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,.07); color: #e8eaf2; }
+.world-row .wr-city { font-size: 16px; }
+.world-row .wr-diff { font-size: 12px; color: #8f96ab; margin-top: 2px; }
+.world-row .wr-time { font-size: 30px; font-weight: 200; font-variant-numeric: tabular-nums; }
+.stopwatch { text-align: center; padding-top: 30px; }
+.sw-time { font-size: 58px; font-weight: 200; color: #fff; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+.sw-laps { margin-top: 18px; text-align: left; max-height: 220px; overflow-y: auto; }
+.sw-lap { display: flex; justify-content: space-between; color: #b9c0d4; padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 13px; }
+.sw-btns { display: flex; justify-content: center; gap: 24px; margin-top: 26px; }
+.sw-btn { width: 70px; height: 70px; border-radius: 50%; border: none; font-size: 14px; cursor: pointer; font-family: inherit; transition: transform .12s; }
+.sw-btn:active { transform: scale(.9); }
+.sw-btn.gray { background: #2c3040; color: #ff9f0a; }
+.sw-btn.green { background: #34c759; color: #fff; }
+.sw-btn.red { background: #ff3b30; color: #fff; }
+
+/* ============================================================
+   日历
+   ============================================================ */
+.cal-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 4px 14px; color: #fff; }
+.cal-head .ch-title { font-size: 18px; font-weight: 600; }
+.cal-nav { background: none; border: none; color: #0a84ff; font-size: 22px; cursor: pointer; padding: 0 12px; }
+.cal-week { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; color: #8f96ab; font-size: 12px; padding-bottom: 8px; }
+.cal-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
+.cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #e8eaf2; border-radius: 50%; }
+.cal-day.other { color: #4c5268; }
+.cal-day.today { background: #0a84ff; color: #fff; font-weight: 700; }
+
+/* ============================================================
+   备忘录
+   ============================================================ */
+.notes-box { display: flex; flex-direction: column; gap: 10px; padding-top: 6px; }
+.notes-box textarea {
+    width: 100%; min-height: 300px; border-radius: 16px; border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05); color: #e8eaf2; font-size: 15px; line-height: 1.7;
+    padding: 16px; resize: none; outline: none; font-family: inherit;
+}
+.notes-box textarea:focus { border-color: #0a84ff; }
+.notes-save { align-self: flex-end; padding: 9px 24px; border-radius: 999px; border: none; background: linear-gradient(135deg,#0a84ff,#5e5ce6); color: #fff; font-size: 14px; cursor: pointer; font-family: inherit; }
+.notes-save:active { transform: scale(.95); }
+.notes-status { font-size: 12px; color: #8f96ab; text-align: right; min-height: 18px; }
+
+/* ============================================================
+   浏览器
+   ============================================================ */
+.browser-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.browser-input {
+    flex: 1; height: 38px; border-radius: 12px; border: none; outline: none;
+    background: rgba(255,255,255,.1); color: #fff; font-size: 13px; padding: 0 14px;
+    font-family: inherit;
+}
+.browser-go { width: 38px; height: 38px; border-radius: 12px; border: none; background: #0a84ff; color: #fff; font-size: 15px; cursor: pointer; }
+.browser-page { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); background: #fff; color: #222; }
+.bp-newtab { padding: 30px 20px; text-align: center; }
+.bp-newtab .bp-logo { width: 74px; height: 74px; margin: 0 auto 14px; border-radius: 22px; background: linear-gradient(135deg,#0a84ff,#5e5ce6); display: flex; align-items: center; justify-content: center; font-size: 36px; color: #fff; }
+.bp-newtab h3 { font-size: 19px; margin-bottom: 6px; }
+.bp-newtab p { font-size: 13px; color: #777; }
+.bp-shortcuts { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; padding: 18px; }
+.bp-sc { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+.bp-sc .sc-ico { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; }
+.bp-sc .sc-name { font-size: 11px; color: #555; }
+.bp-search { padding: 22px; text-align: center; }
+.bp-search h3 { font-size: 16px; margin-bottom: 12px; color: #0a84ff; word-break: break-all; }
+.bp-search .bp-card { background: #f4f6fb; border-radius: 12px; padding: 14px; text-align: left; margin-bottom: 10px; }
+.bp-search .bp-card .t { font-size: 14px; color: #0a84ff; font-weight: 600; margin-bottom: 4px; }
+.bp-search .bp-card .s { font-size: 12px; color: #666; }
+
+/* ============================================================
+   信息
+   ============================================================ */
+.msg-session { display: flex; align-items: center; gap: 12px; padding: 13px 8px; border-radius: 14px; cursor: pointer; }
+.msg-session:hover { background: rgba(255,255,255,.05); }
+.msg-avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; flex-shrink: 0; }
+.msg-session .ms-body { flex: 1; min-width: 0; }
+.msg-session .ms-name { color: #fff; font-size: 15px; font-weight: 500; }
+.msg-session .ms-preview { color: #8f96ab; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.msg-session .ms-time { color: #6d7488; font-size: 11px; }
+.msg-badge { min-width: 20px; height: 20px; border-radius: 10px; background: #ff3b30; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; padding: 0 6px; margin-top: 3px; }
+.chat-body { display: flex; flex-direction: column; gap: 8px; padding: 10px 4px; }
+.chat-bubble { max-width: 76%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+.chat-bubble.in { align-self: flex-start; background: #262a38; color: #e8eaf2; border-bottom-left-radius: 6px; }
+.chat-bubble.out { align-self: flex-end; background: #0a84ff; color: #fff; border-bottom-right-radius: 6px; }
+.chat-day { text-align: center; color: #6d7488; font-size: 11px; padding: 6px 0; }
+.chat-input-row { position: absolute; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 10px 14px 26px; background: linear-gradient(180deg, transparent, #10131f 40%); }
+.chat-input { flex: 1; height: 38px; border-radius: 19px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); color: #fff; font-size: 14px; padding: 0 16px; outline: none; font-family: inherit; }
+.chat-send { width: 38px; height: 38px; border-radius: 50%; border: none; background: #0a84ff; color: #fff; font-size: 15px; cursor: pointer; flex-shrink: 0; }
+
+/* ============================================================
+   电话
+   ============================================================ */
+.phone-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.phone-tab { flex: 1; padding: 9px 0; border-radius: 999px; background: rgba(255,255,255,.06); border: none; color: #9aa3b8; font-size: 13px; cursor: pointer; font-family: inherit; }
+.phone-tab.on { background: rgba(255,255,255,.16); color: #fff; }
+.dial-display { text-align: center; font-size: 34px; color: #fff; min-height: 56px; padding: 8px; font-variant-numeric: tabular-nums; word-break: break-all; }
+.dial-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 8px; padding: 8px 12px; }
+.dial-key { height: 64px; border-radius: 32px; border: none; background: rgba(255,255,255,.09); color: #fff; font-size: 24px; cursor: pointer; font-family: inherit; transition: transform .1s; }
+.dial-key:active { transform: scale(.92); background: rgba(255,255,255,.2); }
+.dial-key .sub { display: block; font-size: 10px; color: #8f96ab; }
+.dial-actions { display: flex; justify-content: center; gap: 46px; align-items: center; padding: 12px 0; }
+.dial-call { width: 62px; height: 62px; border-radius: 50%; border: none; background: #34c759; color: #fff; font-size: 22px; cursor: pointer; }
+.dial-del { background: none; border: none; color: #8f96ab; font-size: 20px; cursor: pointer; }
+.call-screen { position: absolute; inset: 0; z-index: 26; background: linear-gradient(160deg, #1c2547, #2d3d6e 60%, #3f4f85); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #fff; opacity: 0; visibility: hidden; transition: opacity .3s; }
+.call-screen.open { opacity: 1; visibility: visible; }
+.call-avatar { width: 96px; height: 96px; border-radius: 50%; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; font-size: 44px; }
+.call-name { font-size: 24px; font-weight: 600; }
+.call-status { font-size: 14px; color: rgba(255,255,255,.85); }
+.call-timer { font-size: 14px; color: rgba(255,255,255,.75); font-variant-numeric: tabular-nums; }
+.call-end { margin-top: 40px; width: 66px; height: 66px; border-radius: 50%; border: none; background: #ff3b30; color: #fff; font-size: 22px; cursor: pointer; }
+.call-log-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 8px; border-bottom: 1px solid rgba(255,255,255,.06); color: #e8eaf2; font-size: 14px; }
+.call-log-row .clr-name { font-weight: 500; }
+.call-log-row .clr-time { font-size: 12px; color: #8f96ab; }
+
+/* ============================================================
+   通知中心 / 控制中心
+   ============================================================ */
+.overlay {
+    position: absolute; inset: 0; z-index: 40;
+    background: rgba(18, 22, 36, .5);
+    backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+    transform: translateY(-102%);
+    transition: transform .4s cubic-bezier(.32,.72,.28,1);
+    color: #fff;
+}
+.overlay.open { transform: translateY(0); }
+.overlay-inner { height: 100%; overflow-y: auto; padding: 74px 16px 24px; scrollbar-width: none; }
+.overlay-inner::-webkit-scrollbar { display: none; }
+.notif-time { font-size: 52px; font-weight: 200; padding: 0 4px 4px; }
+.notif-date { font-size: 13px; color: rgba(255,255,255,.8); padding: 0 4px 18px; }
+.notif-card {
+    background: rgba(255,255,255,.15);
+    border-radius: 18px; padding: 13px 16px; margin-bottom: 11px;
+    display: flex; gap: 12px; align-items: flex-start;
+}
+/* 通知卡片弹入动画（借鉴 SullyOS 通知动效理念） */
+.overlay.open .notif-card { animation: notifPop .5s cubic-bezier(.34,1.56,.64,1) both; }
+.overlay.open .notif-card:nth-child(3) { animation-delay: .06s; }
+.overlay.open .notif-card:nth-child(4) { animation-delay: .12s; }
+.overlay.open .notif-card:nth-child(5) { animation-delay: .18s; }
+@keyframes notifPop {
+    0% { opacity: 0; transform: translateY(-30%) scale(.92); }
+    70% { opacity: 1; transform: translateY(3%) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* 控制中心按钮依次弹入 */
+.overlay.open .cc-btn { animation: ccPop .32s cubic-bezier(.175,.885,.32,1.275) both; }
+.overlay.open .cc-btn:nth-child(2) { animation-delay: .04s; }
+.overlay.open .cc-btn:nth-child(3) { animation-delay: .08s; }
+.overlay.open .cc-btn:nth-child(4) { animation-delay: .12s; }
+.overlay.open .cc-btn:nth-child(5) { animation-delay: .16s; }
+.overlay.open .cc-btn:nth-child(6) { animation-delay: .2s; }
+@keyframes ccPop {
+    0% { opacity: 0; transform: scale(.5); }
+    60% { transform: scale(1.06); }
+    100% { opacity: 1; transform: scale(1); }
+}
+.notif-card .nc-ico { font-size: 22px; }
+.notif-card .nc-app { font-size: 12px; color: rgba(255,255,255,.75); }
+.notif-card .nc-title { font-size: 14px; font-weight: 600; margin: 2px 0; }
+.notif-card .nc-body { font-size: 12.5px; color: rgba(255,255,255,.85); line-height: 1.45; }
+.cc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.cc-btn {
+    aspect-ratio: 1.25; border-radius: 18px; border: none; cursor: pointer;
+    background: rgba(255,255,255,.13); color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
+    font-family: inherit; transition: background .2s;
+}
+.cc-btn:active { transform: scale(.94); }
+.cc-btn .cc-emoji { font-size: 24px; }
+.cc-btn .cc-label { font-size: 11px; opacity: .9; }
+.cc-btn.on { background: rgba(52,199,89,.4); }
+.cc-btn.on-red { background: rgba(255,59,48,.45); }
+.cc-slider-row { display: flex; align-items: center; gap: 14px; padding: 6px 4px; }
+.cc-slider-row .cs-emoji { font-size: 20px; width: 26px; text-align: center; }
+.cc-slider-row input[type=range] { flex: 1; accent-color: #fff; height: 4px; }
+.cc-label-row { text-align: center; font-size: 12px; color: rgba(255,255,255,.85); padding-top: 2px; }
+
+/* 亮度遮罩 */
+.dim { position: absolute; inset: 0; background: #000; opacity: 0; z-index: 58; pointer-events: none; transition: opacity .25s; }
+
+/* Home 指示条 */
+.home-indicator {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 128px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.92);
+    z-index: 46; cursor: pointer;
+}
+
+/* 来电横幅 */
+.call-banner {
+    position: absolute; top: 54px; left: 12px; right: 12px; z-index: 50;
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border-radius: 22px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 13px; color: #fff;
+    transform: translateY(-160%); transition: transform .45s cubic-bezier(.32,.72,.28,1);
+}
+.call-banner.show { transform: translateY(0); }
+.cb-avatar { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.cb-info { flex: 1; min-width: 0; }
+.cb-info .cb-name { font-size: 15px; font-weight: 600; }
+.cb-info .cb-status { font-size: 12px; color: rgba(255,255,255,.8); margin-top: 2px; }
+.cb-actions { display: flex; gap: 8px; }
+.cb-btn { padding: 9px 16px; border-radius: 999px; border: none; font-size: 13px; cursor: pointer; font-family: inherit; }
+.cb-accept { background: #34c759; color: #fff; }
+.cb-decline { background: #ff3b30; color: #fff; }
+
+/* Toast */
+.toast {
+    position: absolute; bottom: 96px; left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: rgba(28,32,46,.94); color: #fff;
+    padding: 10px 20px; border-radius: 999px; font-size: 13px;
+    opacity: 0; transition: .3s; z-index: 63; pointer-events: none;
+    white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* 响应式（缩放由 JS 的 --scale 变量控制） */
+@media (max-width: 430px) {
+    body { padding: 0; }
+}
+
+/* ============================================================
+   v2 新增样式：美化 + 自定义功能
+   ============================================================ */
+/* 图标更精致 */
+.app-icon .ico { border-radius: 17px; box-shadow: 0 6px 16px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.3), inset 0 -3px 8px rgba(0,0,0,.18); }
+.app-icon .lbl { font-weight: 500; letter-spacing: .2px; }
+.app-icon:hover .ico { transform: translateY(-2px); }
+.dock { border-radius: 26px; margin: 0 4px 10px; padding: 12px 10px; box-shadow: 0 8px 30px rgba(0,0,0,.35); }
+.widgets .w-card { box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.view-home { padding-bottom: 4px; }
+
+/* 相机真实取景 */
+.cam-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; display: none; }
+.cam-video.on { display: block; }
+.cam-mode-tip { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); z-index: 4; background: rgba(0,0,0,.55); color: #fff; font-size: 12px; padding: 6px 14px; border-radius: 999px; white-space: nowrap; }
+
+/* 空状态 */
+.empty-state { text-align: center; color: #8f96ab; padding: 60px 24px; }
+.empty-state .es-emoji { font-size: 52px; margin-bottom: 14px; }
+.empty-state .es-title { font-size: 16px; color: #d7dbe8; margin-bottom: 8px; }
+.empty-state .es-sub { font-size: 12.5px; line-height: 1.7; }
+
+/* 添加按钮 / 表单 */
+.add-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin: 14px auto 6px; padding: 11px 0; width: 100%;
+    border-radius: 14px; border: 1px dashed rgba(255,255,255,.25);
+    background: rgba(255,255,255,.05); color: #fff; font-size: 14px; cursor: pointer;
+    font-family: inherit; transition: background .2s;
+}
+.add-btn:hover { background: rgba(255,255,255,.1); }
+.form-row { margin-bottom: 12px; }
+.form-label { display: block; font-size: 12px; color: #8f96ab; margin-bottom: 6px; padding-left: 2px; }
+.form-input {
+    width: 100%; height: 40px; border-radius: 12px; border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.07); color: #fff; font-size: 14px; padding: 0 14px;
+    outline: none; font-family: inherit;
+}
+.form-input:focus { border-color: #0a84ff; }
+.form-emoji-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.form-emoji {
+    width: 40px; height: 40px; border-radius: 12px; border: 2px solid transparent;
+    background: rgba(255,255,255,.08); font-size: 20px; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+}
+.form-emoji.sel { border-color: #0a84ff; background: rgba(10,132,255,.2); }
+.form-color-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.form-color {
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+    border: 3px solid transparent;
+}
+.form-color.sel { border-color: #fff; }
+.form-save {
+    width: 100%; height: 44px; border-radius: 14px; border: none; cursor: pointer;
+    background: linear-gradient(135deg, #0a84ff, #5e5ce6); color: #fff;
+    font-size: 15px; font-weight: 600; font-family: inherit; margin-top: 6px;
+}
+.form-save:active { transform: scale(.97); }
+.form-row .switch { margin-left: auto; }
+.hint-note { font-size: 11.5px; color: #6d7488; line-height: 1.6; padding: 4px 2px; }
+
+/* 联系人列表 */
+.contact-item { display: flex; align-items: center; gap: 12px; padding: 13px 8px; border-radius: 14px; cursor: pointer; }
+.contact-item:hover { background: rgba(255,255,255,.05); }
+.contact-del { margin-left: auto; background: none; border: none; color: #6d7488; font-size: 16px; cursor: pointer; padding: 6px; }
+.contact-del:hover { color: #ff3b30; }
+
+/* 上传控件 */
+.upload-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px;
+    border-radius: 12px; border: 1px solid rgba(255,255,255,.2);
+    background: rgba(255,255,255,.08); color: #fff; font-size: 13px; cursor: pointer;
+    font-family: inherit; transition: background .2s;
+}
+.upload-btn:hover { background: rgba(255,255,255,.14); }
+.upload-btn:active { transform: scale(.97); }
+
+/* 自定义 CSS 编辑区 */
+.css-editor {
+    width: 100%; min-height: 150px; border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.4); color: #7dd3fc; font-size: 12.5px;
+    padding: 12px; resize: vertical; outline: none; font-family: ui-monospace, Menlo, monospace;
+    line-height: 1.6;
+}
+.css-editor:focus { border-color: #0a84ff; }
+.css-status { font-size: 11.5px; color: #34c759; min-height: 16px; padding: 4px 2px; }
+
+/* API 配置 */
+.api-key-input { letter-spacing: 1px; }
+.setting-row .sr-right-val { font-size: 12px; color: #8f96ab; max-width: 130px; text-align: right; word-break: break-all; }
+
+/* 音乐列表增强 */
+.music-item { border-radius: 14px; }
+.music-item .mi-ico { box-shadow: 0 4px 10px rgba(0,0,0,.3); }
+.music-item .mi-tag { font-size: 10px; color: #8f96ab; margin-left: 6px; border: 1px solid rgba(255,255,255,.15); padding: 1px 6px; border-radius: 999px; }
+.music-item.playing { background: rgba(251,191,36,.1); }
+.chat-time { font-size: 10px; color: rgba(255,255,255,.45); margin-top: 3px; text-align: right; }
+.music-item .contact-del { margin-left: 0; padding: 6px 8px; }
+.music-list { margin-top: 6px; }
+
+/* ============================================================
+   v3 样式：全屏铺满 + 锁屏密码 + 悬浮球 + 预设
+   ============================================================ */
+/* 锁屏密码面板 */
+.lock-pass { position: absolute; inset: 0; z-index: 40; display: none; flex-direction: column; align-items: center; justify-content: center; background: rgba(10,12,20,.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.lock-pass.show { display: flex; }
+.lp-title { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 18px; }
+.lp-dots { display: flex; gap: 16px; margin-bottom: 14px; height: 14px; }
+.lp-dots i { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.55); transition: .15s; }
+.lp-dots i.filled { background: #fff; border-color: #fff; box-shadow: 0 0 8px rgba(255,255,255,.5); }
+.lp-error { font-size: 12px; color: #ff453a; min-height: 16px; margin-bottom: 8px; }
+.lp-grid { display: grid; grid-template-columns: repeat(3, 76px); gap: 12px; margin-bottom: 16px; }
+.lp-key { width: 76px; height: 76px; border-radius: 50%; border: none; background: rgba(255,255,255,.1); color: #fff; font-size: 26px; font-weight: 500; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; font-family: inherit; transition: background .15s; }
+.lp-key:hover { background: rgba(255,255,255,.2); }
+.lp-key:active { transform: scale(.94); }
+.lp-key .lk-num { font-size: 26px; line-height: 1; }
+.lp-key .lk-letters { font-size: 9px; color: rgba(255,255,255,.5); margin-top: 3px; letter-spacing: 1px; }
+.lp-key.lp-del { font-size: 22px; }
+.lp-key.lp-blank { background: transparent; cursor: default; }
+.lp-key.lp-blank:hover { background: transparent; }
+.lp-bottom { display: flex; gap: 60px; font-size: 14px; }
+.lp-cancel { color: #8f96ab; cursor: pointer; }
+.lp-forgot { color: #0a84ff; cursor: pointer; }
+.lp-cancel:hover, .lp-forgot:hover { text-decoration: underline; }
+/* 忘记密码面板（APP 内样式，替代 confirm 弹窗） */
+.lp-forgot-panel { position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 34px 30px; background: rgba(10,12,20,.97); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 22px; }
+.lp-forgot-panel.show { display: flex; animation: fbIn .2s ease-out; }
+.fp-title { font-size: 19px; font-weight: 600; color: #fff; }
+.fp-sub { font-size: 12.5px; color: #8f96ab; text-align: center; line-height: 1.5; margin-bottom: 6px; }
+.fp-input { width: 100%; height: 48px; border-radius: 13px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.07); color: #fff; font-size: 22px; text-align: center; letter-spacing: 8px; outline: none; font-family: inherit; }
+.fp-input:focus { border-color: #0a84ff; }
+.fp-error { font-size: 12px; color: #ff453a; min-height: 15px; }
+.fp-btns { display: flex; gap: 12px; width: 100%; margin-top: 4px; }
+.fp-btn { flex: 1; height: 44px; border-radius: 13px; border: none; font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit; background: rgba(255,255,255,.12); color: #fff; }
+.fp-btn:active { transform: scale(.96); }
+.fp-btn.fp-ok { background: linear-gradient(135deg, #0a84ff, #5e5ce6); color: #fff; }
+
+/* 悬浮球 */
+.float-ball {
+    position: fixed; right: 16px; bottom: 130px; z-index: 9000;
+    width: 56px; height: 56px; border-radius: 50%; cursor: pointer;
+    background: linear-gradient(135deg, rgba(90,100,255,.92), rgba(90,50,200,.92));
+    box-shadow: 0 8px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .15s, opacity .3s;
+    user-select: none; -webkit-user-select: none;
+}
+.float-ball:hover { transform: scale(1.08); }
+.float-ball:active { transform: scale(.94); }
+.float-ball.hidden { display: none; }
+/* 悬浮球光晕脉动（借鉴 SullyOS glow 动效理念） */
+.float-ball:not(.hidden) { animation: fbGlow 3.2s ease-in-out infinite; }
+@keyframes fbGlow {
+    0%, 100% { box-shadow: 0 8px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35), 0 0 12px rgba(120,100,255,.25); }
+    50% { box-shadow: 0 8px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35), 0 0 26px rgba(120,100,255,.55); }
+}
+.float-ball .fb-icon { width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
+.float-ball .fb-icon img { width: 100%; height: 100%; object-fit: cover; }
+/* 悬浮球菜单 */
+.fb-menu {
+    position: fixed; right: 16px; bottom: 196px; z-index: 9001;
+    width: 230px; background: rgba(30,33,48,.97); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px; padding: 8px; box-shadow: 0 16px 50px rgba(0,0,0,.55);
+    display: none; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    --fb-color: #ffffff;
+}
+.fb-menu.show { display: block; animation: fbIn .18s ease-out; }
+@keyframes fbIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.fbm-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 12px; cursor: pointer; }
+.fbm-item:hover { background: rgba(255,255,255,.08); }
+.fbm-ico { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+.fbm-title { font-size: 14px; color: var(--fb-color); font-weight: 500; transition: color .3s; }
+.fbm-desc { font-size: 11px; color: var(--fb-color); opacity: .55; margin-top: 2px; transition: color .3s; }
+
+/* 预设选择行 */
+.preset-group { margin-bottom: 18px; }
+.preset-label { font-size: 12px; color: #8f96ab; margin-bottom: 8px; padding-left: 2px; }
+.preset-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.preset-chip {
+    padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06); color: #e8eaf2; font-size: 13px; cursor: pointer;
+    font-family: inherit; transition: .15s;
+}
+.preset-chip:hover { background: rgba(255,255,255,.12); }
+.preset-chip.sel { background: linear-gradient(135deg, #0a84ff, #5e5ce6); border-color: transparent; color: #fff; font-weight: 600; }
+
+/* ============================================================
+   v4 样式：朋友圈 & 纪念日（锦书机新增）
+   ============================================================ */
+/* 朋友圈 */
+.moments-wrap { padding: 4px 0 20px; }
+.moment-editor { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 12px; margin-bottom: 14px; }
+.moment-editor textarea { width: 100%; min-height: 74px; background: transparent; border: none; outline: none; color: #e8eaf2; font-size: 14px; resize: none; font-family: inherit; line-height: 1.6; }
+.moment-editor .me-bar { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.me-photo-pick { display: flex; gap: 6px; flex-wrap: wrap; }
+.me-photo-pick .mpp-item { width: 42px; height: 42px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: rgba(255,255,255,.08); flex-shrink: 0; }
+.me-photo-pick .mpp-item img { width: 100%; height: 100%; object-fit: cover; }
+.me-photo-pick .mpp-item.sel { border-color: #0a84ff; }
+.me-photo-pick .mpp-add { width: 42px; height: 42px; border-radius: 8px; background: rgba(255,255,255,.1); color: #8f96ab; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; flex-shrink: 0; }
+.moment-publish { margin-left: auto; background: linear-gradient(135deg, #0a84ff, #5e5ce6); color: #fff; border: none; border-radius: 999px; padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.moment-publish:active { transform: scale(.95); }
+.moment-card { background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 12px 14px; margin-bottom: 12px; animation: fbIn .25s ease-out; }
+.mc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.mc-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+.mc-name { font-size: 14px; font-weight: 600; color: #fff; }
+.mc-time { font-size: 11px; color: #8f96ab; margin-top: 1px; }
+.mc-del { margin-left: auto; color: #8f96ab; font-size: 15px; cursor: pointer; padding: 4px 6px; }
+.mc-text { font-size: 13.5px; color: #e8eaf2; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+.mc-img { margin-top: 8px; border-radius: 12px; overflow: hidden; max-height: 220px; }
+.mc-img img { width: 100%; max-height: 220px; object-fit: cover; display: block; }
+.mc-foot { display: flex; align-items: center; gap: 16px; margin-top: 10px; padding-top: 9px; border-top: 1px solid rgba(255,255,255,.07); }
+.mc-like { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: #8f96ab; cursor: pointer; user-select: none; }
+.mc-like.on { color: #ff375f; }
+.mc-comments { margin-top: 8px; background: rgba(0,0,0,.25); border-radius: 10px; padding: 8px 10px; }
+.mc-cmt { font-size: 12.5px; color: #c9cede; line-height: 1.6; }
+.mc-cmt b { color: #0a84ff; font-weight: 600; }
+.mc-empty { text-align: center; color: #8f96ab; font-size: 13px; padding: 40px 0 20px; }
+.mc-empty .big { font-size: 44px; display: block; margin-bottom: 10px; }
+/* 纪念日 */
+.anniv-wrap { padding: 4px 0 20px; }
+.anniv-add-card { background: rgba(255,255,255,.06); border: 1px dashed rgba(255,255,255,.22); border-radius: 16px; padding: 14px; margin-bottom: 14px; }
+.anniv-add-card input { width: 100%; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 10px; color: #e8eaf2; font-size: 14px; padding: 10px 12px; outline: none; font-family: inherit; margin-bottom: 8px; }
+.anniv-add-card input:focus { border-color: #0a84ff; }
+.anniv-add-card input[type="date"] { color-scheme: dark; }
+.anniv-btn { width: 100%; background: linear-gradient(135deg, #0a84ff, #5e5ce6); border: none; color: #fff; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.anniv-btn:active { transform: scale(.97); }
+.anniv-card { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; }
+.anniv-ico { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.anniv-info { flex: 1; min-width: 0; }
+.anniv-name { font-size: 14px; font-weight: 600; color: #fff; }
+.anniv-date { font-size: 11.5px; color: #8f96ab; margin-top: 2px; }
+.anniv-count { text-align: right; flex-shrink: 0; }
+.anniv-count .num { font-size: 20px; font-weight: 700; color: #0a84ff; }
+.anniv-count .unit { font-size: 10.5px; color: #8f96ab; }
+.anniv-count.past .num { color: #ff9f0a; }
+.anniv-del { color: #8f96ab; cursor: pointer; padding: 6px; font-size: 15px; flex-shrink: 0; }
+.anniv-empty { text-align: center; color: #8f96ab; font-size: 13px; padding: 40px 0 20px; }
+.anniv-empty .big { font-size: 44px; display: block; margin-bottom: 10px; }
+</style>
+    <style id="user-css"></style>
+</head>
+<body>
+
+<!-- ==================== 手机本体 ==================== -->
+<div class="phone" id="phone">
+    <!-- 侧边按键 -->
+    <div class="btn-side btn-vup" title="音量 +"></div>
+    <div class="btn-side btn-vdown" title="音量 -"></div>
+    <div class="btn-side btn-power" id="btn-power" title="电源键"></div>
+
+    <!-- 屏幕 -->
+    <div class="screen" id="screen">
+
+        <!-- 灵动岛 -->
+        <div class="island" id="island">
+            <div class="island-wave" id="island-wave">
+                <span style="animation-delay:0s"></span>
+                <span style="animation-delay:.1s"></span>
+                <span style="animation-delay:.2s"></span>
+                <span style="animation-delay:.3s"></span>
+                <span style="animation-delay:.4s"></span>
+                <span style="animation-delay:.5s"></span>
+            </div>
+            <div class="island-cam"></div>
+        </div>
+
+        <!-- 亮度遮罩 -->
+        <div class="dim" id="dim"></div>
+
+        <!-- ========== 锁屏 ========== -->
+        <div class="view view-lock" id="view-lock">
+            <div class="statusbar">
+                <div class="sb-left"><span class="sb-time">10:09</span></div>
+                <div class="sb-right"><span>📶</span><span>✈</span><span class="battery"><span class="level"></span></span></div>
+            </div>
+            <div class="lock-time" id="lock-time">10:09</div>
+            <div class="lock-date" id="lock-date">8月13日 星期四</div>
+            <div class="lock-actions">
+                <button class="lock-btn" id="lock-torch" title="手电筒">🔦</button>
+                <button class="lock-btn" id="lock-cam" title="相机">📷</button>
+            </div>
+            <div class="swipe-hint" id="swipe-hint">
+                <div class="swipe-bar"></div>
+                <span>上滑解锁</span>
+            </div>
+
+            <!-- 锁屏密码面板 -->
+            <div class="lock-pass" id="lock-pass">
+                <div class="lp-title">输入密码</div>
+                <div class="lp-dots" id="lp-dots"></div>
+                <div class="lp-error" id="lp-error"></div>
+                <div class="lp-grid">
+                    <button class="lp-key" data-lk="1"><span class="lk-num">1</span></button>
+                    <button class="lp-key" data-lk="2"><span class="lk-num">2</span><span class="lk-letters">ABC</span></button>
+                    <button class="lp-key" data-lk="3"><span class="lk-num">3</span><span class="lk-letters">DEF</span></button>
+                    <button class="lp-key" data-lk="4"><span class="lk-num">4</span><span class="lk-letters">GHI</span></button>
+                    <button class="lp-key" data-lk="5"><span class="lk-num">5</span><span class="lk-letters">JKL</span></button>
+                    <button class="lp-key" data-lk="6"><span class="lk-num">6</span><span class="lk-letters">MNO</span></button>
+                    <button class="lp-key" data-lk="7"><span class="lk-num">7</span><span class="lk-letters">PQRS</span></button>
+                    <button class="lp-key" data-lk="8"><span class="lk-num">8</span><span class="lk-letters">TUV</span></button>
+                    <button class="lp-key" data-lk="9"><span class="lk-num">9</span><span class="lk-letters">WXYZ</span></button>
+                    <button class="lp-key lp-blank"></button>
+                    <button class="lp-key" data-lk="0"><span class="lk-num">0</span></button>
+                    <button class="lp-key lp-del" data-lk="del">⌫</button>
+                </div>
+                <div class="lp-bottom">
+                    <span class="lp-cancel" id="lp-cancel">取消</span>
+                    <span class="lp-forgot" id="lp-forgot">忘记密码</span>
+                </div>
+
+                <!-- 忘记密码面板（APP 内样式） -->
+                <div class="lp-forgot-panel" id="lp-forgot-panel">
+                    <div class="fp-title">修改密码</div>
+                    <div class="fp-sub">忘记密码？设置一个新密码<br>即可解锁手机（4–10 位数字）</div>
+                    <input class="fp-input" id="fp-new" type="password" inputmode="numeric" maxlength="10" placeholder="4–10 位新密码">
+                    <input class="fp-input" id="fp-confirm" type="password" inputmode="numeric" maxlength="10" placeholder="再次输入确认">
+                    <div class="fp-error" id="fp-error"></div>
+                    <div class="fp-btns">
+                        <button class="fp-btn" id="fp-cancel">取消</button>
+                        <button class="fp-btn fp-ok" id="fp-ok">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 主屏 ========== -->
+        <div class="view view-home" id="view-home">
+            <div class="statusbar">
+                <div class="sb-left">
+                    <span class="sb-grab" id="grab-notif"><span class="sb-time">10:09</span></span>
+                </div>
+                <div class="sb-right">
+                    <span class="sb-grab" id="grab-cc">
+                        <span id="sb-wifi">📶</span>
+                        <span class="battery"><span class="level"></span></span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="widgets" id="widgets"></div>
+
+            <div class="home-pages" id="home-pages"></div>
+            <div class="page-dots" id="page-dots"></div>
+
+            <div class="dock" id="dock"></div>
+        </div>
+
+        <!-- ========== 应用 ========== -->
+        <div class="view view-app" id="view-app">
+            <div class="statusbar">
+                <div class="sb-left"><span class="sb-time">10:09</span></div>
+                <div class="sb-right"><span id="sb-wifi2">📶</span><span class="battery"><span class="level"></span></span></div>
+            </div>
+            <div class="app-topbar">
+                <button class="app-back" id="app-back">‹</button>
+                <span class="app-title" id="app-title">应用</span>
+                <span class="app-top-space"></span>
+            </div>
+            <div class="app-body" id="app-body"></div>
+        </div>
+
+        <!-- ========== 通知中心 ========== -->
+        <div class="overlay" id="overlay-notif">
+            <div class="overlay-inner">
+                <div class="notif-time" id="notif-time">10:09</div>
+                <div class="notif-date" id="notif-date">8月13日 星期四</div>
+                <div class="notif-card">
+                    <span class="nc-ico">⛅</span>
+                    <div><div class="nc-app">天气</div><div class="nc-title">今日天气提醒</div><div class="nc-body">北京多云转晴，最高 31°C，记得防晒 ☀️</div></div>
+                </div>
+                <div class="notif-card">
+                    <span class="nc-ico">💬</span>
+                    <div><div class="nc-app">信息</div><div class="nc-title">添加你的第一位联系人</div><div class="nc-body">打开信息 App，点「＋添加联系人」，像真实手机一样管理你的好友～</div></div>
+                </div>
+                <div class="notif-card">
+                    <span class="nc-ico">🎵</span>
+                    <div><div class="nc-app">音乐</div><div class="nc-title">上传你的本地歌曲</div><div class="nc-body">音乐 App 支持上传 MP3 / M4A / WAV，播放真实音频 🎧</div></div>
+                </div>
+                <div class="notif-card">
+                    <span class="nc-ico">📸</span>
+                    <div><div class="nc-app">朋友圈</div><div class="nc-title">发布第一条动态</div><div class="nc-body">分享此刻的心情，你的联系人会来评论哦～</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 控制中心 ========== -->
+        <div class="overlay" id="overlay-cc">
+            <div class="overlay-inner">
+                <div class="cc-grid">
+                    <button class="cc-btn on" id="cc-wifi"><span class="cc-emoji">📶</span><span class="cc-label">Wi-Fi</span></button>
+                    <button class="cc-btn on" id="cc-bt"><span class="cc-emoji">🔵</span><span class="cc-label">蓝牙</span></button>
+                    <button class="cc-btn" id="cc-air"><span class="cc-emoji">✈️</span><span class="cc-label">飞行模式</span></button>
+                    <button class="cc-btn" id="cc-torch"><span class="cc-emoji">🔦</span><span class="cc-label">手电筒</span></button>
+                    <button class="cc-btn on" id="cc-moon"><span class="cc-emoji">🌙</span><span class="cc-label">专注模式</span></button>
+                    <button class="cc-btn" id="cc-rotate"><span class="cc-emoji">🔄</span><span class="cc-label">旋转锁定</span></button>
+                </div>
+                <div class="cc-slider-row"><span class="cs-emoji">🔅</span><input type="range" id="cc-brightness" min="20" max="100" value="100"><span class="cs-emoji">☀️</span></div>
+                <div class="cc-label-row">亮度</div>
+                <div class="cc-slider-row"><span class="cs-emoji">🔉</span><input type="range" id="cc-volume" min="0" max="100" value="70"><span class="cs-emoji">🔊</span></div>
+                <div class="cc-label-row">音量</div>
+            </div>
+        </div>
+
+        <!-- 来电横幅 -->
+        <div class="call-banner" id="call-banner">
+            <div class="cb-avatar">🤖</div>
+            <div class="cb-info">
+                <div class="cb-name">锦书助手</div>
+                <div class="cb-status">正在呼叫…</div>
+            </div>
+            <div class="cb-actions">
+                <button class="cb-btn cb-decline" id="cb-decline">拒绝</button>
+                <button class="cb-btn cb-accept" id="cb-accept">接听</button>
+            </div>
+        </div>
+
+        <!-- Home 指示条 -->
+        <div class="home-indicator" id="home-indicator" title="返回主屏"></div>
+
+        <!-- Toast -->
+        <div class="toast" id="toast">提示</div>
+    </div>
+</div>
+
+
+<!-- ==================== 悬浮球 ==================== -->
+<div class="float-ball" id="float-ball" title="悬浮球">
+    <div class="fb-icon" id="fb-icon">🚀</div>
+</div>
+<div class="fb-menu" id="fb-menu">
+    <div class="fbm-item" data-fba="preset"><span class="fbm-ico">🎨</span><div><div class="fbm-title">切换预设</div><div class="fbm-desc">CSS / 字体 / API 快速切换</div></div></div>
+    <div class="fbm-item" data-fba="fb"><span class="fbm-ico">⚙️</span><div><div class="fbm-title">悬浮球设置</div><div class="fbm-desc">外观 / 大小 / 颜色</div></div></div>
+    <div class="fbm-item" data-fba="hide"><span class="fbm-ico">🙈</span><div><div class="fbm-title">关闭悬浮球</div><div class="fbm-desc">可在「设置」中重新开启</div></div></div>
+</div>
+
+<script>
+'use strict';
+/* ============================================================
+   核心状态
+   ============================================================ */
+const state = {
+    locked: true,
+    app: null,            // 当前打开的应用 id
+    wifi: true,
+    bt: true,
+    airplane: false,
+    torch: false,
+    focus: true,
+    rotateLock: false,
+    brightness: 100,
+    volume: 70,
+    wallpaper: 't1',
+    music: { playing: false, track: 0, progress: 0, seqTimer: null, step: 0 },
+    currentChat: null,      // 信息：当前聊天联系人 id
+    chatBusy: false,
+    msgView: 'list',        // 信息：'list' | 'chat' | 'form'
+    contactForm: { avatar: '😀', bg: '#5e5ce6', autoReply: true },
+    passcode: '',           // 锁屏密码（4-10位数字，空 = 未开启）
+    passTry: '',            // 正在输入的密码
+    fb: { show: true, img: '', size: 56, opacity: 90, color: '#ffffff' },  // 悬浮球
+    cssPreset: 0,           // CSS 主题预设索引
+    fontPreset: 0,          // 字体预设索引
+    homePage: 0,            // 主屏第几页
+    iconStyle: 'glass',     // 图标样式：glass 毛玻璃 | color 彩色卡片 | plain 简约透明
+    widgets: ['clock', 'weather'],  // 主屏小组件（clock/weather/anniv/notes）
+    widgetEdit: false,      // 小组件编辑模式
+    sw: { running: false, start: 0, elapsed: 0, laps: [] },
+    photos: [],
+    msgSessions: null,
+    callLog: [],
+    calYear: 0,
+    calMonth: 0,
+    dialNum: '',
+    dialTab: 'keypad',
+    camMode: 'photo',
+    settingsPage: 'main',   // 'main' | 'help' | 'contacts' | 'api' | 'beauty' | 'music-mgr' | 'passcode' | 'preset' | 'fb'
+    browserHistory: [],
+    // v2 新增状态
+    contacts: [],           // 玩家自建联系人 [{id,name,avatar,bg,autoReply}]
+    chats: {},              // {contactId: [{from,text,time}]}
+    apiConfig: { base: '', key: '', model: '' },
+    customCss: '',
+    customWallpaper: '',    // dataURL
+    customTracks: [],       // [{name,url}] 玩家上传的真实音频
+    camReal: false,         // 是否使用真实摄像头
+    // v4 新增（锦书机）：朋友圈 & 纪念日
+    moments: [],            // 朋友圈动态 [{id,text,img,time,likes,comments:[{name,text,time}]}]
+    annivs: [],             // 纪念日 [{id,name,date}]  date: 'YYYY-MM-DD'
+};
+
+const WALLPAPERS = {
+    t1: 'radial-gradient(120% 90% at 15% 8%, rgba(99,102,241,.55), transparent 55%), radial-gradient(110% 80% at 88% 22%, rgba(236,72,153,.42), transparent 55%), radial-gradient(100% 70% at 45% 95%, rgba(34,211,238,.38), transparent 60%), linear-gradient(165deg, #0b1026 0%, #1e1b4b 48%, #2c3e7a 100%)',
+    t2: 'radial-gradient(1.5px 1.5px at 20% 25%, #fff, transparent 60%), radial-gradient(1px 1px at 70% 15%, #fff, transparent 60%), radial-gradient(2px 2px at 40% 60%, #fff, transparent 60%), radial-gradient(1px 1px at 85% 45%, #fff, transparent 60%), radial-gradient(1px 1px at 12% 82%, #fff, transparent 60%), radial-gradient(1px 1px at 55% 30%, #fff, transparent 60%), linear-gradient(180deg, #05070f, #101b3a 70%, #1a2b56)',
+    t3: 'radial-gradient(100% 60% at 20% 10%, rgba(56,189,248,.4), transparent 60%), linear-gradient(180deg, #0e4d64 0%, #1b7a8c 50%, #38b2ac 100%)',
+    t4: 'radial-gradient(100% 60% at 80% 15%, rgba(255,183,77,.45), transparent 60%), linear-gradient(180deg, #2d1b69 0%, #a4508b 45%, #f2994a 100%)',
+};
+
+const WEEK = ['日', '一', '二', '三', '四', '五', '六'];
+const MONTHS = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+
+/* ============================================================
+   工具函数
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+function fmtTime(d) { return pad2(d.getHours()) + ':' + pad2(d.getMinutes()); }
+function fmtDate(d) { return (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + WEEK[d.getDay()]; }
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '"', "'": '&#39;' }[c])); }
+
+let toastTimer = null;
+function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function updateClockUI() {
+    const now = new Date();
+    const t = fmtTime(now);
+    const d = fmtDate(now);
+    document.querySelectorAll('.sb-time').forEach(el => el.textContent = t);
+    $('lock-time').textContent = t;
+    $('lock-date').textContent = d;
+    document.querySelectorAll('.w-time').forEach(el => el.textContent = t);
+    document.querySelectorAll('.w-date').forEach(el => el.textContent = d);
+    $('notif-time').textContent = t;
+    $('notif-date').textContent = d;
+    // 时钟应用内的世界时钟
+    if (state.app === 'clock') renderClockWorld();
+}
+setInterval(updateClockUI, 1000);
+updateClockUI();
+
+function applyWallpaper() {
+    if (state.customWallpaper) {
+        document.documentElement.style.setProperty('--wp', 'url(' + state.customWallpaper + ')');
+        return;
+    }
+    const wp = WALLPAPERS[state.wallpaper];
+    document.documentElement.style.setProperty('--wp', wp);
+}
+applyWallpaper();
+
+/* ============================================================
+   localStorage 持久化工具（v2）
+   ============================================================ */
+function lsGet(key, def) { try { const v = localStorage.getItem(key); return v === null ? def : JSON.parse(v); } catch (e) { return def; } }
+function lsSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+function loadPersist() {
+    state.contacts = lsGet('simphone_contacts', []);
+    state.chats = lsGet('simphone_chats', {});
+    state.apiConfig = lsGet('simphone_api', { base: '', key: '', model: '' });
+    state.customCss = lsGet('simphone_css', '');
+    state.customWallpaper = lsGet('simphone_wallpaper', '');
+    state.passcode = lsGet('simphone_passcode', '');
+    state.fb = Object.assign({ show: true, img: '', size: 56, opacity: 90, color: '#ffffff' }, lsGet('simphone_fb', {}));
+    state.cssPreset = lsGet('simphone_cssPreset', 0);
+    state.fontPreset = lsGet('simphone_fontPreset', 0);
+    state.iconStyle = lsGet('simphone_iconStyle', 'glass');
+    state.widgets = lsGet('simphone_widgets', ['clock', 'weather']);
+    state.moments = lsGet('simphone_moments', []);
+    state.annivs = lsGet('simphone_annivs', []);
+    applyFB();
+    applyWallpaper();
+    applyIconStyle();
+}
+// 注意：loadPersist 必须在 THEMES / FONTS / applyPresets 定义之后调用（否则 const TDZ 报错导致整段 JS 中断 → 黑屏）
+// 见下方 applyPresets 定义之后。
+
+/* ============================================================
+   v3 预设：CSS 主题 / 字体 / API（参考 nini0224 悬浮球预设）
+   ============================================================ */
+// 浅色主题文字适配段：修复浅色背景下白字看不清（v4.2 修复）
+const LIGHT_FIX = '.view-app{color:#3a3a44!important}.app-title,.app-page-title{color:#3a3a44!important}.app-back{color:#0a84ff!important}.widgets .w-time,.widgets .w-date,.widgets .w-loc,.widgets .w-temp{color:#3a3a44!important}.widgets .w-k,.widgets .w-big,.widgets .w-sub,.widgets .w-note{color:#3a3a44!important}.statusbar .sb-time,.statusbar .sb-right{color:#3a3a44!important}.msg-session .ms-name{color:#3a3a44!important}.msg-session .ms-preview,.msg-session .ms-time{color:#7c8290!important}.chat-bubble.in{background:rgba(0,0,0,.07)!important;color:#3a3a44!important}.chat-input{color:#3a3a44!important;background:rgba(255,255,255,.8)!important}.calc-display{color:#3a3a44!important}.dial-display{color:#3a3a44!important}.phone-tab{color:#3a3a44!important}.phone-tab.on{color:#fff!important}.music-name,.music-artist,.mi-name,.mi-artist{color:#3a3a44!important}.music-item{background:rgba(255,255,255,.6)!important}.moment-editor{background:rgba(255,255,255,.65)!important}.moment-editor textarea{color:#3a3a44!important}.mc-name,.mc-text,.mc-cmt{color:#3a3a44!important}.mc-time,.mc-del,.mc-like,.mc-empty{color:#7c8290!important}.mc-comments{background:rgba(0,0,0,.05)!important}.anniv-name{color:#3a3a44!important}.anniv-date,.anniv-del,.anniv-empty{color:#7c8290!important}.anniv-add-card input{color:#3a3a44!important;background:rgba(255,255,255,.75)!important}.form-label,.hint-note{color:#3a3a44!important}.form-input,.css-editor{background:rgba(255,255,255,.8)!important;color:#3a3a44!important}.preset-label{color:#7c8290!important}.preset-chip{color:#3a3a44!important;background:rgba(255,255,255,.75)!important;border-color:rgba(0,0,0,.15)!important}.preset-chip.sel{color:#fff!important}.setting-group-title{color:#3a3a44!important}.setting-row div,.setting-row .sr-sub{color:#3a3a44!important}.setting-row .sr-sub{color:#7c8290!important}.clock-tab{color:#3a3a44!important}.clock-tab.on{color:#fff!important}.wr-city,.wr-time,.sw-time{color:#3a3a44!important}.wr-diff,.sw-lap{color:#7c8290!important}.cal-title,.cal-day,.cal-dow{color:#3a3a44!important}.wh-temp,.wh-desc,.wh-range{color:#3a3a44!important}.wd-k,.wd-v,.city-item,.ci-temp{color:#3a3a44!important}.notes-box{color:#3a3a44!important}.add-btn,.upload-btn{color:#3a3a44!important}.w-add{color:#3a3a44!important;background:rgba(255,255,255,.55)!important;border-color:rgba(0,0,0,.25)!important}.widget-edit-tip{color:#3a3a44!important;background:rgba(255,255,255,.8)!important}';
+const THEMES = [
+    { name: '深蓝默认', css: '' },
+    { name: '暗夜黑金', css: '.view-home,.view-app{background:#0c0e14!important}.widgets .w-card,.dock{background:linear-gradient(160deg,rgba(20,22,30,.92),rgba(12,14,20,.96))!important;border:1px solid rgba(212,175,55,.25)}.app-icon .lbl{color:#d4af37}.setting-group{background:rgba(20,22,30,.9)!important}' },
+    { name: '樱花粉', css: '.view-home,.view-app{background:#ffe9f1!important}.widgets .w-card,.dock{background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(255,233,241,.92))!important}.app-icon .lbl{color:#b3546e}.setting-group{background:rgba(255,255,255,.92)!important}.setting-group-title{color:#b3546e}' + LIGHT_FIX },
+    { name: '薄荷清新', css: '.view-home,.view-app{background:#e3f6ec!important}.widgets .w-card,.dock{background:linear-gradient(160deg,rgba(255,255,255,.92),rgba(227,246,236,.94))!important}.app-icon .lbl{color:#1e7d4f}.setting-group{background:rgba(255,255,255,.92)!important}' + LIGHT_FIX },
+    { name: '赛博霓虹', css: '.view-home,.view-app{background:#0a0f1e!important}.dock{box-shadow:0 0 24px rgba(0,229,255,.4)}.app-icon .lbl{color:#00e5ff}.widgets .w-card{background:linear-gradient(160deg,rgba(10,15,30,.9),rgba(30,10,60,.95))!important;border:1px solid rgba(0,229,255,.35)}' },
+    { name: '锦书古风', css: '.view-home,.view-app{background:linear-gradient(165deg,#f7f1e3,#efe4cd)!important}.widgets .w-card,.dock{background:linear-gradient(160deg,rgba(255,252,244,.92),rgba(240,228,200,.94))!important;border:1px solid rgba(176,58,46,.35);box-shadow:0 6px 18px rgba(120,90,40,.15)}.widgets .w-time,.widgets .w-date,.widgets .w-loc,.widgets .w-temp{color:#5a4632!important}.app-icon .lbl{color:#6b4f3a}.dock .app-icon .lbl{color:#6b4f3a}.setting-group{background:rgba(255,252,244,.92)!important;border:1px solid rgba(176,58,46,.18)}.setting-group-title{color:#b03a2e}.setting-row div,.setting-row .sr-sub{color:#5a4632!important}.setting-row .sr-sub{color:#8a7560!important}.app-title,.app-page-title{color:#5a4632!important}.app-back{color:#b03a2e!important}.statusbar .sb-time,.statusbar .sb-right{color:#5a4632!important}.lock-pass{background:rgba(247,241,227,.94)!important}.lp-title{color:#5a4632!important}.lp-key{background:rgba(176,58,46,.1)!important;color:#5a4632!important}.lp-cancel{color:#8a7560!important}.lp-forgot{color:#b03a2e!important}.calc-btn{color:#5a4632!important}.music-item,.chat-bubble,.form-input,.css-editor{background:rgba(255,252,244,.85)!important;color:#5a4632!important}' + LIGHT_FIX },
+];
+const FONTS = [
+    { name: '系统默认', css: '' },
+    { name: '圆润可爱', css: 'body,.phone{font-family:"Yuanti SC","YouYuan","PingFang SC","Microsoft YaHei",sans-serif!important}' },
+    { name: '经典宋体', css: 'body,.phone{font-family:"Songti SC","SimSun",serif!important}' },
+    { name: '手写风', css: 'body,.phone{font-family:"STXingkai","KaiTi","楷体",cursive!important}' },
+    { name: '科技等宽', css: 'body,.phone{font-family:"JetBrains Mono","Courier New",monospace!important}' },
+    { name: '行楷书卷', css: 'body,.phone{font-family:"STXingkai","Xingkai SC","KaiTi","楷体",serif!important}.lock-time{font-size:84px!important}' },
+];
+const API_PRESETS = [
+    { name: 'OpenAI', base: 'https://api.openai.com/v1', model: 'gpt-4o-mini' },
+    { name: 'DeepSeek', base: 'https://api.deepseek.com/v1', model: 'deepseek-chat' },
+    { name: '通义千问', base: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'qwen-plus' },
+    { name: 'Kimi', base: 'https://api.moonshot.cn/v1', model: 'moonshot-v1-8k' },
+    { name: '智谱 GLM', base: 'https://open.bigmodel.cn/api/paas/v4', model: 'glm-4-flash' },
+];
+function applyPresets() {
+    const theme = (THEMES[state.cssPreset] || THEMES[0]).css;
+    const font = (FONTS[state.fontPreset] || FONTS[0]).css;
+    const st = document.getElementById('user-css');
+    if (st) st.textContent = (theme + '\n' + font + '\n' + state.customCss).trim();
+}
+function applyFB() {
+    const fb = $('float-ball'), icon = $('fb-icon');
+    if (!fb) return;
+    fb.classList.toggle('hidden', !state.fb.show);
+    if (fb) { fb.style.width = state.fb.size + 'px'; fb.style.height = state.fb.size + 'px'; fb.style.opacity = state.fb.opacity / 100; }
+    if (icon) icon.innerHTML = state.fb.img ? '<img src="' + state.fb.img + '" alt="">' : '🚀';
+    // 菜单文字颜色（参考站：可自定义字体颜色）
+    const menu = $('fb-menu');
+    if (menu) menu.style.setProperty('--fb-color', state.fb.color || '#ffffff');
+}
+function persistFB() { lsSet('simphone_fb', state.fb); }
+loadPersist(); // 必须在 THEMES/FONTS/applyPresets 定义之后调用（修复 TDZ 黑屏 bug）
+
+/* ============================================================
+   锁屏密码
+   ============================================================ */
+function showPassPanel() {
+    state.passTry = '';
+    const p = $('lock-pass');
+    if (p) p.classList.add('show');
+    updPassDots('');
+    const err = $('lp-error'); if (err) err.textContent = '';
+}
+function hidePassPanel() { const p = $('lock-pass'); if (p) p.classList.remove('show'); }
+function updPassDots(t) {
+    const d = $('lp-dots');
+    if (!d) return;
+    d.innerHTML = '';
+    const n = state.passcode.length || 4;
+    for (let i = 0; i < n; i++) d.innerHTML += '<i class="' + (i < t.length ? 'filled' : '') + '"></i>';
+}
+function passKey(k) {
+    if (k === 'del') {
+        state.passTry = state.passTry.slice(0, -1);
+        updPassDots(state.passTry);
+        return;
+    }
+    const n = state.passcode.length || 4;
+    if (state.passTry.length >= n) return;
+    state.passTry += k;
+    updPassDots(state.passTry);
+    if (state.passTry.length === n) {
+        if (state.passTry === state.passcode) {
+            hidePassPanel();
+            doUnlock();
+        } else {
+            const err = $('lp-error'); if (err) err.textContent = '密码错误，请重试';
+            state.passTry = '';
+            setTimeout(() => updPassDots(''), 300);
+        }
+    }
+}
+function doUnlock() {
+    state.locked = false;
+    showView('home');
+    toast('已解锁 🔓');
+}
+// 忘记密码面板（APP 内样式）
+function showForgotPanel() {
+    const p = $('lp-forgot-panel');
+    if (p) p.classList.add('show');
+    const e = $('fp-error'); if (e) e.textContent = '';
+    const n = $('fp-new'); if (n) n.value = '';
+    const c = $('fp-confirm'); if (c) c.value = '';
+    setTimeout(() => { const n2 = $('fp-new'); if (n2) n2.focus(); }, 60);
+}
+function hideForgotPanel() {
+    const p = $('lp-forgot-panel');
+    if (p) p.classList.remove('show');
+}
+function forgotOK() {
+    const n = $('fp-new'), c = $('fp-confirm'), e = $('fp-error');
+    const v1 = n ? n.value : '', v2 = c ? c.value : '';
+    if (!/^\d{4,10}$/.test(v1)) { if (e) e.textContent = '请输入 4–10 位数字密码'; return; }
+    if (v1 !== v2) { if (e) e.textContent = '两次输入不一致，请重试'; return; }
+    state.passcode = v1;
+    lsSet('simphone_passcode', v1);
+    hideForgotPanel();
+    hidePassPanel();
+    doUnlock();
+    toast('密码已重置 🔓');
+}
+// 密码面板按键（click 委托到 lock-pass）
+(function () {
+    const panel = $('lock-pass');
+    if (panel) panel.addEventListener('click', (e) => {
+        const k = e.target.closest('[data-lk]');
+        if (k) passKey(k.dataset.lk);
+        else if (e.target.id === 'lp-cancel') hidePassPanel();
+        else if (e.target.id === 'lp-forgot') showForgotPanel();
+        else if (e.target.id === 'fp-cancel') hideForgotPanel();
+        else if (e.target.id === 'fp-ok') forgotOK();
+    });
+    // 输入框回车 = 确定
+    const n = $('fp-new'), c = $('fp-confirm');
+    [n, c].forEach(el => { if (el) el.addEventListener('keydown', (e) => { if (e.key === 'Enter') forgotOK(); }); });
+})();
+
+/* ============================================================
+   悬浮球交互
+   ============================================================ */
+(function () {
+    const fb = $('float-ball'), menu = $('fb-menu');
+    if (!fb || !menu) return;
+    fb.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // 锁屏时不允许直接操作悬浮球（有密码先解锁）
+        if (state.locked) {
+            if (state.passcode) { toast('请先解锁手机 🔒'); return; }
+            doUnlock();
+        }
+        menu.classList.toggle('show');
+    });
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target) && e.target !== fb && !fb.contains(e.target)) menu.classList.remove('show');
+    });
+    menu.addEventListener('click', (e) => {
+        const it = e.target.closest('[data-fba]');
+        if (!it) return;
+        menu.classList.remove('show');
+        const act = it.dataset.fba;
+        if (act === 'hide') {
+            state.fb.show = false;
+            persistFB();
+            applyFB();
+            toast('悬浮球已关闭（可在设置中开启）');
+        } else if (act === 'preset') {
+            state.settingsPage = 'preset';
+            openApp('settings');
+            $('app-title').textContent = '预设切换';
+        } else if (act === 'fb') {
+            state.settingsPage = 'fb';
+            openApp('settings');
+            $('app-title').textContent = '悬浮球设置';
+        }
+    });
+})();
+
+/* ============================================================
+   全屏铺满：手机直接占满整个视口（100vw × 100dvh）
+   ============================================================ */
+function fitPhone() {
+    document.documentElement.style.setProperty('--pw', '100vw');
+    document.documentElement.style.setProperty('--ph', '100dvh');
+    document.documentElement.style.setProperty('--scale', '1');
+}
+window.addEventListener('resize', fitPhone);
+fitPhone();
+
+/* ============================================================
+   视图切换
+   ============================================================ */
+function showView(name) {
+    ['view-lock', 'view-home', 'view-app'].forEach(v => {
+        $('view-' + v.replace('view-', '')).classList.toggle('active', v === 'view-' + name);
+    });
+    // 简化：直接操作三个视图
+    $('view-lock').classList.toggle('active', name === 'lock');
+    $('view-home').classList.toggle('active', name === 'home');
+    $('view-app').classList.toggle('active', name === 'app');
+}
+
+function lockScreen() {
+    state.locked = true;
+    showView('lock');
+    closeOverlays();
+}
+
+function unlockScreen() {
+    // 若设置了锁屏密码 → 先弹密码面板，验证通过才真正解锁
+    if (state.passcode) {
+        showPassPanel();
+        return;
+    }
+    state.locked = false;
+    showView('home');
+    toast('已解锁 🔓');
+}
+
+function goHome() {
+    state.app = null;
+    closeOverlays();
+    showView('home');
+}
+
+function openApp(id) {
+    if (!APPS[id]) return;
+    stopCam();  // 切换应用时释放摄像头
+    state.app = id;
+    $('app-title').textContent = APPS[id].name;
+    $('app-body').innerHTML = APPS[id].render();
+    showView('app');
+    if (APPS[id].init) APPS[id].init();
+}
+
+/* ============================================================
+   电源键 & 锁屏交互
+   ============================================================ */
+$('btn-power').addEventListener('click', () => {
+    if (state.locked) {
+        unlockScreen();
+    } else {
+        lockScreen();
+        toast('已锁屏 🔒');
+    }
+});
+
+// 上滑解锁（鼠标 / 触摸拖拽）
+(function () {
+    const hint = $('swipe-hint');
+    let startY = 0, dragging = false;
+    hint.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        startY = e.clientY;
+        hint.setPointerCapture(e.pointerId);
+    });
+    hint.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dy = startY - e.clientY;
+        if (dy > 60) { dragging = false; unlockScreen(); }
+    });
+    hint.addEventListener('pointerup', () => { dragging = false; });
+})();
+
+$('lock-torch').addEventListener('click', () => {
+    state.torch = !state.torch;
+    toast(state.torch ? '手电筒已开启 🔦' : '手电筒已关闭');
+    $('cc-torch').classList.toggle('on', state.torch);
+});
+$('lock-cam').addEventListener('click', () => {
+    state.locked = false;
+    showView('home');
+    openApp('camera');
+});
+
+// Home 指示条
+$('home-indicator').addEventListener('click', () => {
+    if (state.app) goHome();
+    else closeOverlays();
+});
+
+// 返回按钮（在信息应用内优先返回会话列表，见下方模块 ⑪ 的绑定）
+
+/* ============================================================
+   主屏图标
+   ============================================================ */
+const APPS = {}; // 由各应用模块填充
+
+const GRID_APPS = [
+    ['phone', '电话', '📞', 'linear-gradient(135deg,#34c759,#30d158)'],
+    ['messages', '信息', '💬', 'linear-gradient(135deg,#34c759,#28a745)'],
+    ['browser', '浏览器', '🌐', 'linear-gradient(135deg,#0a84ff,#5e5ce6)'],
+    ['camera', '相机', '📷', 'linear-gradient(135deg,#4b4b52,#2b2b30)'],
+    ['photos', '相册', '🖼️', 'linear-gradient(135deg,#ff9f0a,#ff375f)'],
+    ['clock', '时钟', '🕐', 'linear-gradient(135deg,#111,#000)'],
+    ['weather', '天气', '⛅', 'linear-gradient(135deg,#47a3ff,#2b6de0)'],
+    ['calendar', '日历', '📅', 'linear-gradient(135deg,#fff,#f2f2f7)'],
+    ['calculator', '计算器', '🧮', 'linear-gradient(135deg,#2c2c2e,#1c1c1e)'],
+    ['notes', '备忘录', '📝', 'linear-gradient(135deg,#ffd60a,#f0b400)'],
+    ['anniv', '纪念日', '🎂', 'linear-gradient(135deg,#ff9f0a,#ff6482)'],
+    ['settings', '设置', '⚙️', 'linear-gradient(135deg,#8e8e93,#636366)'],
+    ['music', '音乐', '🎵', 'linear-gradient(135deg,#fc3c44,#ff2d55)'],
+    ['moments', '朋友圈', '📸', 'linear-gradient(135deg,#34c759,#7ddc4f)'],
+];
+const DOCK_APPS = ['phone', 'messages', 'browser', 'music'];
+const PER_PAGE = 12; // 主屏每页图标数（4 列 × 3 行）
+
+function iconHTML(id) {
+    const [ , name, emoji, bg ] = GRID_APPS.find(a => a[0] === id);
+    const useBg = state.iconStyle === 'color';
+    return '<div class="app-icon" data-app="' + id + '">' +
+        '<div class="ico' + (useBg ? ' has-bg' : '') + '"' + (useBg ? ' style="background:' + bg + '"' : '') + '>' + emoji + '</div>' +
+        '<span class="lbl">' + name + '</span></div>';
+}
+function applyIconStyle() { document.body.dataset.icon = state.iconStyle; }
+
+/* ---------- 小组件 ---------- */
+function annivWidgetHTML() {
+    const sorted = state.annivs.slice().sort((x, y) =>
+        Math.abs(new Date(x.date) - Date.now()) - Math.abs(new Date(y.date) - Date.now()));
+    const a = sorted[0];
+    if (!a) return '<div class="w-k">🎂 纪念日</div><div class="w-big">还没有纪念日</div><div class="w-sub">去「纪念日」App 添加</div>';
+    const days = Math.ceil((new Date(a.date) - Date.now()) / 86400000);
+    return '<div class="w-k">🎂 纪念日</div><div class="w-big">' + esc(a.name) + '</div><div class="w-sub">' + (days >= 0 ? '还有 ' : '已过 ') + Math.abs(days) + ' 天</div>';
+}
+function notesWidgetHTML() {
+    const txt = (loadNotes() || '').trim();
+    return '<div class="w-k">📝 备忘录</div><div class="w-note">' + esc(txt ? txt.slice(0, 46) : '写点什么…') + '</div>';
+}
+function renderWidgets() {
+    const box = $('widgets');
+    if (!box) return;
+    const html = state.widgets.map((w, i) => {
+        let inner = '';
+        if (w === 'clock') inner = '<div class="w-time">--:--</div><div class="w-date">--</div>';
+        else if (w === 'weather') inner = '<div class="w-main"><span class="w-emoji">⛅</span><span class="w-temp">--°</span></div><div class="w-loc">…</div>';
+        else if (w === 'anniv') inner = annivWidgetHTML();
+        else if (w === 'notes') inner = notesWidgetHTML();
+        const del = state.widgetEdit ? '<button class="w-del" data-act="wdel" data-i="' + i + '">✕</button>' : '';
+        return '<div class="w-card w-' + w + '" data-app="' + w + '">' + del + inner + '</div>';
+    }).join('');
+    const tip = state.widgetEdit ? '<div class="widget-edit-tip">✏️ 点 ✕ 删除 · 点空白处完成</div>' : '';
+    const add = state.widgetEdit ? '<button class="w-add" id="w-add">＋ 添加小组件</button>' : '';
+    box.innerHTML = tip + html + add;
+}
+
+/* ---------- 主屏分页 ---------- */
+function renderHome() {
+    const pages = [];
+    for (let i = 0; i < GRID_APPS.length; i += PER_PAGE) pages.push(GRID_APPS.slice(i, i + PER_PAGE));
+    const hp = $('home-pages');
+    if (hp) {
+        hp.innerHTML = pages.map((pg, pi) =>
+            '<div class="home-page' + (pi !== state.homePage ? ' pg-off' : '') + '" data-pg="' + pi + '" style="transform:translateX(' + ((pi - state.homePage) * 100) + '%)">' +
+            pg.map(a => iconHTML(a[0])).join('') + '</div>'
+        ).join('');
+    }
+    const dots = $('page-dots');
+    if (dots) dots.innerHTML = pages.map((_, pi) => '<i class="' + (pi === state.homePage ? 'on' : '') + '" data-dot="' + pi + '"></i>').join('');
+}
+function goHomePage(i) {
+    const n = Math.ceil(GRID_APPS.length / PER_PAGE);
+    if (i < 0 || i >= n || i === state.homePage) return;
+    state.homePage = i;
+    renderHome();
+}
+function buildHome() {
+    renderWidgets();
+    renderHome();
+    $('dock').innerHTML = DOCK_APPS.map(a => iconHTML(a)).join('');
+}
+buildHome();
+
+/* 主屏左右滑动切页 */
+(function () {
+    const hp = $('home-pages');
+    let sx = 0, sy = 0, dragging = false;
+    hp.addEventListener('pointerdown', (e) => {
+        if (state.locked) return;
+        dragging = true;
+        sx = e.clientX; sy = e.clientY;
+        hp.setPointerCapture(e.pointerId);
+    });
+    hp.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - sx, dy = e.clientY - sy;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+            dragging = false;
+            window.__homeSwipedAt = Date.now();
+            goHomePage(state.homePage + (dx < 0 ? 1 : -1));
+        }
+    });
+    hp.addEventListener('pointerup', () => { dragging = false; });
+    hp.addEventListener('pointercancel', () => { dragging = false; });
+})();
+/* 圆点点击切页 */
+document.getElementById('page-dots').addEventListener('click', (e) => {
+    const d = e.target.closest('[data-dot]');
+    if (d) goHomePage(+d.dataset.dot);
+});
+/* 长按小组件区进入编辑模式 */
+(function () {
+    const w = $('widgets');
+    let timer = null, sx = 0, sy = 0;
+    w.addEventListener('pointerdown', (e) => {
+        if (state.locked) return;
+        sx = e.clientX; sy = e.clientY;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            state.widgetEdit = !state.widgetEdit;
+            renderWidgets();
+            toast(state.widgetEdit ? '小组件编辑模式 ✏️ 点 ✕ 删除，点空白完成' : '已退出小组件编辑');
+        }, 700);
+    });
+    w.addEventListener('pointermove', (e) => {
+        if (Math.abs(e.clientX - sx) > 12 || Math.abs(e.clientY - sy) > 12) clearTimeout(timer);
+    });
+    w.addEventListener('pointerup', () => clearTimeout(timer));
+    w.addEventListener('pointercancel', () => clearTimeout(timer));
+})();
+/* 小组件选择弹层 */
+function showWidgetPicker() {
+    const old = document.getElementById('widget-picker');
+    if (old) old.remove();
+    const items = [
+        ['clock', '🕐', '时钟'],
+        ['weather', '⛅', '天气'],
+        ['anniv', '🎂', '纪念日'],
+        ['notes', '📝', '备忘录'],
+    ].map(([v, ico, name]) =>
+        '<button class="wp-item' + (state.widgets.includes(v) ? ' used' : '') + '" data-act="wpick" data-v="' + v + '">' +
+        '<span class="wp-ico">' + ico + '</span>' + name + (state.widgets.includes(v) ? '（已添加）' : '') + '</button>').join('');
+    const d = document.createElement('div');
+    d.className = 'widget-picker';
+    d.id = 'widget-picker';
+    d.innerHTML = '<div class="wp-title">＋ 添加小组件</div>' + items;
+    document.body.appendChild(d);
+}
+
+document.addEventListener('click', (e) => {
+    // 滑动刚切页时忽略本次点击（防止误触图标）
+    if (window.__homeSwipedAt && Date.now() - window.__homeSwipedAt < 400) return;
+    // 小组件：删除
+    const del = e.target.closest('[data-act="wdel"]');
+    if (del) {
+        const i = +del.dataset.i;
+        if (state.widgets[i] !== undefined) {
+            state.widgets.splice(i, 1);
+            lsSet('simphone_widgets', state.widgets);
+            renderWidgets();
+        }
+        return;
+    }
+    // 小组件：添加按钮 → 弹选择
+    if (e.target.closest('#w-add')) { showWidgetPicker(); return; }
+    // 小组件：选择类型
+    const pk = e.target.closest('[data-act="wpick"]');
+    if (pk) {
+        const t = pk.dataset.v;
+        if (!state.widgets.includes(t)) {
+            state.widgets.push(t);
+            lsSet('simphone_widgets', state.widgets);
+            renderWidgets();
+        }
+        const p = document.getElementById('widget-picker');
+        if (p) p.remove();
+        return;
+    }
+    // 关闭选择弹层（点击外部）
+    if (e.target.closest('.widget-picker') === null) {
+        const p = document.getElementById('widget-picker');
+        if (p) p.remove();
+    }
+    // 小组件编辑模式：点空白完成
+    if (state.widgetEdit && !e.target.closest('.w-card') && !e.target.closest('.w-add') && !e.target.closest('.widget-picker')) {
+        state.widgetEdit = false;
+        renderWidgets();
+        return;
+    }
+    // 图标打开应用
+    const icon = e.target.closest('.app-icon');
+    if (icon && !state.locked && !state.widgetEdit) {
+        const id = icon.dataset.app;
+        if (APPS[id]) openApp(id);
+        return;
+    }
+    // 小组件卡片 → 打开对应应用（非编辑模式）
+    const wc = e.target.closest('.w-card');
+    if (wc && !state.locked && !state.widgetEdit) {
+        const id = wc.dataset.app;
+        if (APPS[id]) openApp(id);
+    }
+});
+
+/* ============================================================
+   通知中心 & 控制中心
+   ============================================================ */
+function closeOverlays() {
+    $('overlay-notif').classList.remove('open');
+    $('overlay-cc').classList.remove('open');
+}
+$('grab-notif').addEventListener('click', (e) => {
+    if (state.locked) return;
+    e.stopPropagation();
+    $('overlay-cc').classList.remove('open');
+    $('overlay-notif').classList.toggle('open');
+});
+$('grab-cc').addEventListener('click', (e) => {
+    if (state.locked) return;
+    e.stopPropagation();
+    $('overlay-notif').classList.remove('open');
+    $('overlay-cc').classList.toggle('open');
+});
+// 点击空白关闭
+$('overlay-notif').addEventListener('click', (e) => {
+    if (e.target === $('overlay-notif') || e.target.closest('.overlay-inner') === null) closeOverlays();
+});
+$('overlay-cc').addEventListener('click', (e) => {
+    if (e.target === $('overlay-cc') || e.target.closest('.overlay-inner') === null) closeOverlays();
+});
+
+// 控制中心开关
+function syncStatusBar() {
+    const wifi = state.wifi && !state.airplane;
+    $('sb-wifi').textContent = wifi ? '📶' : '🚫';
+    $('sb-wifi2').textContent = wifi ? '📶' : '🚫';
+}
+$('cc-wifi').addEventListener('click', () => {
+    state.wifi = !state.wifi;
+    $('cc-wifi').classList.toggle('on', state.wifi);
+    syncStatusBar();
+    toast(state.wifi ? 'Wi-Fi 已开启' : 'Wi-Fi 已关闭');
+});
+$('cc-bt').addEventListener('click', () => {
+    state.bt = !state.bt;
+    $('cc-bt').classList.toggle('on', state.bt);
+    toast(state.bt ? '蓝牙已开启' : '蓝牙已关闭');
+});
+$('cc-air').addEventListener('click', () => {
+    state.airplane = !state.airplane;
+    $('cc-air').classList.toggle('on', state.airplane);
+    $('cc-air').classList.toggle('on-red', state.airplane);
+    syncStatusBar();
+    toast(state.airplane ? '飞行模式已开启 ✈️' : '飞行模式已关闭');
+});
+$('cc-torch').addEventListener('click', () => {
+    state.torch = !state.torch;
+    $('cc-torch').classList.toggle('on', state.torch);
+    toast(state.torch ? '手电筒已开启 🔦' : '手电筒已关闭');
+});
+$('cc-moon').addEventListener('click', () => {
+    state.focus = !state.focus;
+    $('cc-moon').classList.toggle('on', state.focus);
+    toast(state.focus ? '专注模式已开启 🌙' : '专注模式已关闭');
+});
+$('cc-rotate').addEventListener('click', () => {
+    state.rotateLock = !state.rotateLock;
+    $('cc-rotate').classList.toggle('on', state.rotateLock);
+    toast(state.rotateLock ? '已锁定竖屏 🔒' : '已解锁旋转');
+});
+$('cc-brightness').addEventListener('input', (e) => {
+    state.brightness = +e.target.value;
+    $('dim').style.opacity = (100 - state.brightness) / 100;
+});
+$('cc-volume').addEventListener('input', (e) => {
+    state.volume = +e.target.value;
+});
+
+/* ============================================================
+   键盘快捷键
+   ============================================================ */
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        e.preventDefault();
+        if (state.locked) unlockScreen();
+        else if (state.app) goHome();
+        else closeOverlays();
+    }
+    if (e.key === 'Escape') {
+        if ($('overlay-notif').classList.contains('open') || $('overlay-cc').classList.contains('open')) closeOverlays();
+        else if (state.app) goHome();
+    }
+});
+
+/* ============================================================
+   应用级事件委托（app-body 内统一处理）
+   ============================================================ */
+const HANDLERS = {}; // { 应用id: { action: fn } }
+$('app-body').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act]');
+    if (!btn || !state.app) return;
+    const h = HANDLERS[state.app];
+    if (h && h[btn.dataset.act]) h[btn.dataset.act](btn, e);
+});
+
+// 文件上传（change 事件委托：音频 / 壁纸 / CSS 文件）
+$('app-body').addEventListener('change', (e) => {
+    const t = e.target;
+    if (!t || !t.files || !t.files[0]) return;
+    const f = t.files[0];
+    if (t.id === 'audio-file') {
+        handleAudioFile(f);
+    } else if (t.id === 'wp-file') {
+        if (!/image\//.test(f.type)) { toast('请选择图片文件'); return; }
+        const r = new FileReader();
+        r.onload = () => {
+            state.customWallpaper = r.result;
+            lsSet('simphone_wallpaper', state.customWallpaper);
+            applyWallpaper();
+            toast('壁纸已更新 🖼️');
+            openApp('settings');
+        };
+        r.readAsDataURL(f);
+    } else if (t.id === 'css-file') {
+        const r = new FileReader();
+        r.onload = () => {
+            state.customCss = String(r.result || '');
+            lsSet('simphone_css', state.customCss);
+            const st = document.getElementById('user-css');
+            if (st) st.textContent = state.customCss;
+            const txt = $('css-text'); if (txt) txt.value = state.customCss;
+            const s = $('css-status'); if (s) s.textContent = '✅ CSS 文件已导入并生效';
+            toast('CSS 已导入并生效 📄');
+        };
+        r.readAsText(f);
+    } else if (t.id === 'fb-file') {
+        if (!/image\//.test(f.type)) { toast('请选择图片文件'); return; }
+        const r = new FileReader();
+        r.onload = () => {
+            state.fb.img = r.result;
+            persistFB();
+            applyFB();
+            openApp('settings');
+            toast('悬浮球图片已更新 🪄');
+        };
+        r.readAsDataURL(f);
+    }
+});
+
+/* ============================================================
+   ① 计算器（iOS 风格，可连续运算）
+   ============================================================ */
+let calcV = '0', calcAcc = null, calcOp = null, calcFresh = true;
+
+function calcUpdate() { const d = $('calc-display'); if (d) d.textContent = calcV; }
+function calcTrim(n) { return String(Math.round(n * 1e10) / 1e10); }
+function calcPressNum(v) {
+    if (calcFresh) { calcV = v; calcFresh = false; }
+    else calcV = (calcV === '0' ? v : calcV + v);
+    calcUpdate();
+}
+function calcPressOp(op) {
+    if (calcOp !== null && !calcFresh) calcPressEq();
+    calcAcc = parseFloat(calcV);
+    calcOp = op; calcFresh = true;
+}
+function calcPressEq() {
+    if (calcOp === null) return;
+    const b = parseFloat(calcV);
+    let r;
+    switch (calcOp) {
+        case '+': r = calcAcc + b; break;
+        case '-': r = calcAcc - b; break;
+        case '×': r = calcAcc * b; break;
+        case '÷': r = b === 0 ? NaN : calcAcc / b; break;
+    }
+    calcV = Number.isFinite(r) ? calcTrim(r) : '错误';
+    calcAcc = null; calcOp = null; calcFresh = true;
+    calcUpdate();
+}
+APPS.calculator = {
+    name: '计算器',
+    render() {
+        const keys = [
+            ['ac', 'AC', 'gray'], ['sign', '±', 'gray'], ['pct', '%', 'gray'], ['op', '÷', 'orange'],
+            ['num', '7', ''], ['num', '8', ''], ['num', '9', ''], ['op', '×', 'orange'],
+            ['num', '4', ''], ['num', '5', ''], ['num', '6', ''], ['op', '-', 'orange'],
+            ['num', '1', ''], ['num', '2', ''], ['num', '3', ''], ['op', '+', 'orange'],
+            ['num', '0', 'wide'], ['dot', '.', ''], ['eq', '=', 'orange'],
+        ];
+        const html = keys.map(k => {
+            const [act, label, cls] = k;
+            const wide = act === 'num' && label === '0' ? ' wide' : '';
+            return '<button class="calc-btn ' + cls + wide + '" data-act="' + act + '" data-v="' + label + '">' + label + '</button>';
+        }).join('');
+        return '<div class="calc"><div class="calc-display" id="calc-display">0</div><div class="calc-grid">' + html + '</div></div>';
+    },
+    init() { calcV = '0'; calcAcc = null; calcOp = null; calcFresh = true; calcUpdate(); },
+};
+HANDLERS.calculator = {
+    num: (b) => calcPressNum(b.dataset.v),
+    dot: () => { if (calcFresh) { calcV = '0.'; calcFresh = false; } else if (calcV.indexOf('.') === -1) calcV += '.'; calcUpdate(); },
+    op: (b) => calcPressOp(b.dataset.v),
+    eq: () => calcPressEq(),
+    ac: () => { calcV = '0'; calcAcc = null; calcOp = null; calcFresh = true; calcUpdate(); },
+    sign: () => { if (calcV !== '0' && calcV !== '错误') { calcV = calcV.charAt(0) === '-' ? calcV.slice(1) : '-' + calcV; calcUpdate(); } },
+    pct: () => { if (calcV !== '错误') { calcV = calcTrim(parseFloat(calcV) / 100); calcUpdate(); } },
+};
+
+/* ============================================================
+   ② 相机（拍照 → 存入相册）
+   ============================================================ */
+/* 真实摄像头 */
+let camStream = null;
+function stopCam() {
+    if (camStream) {
+        camStream.getTracks().forEach(t => t.stop());
+        camStream = null;
+    }
+    state.camReal = false;
+    const v = $('cam-video');
+    if (v) { v.srcObject = null; v.classList.remove('on'); }
+}
+function startRealCam() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        toast('当前环境不支持摄像头，已使用模拟场景');
+        return;
+    }
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: state.camMode === 'selfie' ? 'user' : 'environment' }, audio: false })
+        .then(stream => {
+            camStream = stream;
+            const v = $('cam-video');
+            if (!v) { stopCam(); return; }
+            v.srcObject = stream;
+            v.classList.add('on');
+            state.camReal = true;
+            const tip = $('cam-mode-tip');
+            if (tip) tip.textContent = '📷 真实摄像头 · ' + (state.camMode === 'selfie' ? '前置' : '后置');
+        })
+        .catch(() => {
+            state.camReal = false;
+            toast('摄像头不可用，已使用模拟场景');
+        });
+}
+function snapPhoto() {
+    // 真实摄像头：从视频帧截取
+    const v = $('cam-video');
+    if (v && state.camReal && v.videoWidth) {
+        const c = document.createElement('canvas');
+        c.width = v.videoWidth; c.height = v.videoHeight;
+        c.getContext('2d').drawImage(v, 0, 0);
+        state.photos.unshift(c.toDataURL('image/jpeg', 0.85));
+        toast('已拍照并存入相册 📸');
+        return;
+    }
+    // 模拟场景拍照
+    const c = document.createElement('canvas');
+    c.width = 480; c.height = 640;
+    const ctx = c.getContext('2d');
+    const skies = [['#6fb7f0', '#b7e3fb'], ['#ff9a76', '#ffd3a5'], ['#355c7d', '#6c5b7b'], ['#0f2027', '#2c5364']];
+    const sky = skies[Math.floor(Math.random() * skies.length)];
+    const g = ctx.createLinearGradient(0, 0, 0, 640);
+    g.addColorStop(0, sky[0]); g.addColorStop(1, sky[1]);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 480, 640);
+    ctx.fillStyle = 'rgba(255,240,180,.9)';
+    ctx.beginPath(); ctx.arc(380, 90, 34, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(40,60,80,.55)';
+    ctx.beginPath();
+    ctx.moveTo(0, 640);
+    for (let x = 0; x <= 480; x += 24) ctx.lineTo(x, 420 + Math.sin(x / 40) * 60 - Math.random() * 30);
+    ctx.lineTo(480, 640); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = 'rgba(22,42,34,.85)';
+    ctx.beginPath();
+    ctx.moveTo(0, 640);
+    for (let x = 0; x <= 480; x += 24) ctx.lineTo(x, 520 + Math.sin(x / 55 + 2) * 50 - Math.random() * 20);
+    ctx.lineTo(480, 640); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.75)';
+    ctx.beginPath(); ctx.arc(90, 120, 22, 0, Math.PI * 2); ctx.arc(130, 110, 28, 0, Math.PI * 2); ctx.arc(170, 120, 20, 0, Math.PI * 2); ctx.fill();
+    const now = new Date();
+    ctx.fillStyle = 'rgba(255,255,255,.9)';
+    ctx.font = '20px sans-serif';
+    ctx.fillText(now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate()) + ' ' + fmtTime(now), 18, 600);
+    state.photos.unshift(c.toDataURL('image/jpeg', 0.82));
+    toast('已拍照并存入相册 📸');
+}
+APPS.camera = {
+    name: '相机',
+    render() {
+        return '<div class="camera">' +
+            '<video id="cam-video" class="cam-video" autoplay playsinline muted></video>' +
+            '<div class="cam-scene"><div class="cam-sun"></div><div class="cam-cloud c1"></div><div class="cam-cloud c2"></div><div class="cam-mountain"></div></div>' +
+            '<div class="cam-gridlines"><div class="cam-hline"></div><div class="cam-hline h2"></div></div>' +
+            '<div class="cam-timer">● 00:00:12</div>' +
+            '<div class="cam-mode-tip" id="cam-mode-tip">📷 模拟场景</div>' +
+            '<button class="cam-switch" data-act="flip">🔄</button>' +
+            '<div class="cam-bar">' +
+            '<div class="cam-thumb" data-act="gallery" style="background-image:url(' + (state.photos[0] || '') + ')"></div>' +
+            '<button class="cam-shutter" data-act="shoot" aria-label="拍照"></button>' +
+            '<div style="width:40px"></div>' +
+            '</div>' +
+            '<div class="cam-flash" id="cam-flash"></div>' +
+            '</div>';
+    },
+    init() {
+        state.camMode = 'photo';
+        startRealCam();
+    },
+};
+HANDLERS.camera = {
+    shoot: () => {
+        const f = $('cam-flash');
+        f.classList.remove('go'); void f.offsetWidth; f.classList.add('go');
+        setTimeout(snapPhoto, 180);
+    },
+    flip: () => {
+        state.camMode = state.camMode === 'photo' ? 'selfie' : 'photo';
+        if (state.camReal) { startRealCam(); }
+        else toast(state.camMode === 'selfie' ? '已切换前置镜头 🤳' : '已切换后置镜头 📷');
+    },
+    gallery: () => openApp('photos'),
+};
+
+/* ============================================================
+   ③ 相册（预置照片 + 相机拍摄）
+   ============================================================ */
+function genPresetPhotos() {
+    const mk = (c1, c2, emoji, label) => {
+        const c = document.createElement('canvas');
+        c.width = 360; c.height = 480;
+        const ctx = c.getContext('2d');
+        const g = ctx.createLinearGradient(0, 0, 0, 480);
+        g.addColorStop(0, c1); g.addColorStop(1, c2);
+        ctx.fillStyle = g; ctx.fillRect(0, 0, 360, 480);
+        ctx.font = '120px serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(emoji, 180, 200);
+        ctx.fillStyle = 'rgba(255,255,255,.85)';
+        ctx.font = '22px sans-serif';
+        ctx.fillText(label, 180, 420);
+        return c.toDataURL('image/jpeg', 0.8);
+    };
+    state.photos = [
+        mk('#2d1b69', '#f2994a', '🌇', '日落时分'),
+        mk('#0f2027', '#2c5364', '🏔️', '山间清晨'),
+        mk('#0e4d64', '#38b2ac', '🌊', '海边浪花'),
+        mk('#355c7d', '#c06c84', '🌌', '星空之下'),
+        mk('#134e5e', '#71b280', '🌲', '森林漫步'),
+        mk('#f12711', '#f5af19', '🌺', '花园一角'),
+    ];
+}
+genPresetPhotos();
+
+let pvIndex = 0;
+APPS.photos = {
+    name: '相册',
+    render() {
+        const grid = state.photos.map((p, i) =>
+            '<div class="photo" data-act="view" data-i="' + i + '" style="background-image:url(' + p + ')"></div>'
+        ).join('');
+        return '<div class="app-page-title">相册 <span style="font-size:13px;color:#8f96ab">' + state.photos.length + ' 张</span></div>' +
+            '<div class="photos-grid">' + grid + '</div>' +
+            '<div class="photo-viewer" id="photo-viewer"><button class="pv-close" data-act="pvclose">✕</button><img id="pv-img" src="" alt="照片"></div>';
+    },
+    init() {},
+};
+HANDLERS.photos = {
+    view: (b) => {
+        pvIndex = +b.dataset.i;
+        $('pv-img').src = state.photos[pvIndex];
+        $('photo-viewer').classList.add('open');
+    },
+    pvclose: () => $('photo-viewer').classList.remove('open'),
+};
+
+/* ============================================================
+    ④ 音乐（真实歌曲播放 + 本地音频上传 + 合成音兜底）
+    ============================================================ */
+const TRACKS = [
+    { name: '深夜代码', artist: '锦书乐队', emoji: '💻', bg: 'linear-gradient(135deg,#f43f5e,#f97316 55%,#facc15)', dur: 180 },
+    { name: '像素黄昏', artist: 'ByteBand', emoji: '🌇', bg: 'linear-gradient(135deg,#f97316,#a855f7)', dur: 150 },
+    { name: '咖啡与键盘', artist: 'Lofi 猫', emoji: '☕', bg: 'linear-gradient(135deg,#8b5e3c,#d4a373)', dur: 200 },
+    { name: '霓虹都市', artist: 'SynthCat', emoji: '🌃', bg: 'linear-gradient(135deg,#06b6d4,#6366f1)', dur: 165 },
+];
+const SCALE = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+const PATTERN = [0, -1, 2, -1, 4, -1, 2, -1, 5, -1, 4, -1, 2, 4, 1, -1];
+let audioCtx = null, gainNode = null, realAudio = null;
+
+function allTracks() { return TRACKS.concat(state.customTracks); }
+function curTrack() { return allTracks()[state.music.track] || TRACKS[0]; }
+function trackDur(t) { return t.dur || (realAudio && isFinite(realAudio.duration) ? realAudio.duration : 0); }
+function fmtDur(s) { if (!isFinite(s) || s < 0) return '--:--'; return pad2(Math.floor(s / 60)) + ':' + pad2(Math.floor(s % 60)); }
+
+function ensureAudio() {
+    if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        audioCtx = new AC();
+        gainNode = audioCtx.createGain();
+        gainNode.gain.value = (state.volume / 100) * 0.4;
+        gainNode.connect(audioCtx.destination);
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function playNote(freq, dur) {
+    if (!audioCtx || !gainNode) return;
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = 'triangle'; o.frequency.value = freq;
+    const t = audioCtx.currentTime;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.5, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(gainNode);
+    o.start(t); o.stop(t + dur + 0.05);
+}
+function musicTick() {
+    const n = PATTERN[state.music.step % PATTERN.length];
+    if (n >= 0) playNote(SCALE[n], 0.22);
+    state.music.step++;
+    state.music.progress = (state.music.progress + 0.26) % (trackDur(curTrack()) || 1);
+    updateMusicProgress();
+}
+function updateMusicProgress() {
+    const t = curTrack();
+    const d = trackDur(t) || 1;
+    const pct = Math.min(100, state.music.progress / d * 100);
+    const f = $('music-fill'); if (f) f.style.width = pct + '%';
+    const cur = $('music-cur'); if (cur) cur.textContent = fmtDur(state.music.progress);
+}
+function stopRealAudio() {
+    if (realAudio) { realAudio.pause(); realAudio = null; }
+}
+function startMusic() {
+    const t = curTrack();
+    // —— 真实歌曲（玩家上传的本地音频）——
+    if (t.url) {
+        clearInterval(state.music.seqTimer);
+        state.music.seqTimer = null;
+        stopRealAudio();
+        const a = new Audio(t.url);
+        realAudio = a;
+        a.volume = Math.max(0, Math.min(1, state.volume / 100));
+        a.play().catch(() => { state.music.playing = false; toast('播放失败，请重新上传该歌曲'); updateMusicUI(); });
+        a.addEventListener('timeupdate', () => {
+            if (realAudio !== a) return;
+            state.music.progress = a.currentTime;
+            updateMusicProgress();
+        });
+        a.addEventListener('ended', () => {
+            if (realAudio === a) setTrack(state.music.track + 1);
+        });
+        state.music.playing = true;
+        state.music.progress = 0;
+        $('island').classList.add('playing');
+        updateMusicUI();
+        return;
+    }
+    // —— 内置合成音乐（Web Audio 真发声）——
+    stopRealAudio();
+    ensureAudio();
+    if (state.music.seqTimer) return;
+    state.music.playing = true;
+    state.music.step = 0;
+    $('island').classList.add('playing');
+    state.music.seqTimer = setInterval(musicTick, 260);
+    updateMusicUI();
+}
+function stopMusic() {
+    state.music.playing = false;
+    clearInterval(state.music.seqTimer);
+    state.music.seqTimer = null;
+    stopRealAudio();
+    $('island').classList.remove('playing');
+    updateMusicUI();
+}
+function updateMusicUI() {
+    const t = curTrack();
+    const cover = $('music-cover'); if (cover) { cover.style.background = t.bg; cover.textContent = t.emoji; cover.classList.toggle('spin', state.music.playing); }
+    const nm = $('music-name'); if (nm) nm.textContent = t.name;
+    const ar = $('music-artist'); if (ar) ar.textContent = (t.artist || '本地歌曲') + ' · ' + fmtDur(trackDur(t));
+    const btn = $('music-play'); if (btn) btn.textContent = state.music.playing ? '⏸' : '▶';
+    const durEl = $('music-dur'); if (durEl) durEl.textContent = fmtDur(trackDur(t));
+    document.querySelectorAll('.music-item').forEach(el => {
+        el.classList.toggle('playing', +el.dataset.i === state.music.track);
+    });
+    updateMusicProgress();
+}
+function setTrack(i) {
+    stopMusic();
+    const n = allTracks().length || 1;
+    state.music.track = ((i % n) + n) % n;
+    state.music.progress = 0;
+    updateMusicUI();
+    startMusic();
+}
+function handleAudioFile(file) {
+    if (!file) return;
+    if (!/audio\//.test(file.type)) { toast('请选择音频文件（MP3 / M4A / WAV 等）'); return; }
+    const url = URL.createObjectURL(file);
+    state.customTracks.push({ name: file.name.replace(/\.[^.]+$/, ''), url });
+    toast('已添加歌曲：' + file.name + ' 🎵');
+    openApp(state.app || 'music');
+}
+function trackListHTML() {
+    let html = TRACKS.map((t, i) =>
+        '<div class="music-item" data-act="pick" data-i="' + i + '">' +
+        '<div class="mi-ico" style="background:' + t.bg + '">' + t.emoji + '</div>' +
+        '<div style="flex:1"><div class="mi-name">' + t.name + '</div><div class="mi-artist">' + t.artist + '</div></div>' +
+        '<span class="music-eq">🔊</span></div>'
+    ).join('');
+    html += state.customTracks.map((t, i) => {
+        const gi = TRACKS.length + i;
+        return '<div class="music-item" data-act="pick" data-i="' + gi + '">' +
+            '<div class="mi-ico" style="background:linear-gradient(135deg,#f43f5e,#a855f7)">🎵</div>' +
+            '<div style="flex:1"><div class="mi-name">' + esc(t.name) + '</div><div class="mi-artist">本地歌曲 · 真实音频</div></div>' +
+            '<button class="contact-del" data-act="del-track" data-v="' + i + '" title="删除">🗑</button></div>';
+    }).join('');
+    return html;
+}
+APPS.music = {
+    name: '音乐',
+    render() {
+        return '<div class="music-wrap">' +
+            '<div class="music-cover" id="music-cover">💻</div>' +
+            '<div class="music-name" id="music-name"></div>' +
+            '<div class="music-artist" id="music-artist"></div>' +
+            '<div class="music-progress"><div class="music-track" data-act="seek"><div class="music-fill" id="music-fill"></div></div>' +
+            '<div class="music-times"><span id="music-cur">00:00</span><span id="music-dur">03:00</span></div></div>' +
+            '<div class="music-ctrl">' +
+            '<button class="music-btn" data-act="prev">⏮</button>' +
+            '<button class="music-btn play" id="music-play" data-act="toggle">▶</button>' +
+            '<button class="music-btn" data-act="next">⏭</button>' +
+            '</div>' +
+            '<input type="file" id="audio-file" accept="audio/*" style="display:none">' +
+            '<button class="add-btn" data-act="audio-choose" style="margin:10px 0 4px">🎵 上传本地歌曲（真实音频）</button>' +
+            '<div class="music-list">' + trackListHTML() + '</div></div>';
+    },
+    init() { updateMusicUI(); },
+};
+HANDLERS.music = {
+    toggle: () => { state.music.playing ? stopMusic() : startMusic(); },
+    prev: () => setTrack(state.music.track - 1),
+    next: () => setTrack(state.music.track + 1),
+    pick: (b) => setTrack(+b.dataset.i),
+    'audio-choose': () => { const f = $('audio-file'); if (f) f.click(); },
+    'del-track': (b) => {
+        const i = +b.dataset.v;
+        const t = state.customTracks[i];
+        if (!t) return;
+        if (t.url && t.url.indexOf('blob:') === 0) URL.revokeObjectURL(t.url);
+        state.customTracks.splice(i, 1);
+        const gi = state.music.track - TRACKS.length;
+        if (gi >= 0) {
+            if (gi >= state.customTracks.length) state.music.track = Math.max(0, TRACKS.length - 1);
+            stopMusic();
+        }
+        openApp('music');
+        toast('已删除歌曲');
+    },
+    seek: (b, e) => {
+        const rect = b.getBoundingClientRect();
+        const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+        const t = curTrack();
+        const d = trackDur(t);
+        if (t.url && realAudio) {
+            realAudio.currentTime = ratio * (d || realAudio.duration || 0);
+        } else {
+            state.music.progress = ratio * (d || 1);
+        }
+        updateMusicProgress();
+    },
+};
+
+/* ============================================================
+    ⑤ 设置（帮助 / API 配置 / 自定义美化 / 音乐管理）
+    ============================================================ */
+APPS.settings = {
+    name: '设置',
+    render() {
+        const backRow = '<div class="setting-row" data-act="settings-back" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">‹</span><div>返回设置</div></div><span style="color:#0a84ff;font-size:15px">‹</span></div>';
+        // —— 玩法提示子页面 ——
+        if (state.settingsPage === 'help') {
+            const tips = [
+                ['💡', '点击手机右侧【电源键】锁屏 / 解锁；锁屏时按住屏幕【向上拖动】也能解锁'],
+                ['📱', '点击桌面【图标】打开应用：计算器能算数、相机拍照会存入相册、音乐能真发声'],
+                ['🔔', '状态栏【左侧】下拉 = 通知中心，【右侧】下拉 = 控制中心（调亮度 / 音量 / 开关 Wi-Fi 等）'],
+                ['🏠', '点击屏幕底部【横条】返回主屏；应用内点左上角【‹】返回上一级'],
+                ['⌨️', '键盘：空格 = 解锁 / 回主屏，Esc = 关闭面板'],
+                ['📷', '相机默认调用【真实摄像头】，环境不支持时自动切换模拟场景；拍的照片会存入相册'],
+                ['💬', '信息 App 是空的——点【＋添加联系人】自己建通讯录，对方会真的回你消息'],
+                ['🎵', '音乐可【上传本地歌曲】播放真实音频，也能播放内置合成旋律'],
+                ['🎨', '设置 → 个性化：可上传壁纸图片、导入 CSS 文件或手写 CSS，完全自定义外观'],
+                ['🔌', '设置 → 连接：可填写自己的 API 地址 / 密钥 / 模型，配置后用于 AI 能力'],
+                ['📸', '朋友圈：发布动态后，你的联系人会来点赞评论；还能从相册选照片配图'],
+                ['🎂', '纪念日：把重要的日子记下来，自动倒数 / 纪念天数'],
+                ['🎛️', '设置 → 个性化 → 预设切换：一键切换主题、字体、API 预设（含「锦书古风」专属主题）'],
+            ];
+            return '<div class="setting-group"><div class="setting-group-title">🎮 玩法提示</div>' +
+                backRow +
+                tips.map(t => '<div class="setting-row" style="align-items:flex-start"><div class="sr-left"><span class="sr-emoji">' + t[0] + '</span><div style="line-height:1.6;font-size:13.5px">' + t[1] + '</div></div></div>').join('') +
+                '</div>';
+        }
+        // —— API 配置子页面 ——
+        if (state.settingsPage === 'api') {
+            const apiSel = API_PRESETS.findIndex(p => p.base === state.apiConfig.base && p.model === state.apiConfig.model);
+            const apiChips = API_PRESETS.map((t, i) => '<button class="preset-chip' + (apiSel === i ? ' sel' : '') + '" data-act="preset-api" data-v="' + i + '">' + esc(t.name) + '</button>').join('');
+            return '<div class="setting-group"><div class="setting-group-title">🔌 API 配置</div>' +
+                backRow +
+                '<div class="preset-group"><div class="preset-label">预设模板（点击应用地址与模型）</div><div class="preset-row">' + apiChips + '</div></div>' +
+                '<div class="form-row"><label class="form-label">Base URL（接口地址）</label>' +
+                '<input class="form-input api-key-input" id="api-base" placeholder="https://api.example.com/v1" value="' + esc(state.apiConfig.base) + '"></div>' +
+                '<div class="form-row"><label class="form-label">API Key（密钥）</label>' +
+                '<input class="form-input api-key-input" id="api-key" type="password" placeholder="sk-..." value="' + esc(state.apiConfig.key) + '"></div>' +
+                '<div class="form-row"><label class="form-label">模型名称（Model）</label>' +
+                '<input class="form-input" id="api-model" placeholder="gpt-4o / deepseek-chat / qwen-max…" value="' + esc(state.apiConfig.model) + '"></div>' +
+                '<button class="form-save" data-act="api-save">保存配置</button>' +
+                '<div class="hint-note">💡 点预设模板可一键填入地址与模型，密钥需自行填写；配置仅保存在本机浏览器 localStorage。</div></div>';
+        }
+        // —— 自定义美化子页面 ——
+        if (state.settingsPage === 'beauty') {
+            return '<div class="setting-group"><div class="setting-group-title">🎨 自定义美化</div>' +
+                backRow +
+                '<div class="form-row"><label class="form-label">壁纸图片（上传立即生效）</label>' +
+                '<input type="file" id="wp-file" accept="image/*" style="display:none">' +
+                '<button class="upload-btn" data-act="wp-choose">🖼️ 上传壁纸</button>' +
+                (state.customWallpaper ? ' <button class="upload-btn" data-act="wp-clear" style="margin-left:6px">✕ 移除壁纸</button>' : '') +
+                '<div class="hint-note">支持 JPG / PNG / GIF，上传后自动铺满整个屏幕</div></div>' +
+                '<div class="preset-group"><div class="preset-label">图标样式（主屏与 Dock）</div><div class="preset-row">' +
+                '<button class="preset-chip' + (state.iconStyle === 'glass' ? ' sel' : '') + '" data-act="icon-style" data-v="glass">✨ 毛玻璃</button>' +
+                '<button class="preset-chip' + (state.iconStyle === 'color' ? ' sel' : '') + '" data-act="icon-style" data-v="color">🌈 彩色卡片</button>' +
+                '<button class="preset-chip' + (state.iconStyle === 'plain' ? ' sel' : '') + '" data-act="icon-style" data-v="plain">🍃 简约透明</button>' +
+                '</div></div>' +
+                '<div class="preset-group"><div class="preset-label">主屏小组件（长按主屏小组件区也可编辑）</div>' +
+                '<button class="upload-btn" data-act="wg-edit" style="width:100%;justify-content:center">✏️ ' + (state.widgetEdit ? '退出编辑' : '编辑小组件') + '</button></div>' +
+                '<div class="form-row"><label class="form-label">CSS 文件上传</label>' +
+                '<input type="file" id="css-file" accept=".css,.txt" style="display:none">' +
+                '<button class="upload-btn" data-act="css-choose">📄 选择 CSS 文件</button>' +
+                '<div class="hint-note">导入 .css 文件后立即生效，可覆盖任意样式</div></div>' +
+                '<div class="form-row"><label class="form-label">或直接填写 CSS 代码</label>' +
+                '<textarea class="css-editor" id="css-text" placeholder="例：&#10;.phone { border-radius: 40px; }&#10;.app-icon .lbl { color: #fff; }&#10;:root { --pw: 400px; }">' + esc(state.customCss) + '</textarea></div>' +
+                '<button class="form-save" data-act="css-save">应用 CSS</button>' +
+                '<button class="add-btn" data-act="beauty-reset" style="margin-top:10px">↺ 恢复默认外观</button>' +
+                '<div class="css-status" id="css-status"></div></div>';
+        }
+        // —— 音乐管理子页面 ——
+        if (state.settingsPage === 'music-mgr') {
+            const tracks = state.customTracks.map((t, i) =>
+                '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🎵</span><div>' + esc(t.name) + '</div></div>' +
+                '<button class="contact-del" data-act="del-track" data-v="' + i + '">🗑</button></div>'
+            ).join('');
+            return '<div class="setting-group"><div class="setting-group-title">🎵 音乐管理</div>' +
+                backRow +
+                '<input type="file" id="audio-file" accept="audio/*" style="display:none">' +
+                '<button class="upload-btn" data-act="audio-choose" style="width:100%;justify-content:center">🎵 上传本地歌曲</button>' +
+                '<div class="hint-note">支持 MP3 / M4A / WAV / OGG。上传后可在「音乐」App 中播放真实音频（浏览器刷新后需重新上传）。</div>' +
+                (state.customTracks.length ? '<div class="setting-group-title" style="margin-top:16px">已上传 ' + state.customTracks.length + ' 首</div>' + tracks : '') +
+                '</div>';
+        }
+        // —— 锁屏密码子页面 ——
+        if (state.settingsPage === 'passcode') {
+            return '<div class="setting-group"><div class="setting-group-title">🔒 锁屏密码</div>' +
+                backRow +
+                '<div class="hint-note">设置 4–10 位数字密码后，锁屏时上滑 / 按电源键解锁都需要输入密码。</div>' +
+                '<div class="form-row"><label class="form-label">' + (state.passcode ? '新密码（修改）' : '新密码') + '</label>' +
+                '<input class="form-input" id="pass-new" type="password" inputmode="numeric" maxlength="10" placeholder="4–10 位数字" value=""></div>' +
+                '<div class="form-row"><label class="form-label">确认密码</label>' +
+                '<input class="form-input" id="pass-confirm" type="password" inputmode="numeric" maxlength="10" placeholder="再次输入" value=""></div>' +
+                '<button class="form-save" data-act="pass-set">' + (state.passcode ? '修改密码' : '开启锁屏密码') + '</button>' +
+                (state.passcode ? '<button class="add-btn" data-act="pass-clear" style="margin-top:10px">✕ 清除密码</button>' : '') +
+                '<div class="css-status" id="pass-status"></div>' +
+                '<div class="hint-note">💡 忘记密码？锁屏界面点「忘记密码」即可在手机上直接重置。</div></div>';
+        }
+        // —— 预设切换子页面（CSS 主题 / 字体）——
+        if (state.settingsPage === 'preset') {
+            const themeChips = THEMES.map((t, i) => '<button class="preset-chip' + (state.cssPreset === i ? ' sel' : '') + '" data-act="preset-theme" data-v="' + i + '">' + esc(t.name) + '</button>').join('');
+            const fontChips = FONTS.map((t, i) => '<button class="preset-chip' + (state.fontPreset === i ? ' sel' : '') + '" data-act="preset-font" data-v="' + i + '">' + esc(t.name) + '</button>').join('');
+            return '<div class="setting-group"><div class="setting-group-title">🎛️ 预设切换</div>' +
+                backRow +
+                '<div class="preset-group"><div class="preset-label">CSS 主题</div><div class="preset-row">' + themeChips + '</div></div>' +
+                '<div class="preset-group"><div class="preset-label">字体</div><div class="preset-row">' + fontChips + '</div></div>' +
+                '<div class="preset-group"><div class="preset-label">API 预设（已移至「API 配置」页）</div><div class="preset-row"><button class="preset-chip" data-act="goto-api">🔌 前往 API 配置</button></div></div>' +
+                '<div class="hint-note">💡 主题与字体立即生效并自动保存；API 预设请到「连接 → API 配置」中一键应用。</div></div>';
+        }
+        // —— 悬浮球设置子页面 ——
+        if (state.settingsPage === 'fb') {
+            return '<div class="setting-group"><div class="setting-group-title">🪄 悬浮球设置</div>' +
+                backRow +
+                '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🙈</span><div>启用悬浮球</div></div><div class="switch ' + (state.fb.show ? 'on' : '') + '" data-act="fb-toggle"></div></div>' +
+                '<div class="form-row"><label class="form-label">自定义图片（可选）</label>' +
+                '<input type="file" id="fb-file" accept="image/*" style="display:none">' +
+                '<button class="upload-btn" data-act="fb-choose">🖼️ 选择图片</button>' +
+                (state.fb.img ? ' <button class="upload-btn" data-act="fb-clear" style="margin-left:6px">✕ 恢复默认</button>' : '') +
+                '<div class="hint-note">上传后悬浮球将显示该图片（支持 JPG / PNG）</div></div>' +
+                '<div class="form-row"><label class="form-label">大小：<b id="fb-size-val" style="color:#fff">' + state.fb.size + 'px</b></label>' +
+                '<input type="range" id="fb-size" min="36" max="96" value="' + state.fb.size + '" style="width:100%;accent-color:#0a84ff"></div>' +
+                '<div class="form-row"><label class="form-label">透明度：<b id="fb-op-val" style="color:#fff">' + state.fb.opacity + '%</b></label>' +
+                '<input type="range" id="fb-opacity" min="30" max="100" value="' + state.fb.opacity + '" style="width:100%;accent-color:#0a84ff"></div>' +
+                '<div class="form-row"><label class="form-label">菜单文字颜色</label>' +
+                '<input type="color" id="fb-color" value="' + esc(state.fb.color) + '" style="width:100%;height:42px;border:none;border-radius:10px;background:transparent;cursor:pointer"></div>' +
+                '<div class="hint-note">💡 修改实时生效并自动保存；关闭悬浮球后可在本页重新开启。</div></div>';
+        }
+        // —— 主页面 ——
+        return '' +
+            '<div class="setting-group"><div class="setting-group-title">帮助</div>' +
+            '<div class="setting-row" data-act="help" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎮</span><div>玩法提示</div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '</div>' +
+            '<div class="setting-group"><div class="setting-group-title">连接</div>' +
+            '<div class="setting-row" data-act="api" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🔌</span><div>API 配置<div class="sr-sub">' + (state.apiConfig.base ? '已配置' : '未配置') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '</div>' +
+            '<div class="setting-group"><div class="setting-group-title">网络</div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">📶</span><div>Wi-Fi<div class="sr-sub">' + (state.wifi ? '已连接：锦书_5G' : '未连接') + '</div></div></div><div class="switch ' + (state.wifi ? 'on' : '') + '" data-act="sw-wifi"></div></div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔵</span><div>蓝牙<div class="sr-sub">' + (state.bt ? '已开启' : '已关闭') + '</div></div></div><div class="switch ' + (state.bt ? 'on' : '') + '" data-act="sw-bt"></div></div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">✈️</span><div>飞行模式</div></div><div class="switch ' + (state.airplane ? 'on' : '') + '" data-act="sw-air"></div></div>' +
+            '</div>' +
+            '<div class="setting-group"><div class="setting-group-title">个性化</div>' +
+            '<div class="setting-row" data-act="beauty" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎨</span><div>自定义美化<div class="sr-sub">' + (state.customCss || state.customWallpaper ? '已启用自定义外观' : '壁纸 / CSS') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="preset" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎛️</span><div>预设切换<div class="sr-sub">CSS 主题 / 字体 / API</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="music-mgr" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎵</span><div>音乐管理<div class="sr-sub">' + state.customTracks.length + ' 首本地歌曲</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '</div>' +
+            '<div class="setting-group"><div class="setting-group-title">安全</div>' +
+            '<div class="setting-row" data-act="passcode" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🔒</span><div>锁屏密码<div class="sr-sub">' + (state.passcode ? '已开启' : '未开启') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '</div>' +
+            '<div class="setting-group"><div class="setting-group-title">悬浮球</div>' +
+            '<div class="setting-row" data-act="fb" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🪄</span><div>悬浮球设置<div class="sr-sub">' + (state.fb.show ? '已开启' : '已关闭，点击开启') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '</div>' +
+            '<div class="setting-group"><div class="setting-group-title">显示与亮度</div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔆</span><div>亮度</div></div><input type="range" id="set-brightness" min="20" max="100" value="' + state.brightness + '" style="width:130px;accent-color:#fff"></div>' +
+            '<div class="setting-row" style="flex-direction:column;align-items:stretch"><div class="sr-left" style="margin-bottom:10px"><span class="sr-emoji">🖼️</span><div>壁纸</div></div><div class="wallpaper-row">' +
+            ['t1', 't2', 't3', 't4'].map(t => '<div class="wp-thumb ' + t + (state.wallpaper === t ? ' sel' : '') + '" data-act="wp" data-v="' + t + '"></div>').join('') +
+            '</div></div>' +
+            '</div>' +
+            '<div class="setting-group"><div class="setting-group-title">关于本机</div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">📱</span><div>型号</div></div><span style="font-size:13px">锦书 Phone Pro</span></div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">⚙️</span><div>系统版本</div></div><span style="font-size:13px">锦书OS 1.0</span></div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">💾</span><div>存储空间</div></div><span style="font-size:13px">128 / 256 GB</span></div>' +
+            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔋</span><div>电池健康</div></div><span style="font-size:13px">100% · 巅峰性能</span></div>' +
+            '</div>';
+    },
+    init() {
+        const sb = $('set-brightness');
+        if (sb) sb.addEventListener('input', (e) => {
+            state.brightness = +e.target.value;
+            $('dim').style.opacity = (100 - state.brightness) / 100;
+            $('cc-brightness').value = state.brightness;
+        });
+        // 悬浮球：大小 / 透明度 / 菜单颜色（实时预览，change 时保存）
+        const fsz = $('fb-size');
+        if (fsz) fsz.addEventListener('input', (e) => {
+            state.fb.size = +e.target.value;
+            const v = $('fb-size-val'); if (v) v.textContent = state.fb.size + 'px';
+            applyFB();
+        });
+        const fop = $('fb-opacity');
+        if (fop) fop.addEventListener('input', (e) => {
+            state.fb.opacity = +e.target.value;
+            const v = $('fb-op-val'); if (v) v.textContent = state.fb.opacity + '%';
+            applyFB();
+        });
+        const fcol = $('fb-color');
+        if (fcol) fcol.addEventListener('input', (e) => {
+            state.fb.color = e.target.value;
+            applyFB();
+        });
+        [fsz, fop, fcol].forEach(el => { if (el) el.addEventListener('change', () => persistFB()); });
+    },
+};
+HANDLERS.settings = {
+    help: () => { state.settingsPage = 'help'; openApp('settings'); $('app-title').textContent = '玩法提示'; },
+    api: () => { state.settingsPage = 'api'; openApp('settings'); $('app-title').textContent = 'API 配置'; },
+    beauty: () => { state.settingsPage = 'beauty'; openApp('settings'); $('app-title').textContent = '自定义美化'; },
+    'music-mgr': () => { state.settingsPage = 'music-mgr'; openApp('settings'); $('app-title').textContent = '音乐管理'; },
+    passcode: () => { state.settingsPage = 'passcode'; openApp('settings'); $('app-title').textContent = '锁屏密码'; },
+    preset: () => { state.settingsPage = 'preset'; openApp('settings'); $('app-title').textContent = '预设切换'; },
+    fb: () => { state.settingsPage = 'fb'; openApp('settings'); $('app-title').textContent = '悬浮球设置'; },
+    'settings-back': () => { state.settingsPage = 'main'; openApp('settings'); },
+    'api-save': () => {
+        const b = $('api-base'), k = $('api-key'), m = $('api-model');
+        state.apiConfig = {
+            base: (b ? b.value : '').trim(),
+            key: (k ? k.value : '').trim(),
+            model: (m ? m.value : '').trim(),
+        };
+        lsSet('simphone_api', state.apiConfig);
+        toast('API 配置已保存 ✓');
+    },
+    'wp-choose': () => { const f = $('wp-file'); if (f) f.click(); },
+    'wp-clear': () => {
+        state.customWallpaper = '';
+        lsSet('simphone_wallpaper', '');
+        applyWallpaper();
+        openApp('settings');
+        toast('已恢复默认壁纸');
+    },
+    'css-choose': () => { const f = $('css-file'); if (f) f.click(); },
+    'css-save': () => {
+        const t = $('css-text');
+        if (!t) return;
+        state.customCss = t.value;
+        lsSet('simphone_css', state.customCss);
+        const st = document.getElementById('user-css');
+        if (st) st.textContent = state.customCss;
+        const s = $('css-status'); if (s) s.textContent = '✅ CSS 已应用';
+        toast('自定义 CSS 已生效 🎨');
+    },
+    'beauty-reset': () => {
+        state.customCss = ''; state.customWallpaper = '';
+        lsSet('simphone_css', ''); lsSet('simphone_wallpaper', '');
+        const st = document.getElementById('user-css');
+        if (st) st.textContent = '';
+        applyWallpaper();
+        openApp('settings');
+        toast('已恢复默认外观');
+    },
+    'audio-choose': () => { const f = $('audio-file'); if (f) f.click(); },
+    'del-track': (b) => {
+        const i = +b.dataset.v;
+        const t = state.customTracks[i];
+        if (!t) return;
+        if (t.url && t.url.indexOf('blob:') === 0) URL.revokeObjectURL(t.url);
+        state.customTracks.splice(i, 1);
+        const gi = state.music.track - TRACKS.length;
+        if (gi >= 0) {
+            if (gi >= state.customTracks.length) state.music.track = Math.max(0, TRACKS.length - 1);
+            stopMusic();
+        }
+        openApp('settings');
+        toast('已删除歌曲');
+    },
+    'sw-wifi': (b) => { state.wifi = !state.wifi; b.classList.toggle('on', state.wifi); syncStatusBar(); openApp('settings'); },
+    'sw-bt': (b) => { state.bt = !state.bt; b.classList.toggle('on', state.bt); openApp('settings'); },
+    'sw-air': (b) => { state.airplane = !state.airplane; b.classList.toggle('on', state.airplane); syncStatusBar(); openApp('settings'); },
+    wp: (b) => {
+        state.wallpaper = b.dataset.v;
+        applyWallpaper();
+        document.querySelectorAll('.wp-thumb').forEach(t => t.classList.toggle('sel', t.dataset.v === state.wallpaper));
+        toast('壁纸已更换 🖼️');
+    },
+    // —— 锁屏密码 ——
+    'pass-set': () => {
+        const a = $('pass-new'), c = $('pass-confirm'), s = $('pass-status');
+        const v1 = a ? a.value : '', v2 = c ? c.value : '';
+        if (!/^\d{4,10}$/.test(v1)) { if (s) s.textContent = '⚠️ 请输入 4–10 位数字密码'; return; }
+        if (v1 !== v2) { if (s) s.textContent = '⚠️ 两次输入不一致'; return; }
+        state.passcode = v1;
+        lsSet('simphone_passcode', v1);
+        if (s) s.textContent = '✅ 锁屏密码已' + (state.passcode ? '更新' : '开启');
+        toast('锁屏密码已设置 🔒');
+        setTimeout(() => { state.settingsPage = 'main'; openApp('settings'); }, 700);
+    },
+    'pass-clear': () => {
+        state.passcode = '';
+        lsSet('simphone_passcode', '');
+        state.settingsPage = 'main';
+        openApp('settings');
+        toast('已清除锁屏密码');
+    },
+    // —— 预设切换 ——
+    'preset-theme': (b) => {
+        state.cssPreset = +b.dataset.v;
+        lsSet('simphone_cssPreset', state.cssPreset);
+        applyPresets();
+        document.querySelectorAll('.preset-chip[data-act="preset-theme"]').forEach(c => c.classList.toggle('sel', +c.dataset.v === state.cssPreset));
+        toast('已切换主题：' + THEMES[state.cssPreset].name + ' 🎨');
+    },
+    'preset-font': (b) => {
+        state.fontPreset = +b.dataset.v;
+        lsSet('simphone_fontPreset', state.fontPreset);
+        applyPresets();
+        document.querySelectorAll('.preset-chip[data-act="preset-font"]').forEach(c => c.classList.toggle('sel', +c.dataset.v === state.fontPreset));
+        toast('已切换字体：' + FONTS[state.fontPreset].name + ' 🔤');
+    },
+    'preset-api': (b) => {
+        const p = API_PRESETS[+b.dataset.v];
+        if (!p) return;
+        state.apiConfig = { base: p.base, key: state.apiConfig.key, model: p.model };
+        lsSet('simphone_api', state.apiConfig);
+        document.querySelectorAll('.preset-chip[data-act="preset-api"]').forEach(c => c.classList.toggle('sel', +c.dataset.v === +b.dataset.v));
+        // 同步 API 配置页表单
+        const baseEl = $('api-base'); if (baseEl) baseEl.value = p.base;
+        const modelEl = $('api-model'); if (modelEl) modelEl.value = p.model;
+        toast('已应用 API 预设：' + p.name + ' 🔌（密钥需自行填写）');
+    },
+    'goto-api': () => {
+        state.settingsPage = 'api';
+        openApp('settings');
+        $('app-title').textContent = 'API 配置';
+    },
+    'icon-style': (b) => {
+        state.iconStyle = b.dataset.v;
+        lsSet('simphone_iconStyle', state.iconStyle);
+        applyIconStyle();
+        buildHome();
+        document.querySelectorAll('.preset-chip[data-act="icon-style"]').forEach(c => c.classList.toggle('sel', c.dataset.v === state.iconStyle));
+        toast('图标样式：' + ({ glass: '毛玻璃 ✨', color: '彩色卡片 🌈', plain: '简约透明 🍃' }[state.iconStyle] || state.iconStyle));
+    },
+    'wg-edit': () => {
+        state.widgetEdit = !state.widgetEdit;
+        renderWidgets();
+        toast(state.widgetEdit ? '小组件编辑模式 ✏️' : '已退出小组件编辑');
+        openApp('settings');
+        $('app-title').textContent = '自定义美化';
+    },
+    // —— 悬浮球 ——
+    'fb-toggle': (b) => {
+        state.fb.show = !state.fb.show;
+        b.classList.toggle('on', state.fb.show);
+        persistFB();
+        applyFB();
+        toast(state.fb.show ? '悬浮球已开启 🪄' : '悬浮球已关闭');
+        setTimeout(() => { state.settingsPage = 'main'; openApp('settings'); }, 500);
+    },
+    'fb-choose': () => { const f = $('fb-file'); if (f) f.click(); },
+    'fb-clear': () => {
+        state.fb.img = '';
+        persistFB();
+        applyFB();
+        openApp('settings');
+        toast('已恢复默认图标');
+    },
+};
+
+/* ============================================================
+   ⑤.5 朋友圈（锦书机 · 参考小手机"动态"理念独立设计）
+   ============================================================ */
+const MOMENT_POOL = [
+    '这个也太棒了吧！✨',
+    '哈哈哈哈笑死我了 🤣',
+    '好羡慕呀～',
+    '哇！下次带我一个！',
+    '真的假的？也太酷了',
+    '看到这条心情都变好了 ☀️',
+    '不错不错，继续保持～',
+    '这也太治愈了吧 🥹',
+    '我也想要同款！',
+    '认真看完啦，很有感触',
+    '周末约起来？',
+    '这构图绝了 📸',
+];
+function momentTime() {
+    const d = new Date();
+    return (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+}
+function momentID() { return 'm' + Date.now() + '_' + Math.floor(Math.random() * 9999); }
+// 发布后 AI 好友来评论（有 API 配置则真实调用，否则本地模板）
+function momentAutoComment(mid) {
+    const m = state.moments.find(x => x.id === mid);
+    if (!m) return;
+    const friends = state.contacts.filter(c => c.autoReply !== false);
+    if (!friends.length) return;
+    setTimeout(() => {
+        const n = 1 + Math.floor(Math.random() * Math.min(2, friends.length));
+        const picked = friends.sort(() => Math.random() - 0.5).slice(0, n);
+        picked.forEach((f, i) => {
+            setTimeout(() => {
+                const cur = state.moments.find(x => x.id === mid);
+                if (!cur) return;
+                const txt = (state.apiConfig.base && state.apiConfig.key)
+                    ? null // 有 API 时留空走下方本地兜底，避免复杂请求
+                    : MOMENT_POOL[Math.floor(Math.random() * MOMENT_POOL.length)];
+                cur.comments.push({ name: f.name, avatar: f.avatar, bg: f.bg, text: txt, time: momentTime() });
+                lsSet('simphone_moments', state.moments);
+                if (state.app === 'moments') openApp('moments');
+                toast(f.name + ' 评论了你的动态 💬');
+            }, 900 * (i + 1));
+        });
+    }, 1200 + Math.random() * 1500);
+}
+function renderMoments() {
+    if (state.moments.length === 0) {
+        return '<div class="moments-wrap"><div class="moment-editor">' +
+            '<textarea id="mom-text" placeholder="分享此刻的心情…（发布后好友会来评论哦）"></textarea>' +
+            '<div class="me-bar"><div class="me-photo-pick" id="mom-photos"></div>' +
+            '<button class="moment-publish" data-act="mom-publish">发布</button></div></div>' +
+            '<div class="mc-empty"><span class="big">📸</span>还没有动态<br>发第一条朋友圈试试吧</div></div>';
+    }
+    const editor = '<div class="moment-editor">' +
+        '<textarea id="mom-text" placeholder="分享此刻的心情…（发布后好友会来评论哦）"></textarea>' +
+        '<div class="me-bar"><div class="me-photo-pick" id="mom-photos"></div>' +
+        '<button class="moment-publish" data-act="mom-publish">发布</button></div></div>';
+    const cards = state.moments.slice().reverse().map(m => {
+        const photos = state.photos;
+        const thumbs = photos.slice(0, 6).map((p, i) =>
+            '<div class="mpp-item' + (state.momPick === i ? ' sel' : '') + '" data-act="mom-pick" data-v="' + i + '"><img src="' + p + '"></div>').join('');
+        const comments = (m.comments || []).map(c =>
+            '<div class="mc-cmt"><b>' + esc(c.name) + '：</b>' + esc(c.text) + '</div>').join('');
+        return '<div class="moment-card">' +
+            '<div class="mc-head"><div class="mc-avatar" style="background:linear-gradient(135deg,#0a84ff,#5e5ce6)">📖</div>' +
+            '<div><div class="mc-name">我</div><div class="mc-time">' + esc(m.time) + '</div></div>' +
+            '<span class="mc-del" data-act="mom-del" data-v="' + m.id + '">🗑</span></div>' +
+            (m.text ? '<div class="mc-text">' + esc(m.text) + '</div>' : '') +
+            (m.img ? '<div class="mc-img"><img src="' + m.img + '"></div>' : '') +
+            '<div class="mc-foot"><span class="mc-like' + (m.liked ? ' on' : '') + '" data-act="mom-like" data-v="' + m.id + '">' + (m.liked ? '❤️' : '🤍') + ' ' + (m.likes || 0) + '</span>' +
+            '<span style="font-size:12px;color:#8f96ab">💬 ' + (m.comments ? m.comments.length : 0) + '</span></div>' +
+            (comments ? '<div class="mc-comments">' + comments + '</div>' : '') +
+            '</div>';
+    }).join('');
+    return '<div class="moments-wrap">' + editor + cards + '</div>';
+}
+APPS.moments = {
+    name: '朋友圈',
+    render() {
+        // 相册图选择区（发布框内）
+        return renderMoments();
+    },
+    init() {
+        // 发布框相册选图
+        const pp = $('mom-photos');
+        if (pp && state.photos.length) {
+            pp.innerHTML = state.photos.slice(0, 6).map((p, i) =>
+                '<div class="mpp-item' + (state.momPick === i ? ' sel' : '') + '" data-act="mom-pick" data-v="' + i + '"><img src="' + p + '"></div>').join('') +
+                '<div class="mpp-add" data-act="mom-gallery">＋</div>';
+        } else if (pp) {
+            pp.innerHTML = '<div class="mpp-add" data-act="mom-gallery">＋</div>';
+        }
+    },
+};
+HANDLERS.moments = {
+    'mom-gallery': () => {
+        // 去相册选图：切换到相册应用提示（简化：直接提示）
+        toast(state.photos.length ? '已显示前 6 张照片，点选即可配图' : '相册还没有照片，先去拍照吧 📷');
+        openApp('moments');
+    },
+    'mom-pick': (b) => {
+        state.momPick = +b.dataset.v;
+        openApp('moments');
+    },
+    'mom-publish': () => {
+        const t = $('mom-text');
+        const text = t ? t.value.trim() : '';
+        if (!text && state.momPick === undefined) { toast('写点什么再发布吧 ✍️'); return; }
+        const img = state.momPick !== undefined && state.photos[state.momPick] ? state.photos[state.momPick] : '';
+        state.moments.push({ id: momentID(), text, img, time: momentTime(), likes: 0, liked: false, comments: [] });
+        lsSet('simphone_moments', state.moments);
+        delete state.momPick;
+        openApp('moments');
+        toast('发布成功 🎉');
+        momentAutoComment(state.moments[state.moments.length - 1].id);
+    },
+    'mom-like': (b) => {
+        const m = state.moments.find(x => x.id === b.dataset.v);
+        if (!m) return;
+        m.liked = !m.liked;
+        m.likes = Math.max(0, (m.likes || 0) + (m.liked ? 1 : -1));
+        lsSet('simphone_moments', state.moments);
+        openApp('moments');
+    },
+    'mom-del': (b) => {
+        state.moments = state.moments.filter(x => x.id !== b.dataset.v);
+        lsSet('simphone_moments', state.moments);
+        openApp('moments');
+        toast('动态已删除');
+    },
+};
+
+/* ============================================================
+   ⑤.6 纪念日（锦书机 · 倒数日理念独立设计）
+   ============================================================ */
+const ANNIV_ICONS = ['🎂', '💍', '🎓', '🏠', '✈️', '🌱', '⭐', '💗', '🎁', '🏆'];
+function annivDays(dateStr) {
+    const t = new Date(dateStr + 'T00:00:00');
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.round((t - today) / 86400000); // 正=未来倒数，负=已过
+}
+function renderAnniv() {
+    if (state.annivs.length === 0) {
+        return '<div class="anniv-wrap"><div class="anniv-add-card">' +
+            '<input id="anniv-name" placeholder="纪念日名称，如：我们的相遇" maxlength="20">' +
+            '<input id="anniv-date" type="date" value="' + new Date().toISOString().slice(0, 10) + '">' +
+            '<button class="anniv-btn" data-act="anniv-add">＋ 添加纪念日</button></div>' +
+            '<div class="anniv-empty"><span class="big">🎂</span>还没有纪念日<br>把重要的日子记下来吧</div></div>';
+    }
+    const addCard = '<div class="anniv-add-card">' +
+        '<input id="anniv-name" placeholder="纪念日名称，如：我们的相遇" maxlength="20">' +
+        '<input id="anniv-date" type="date" value="' + new Date().toISOString().slice(0, 10) + '">' +
+        '<button class="anniv-btn" data-act="anniv-add">＋ 添加纪念日</button></div>';
+    const cards = state.annivs.map((a, i) => {
+        const days = annivDays(a.date);
+        const past = days < 0;
+        const unit = past ? '天前' : (days === 0 ? '就是今天 🎉' : '天后');
+        const num = days === 0 ? '今' : Math.abs(days);
+        return '<div class="anniv-card">' +
+            '<div class="anniv-ico" style="background:linear-gradient(135deg,' + ['#ff9f0a,#ff6482', '#0a84ff,#5e5ce6', '#34c759,#7ddc4f', '#ff375f,#ff9f0a', '#5e5ce6,#bf5af2'][i % 5] + ')">' + ANNIV_ICONS[i % ANNIV_ICONS.length] + '</div>' +
+            '<div class="anniv-info"><div class="anniv-name">' + esc(a.name) + '</div><div class="anniv-date">' + esc(a.date) + '</div></div>' +
+            '<div class="anniv-count' + (past ? ' past' : '') + '"><div class="num">' + num + '</div><div class="unit">' + unit + '</div></div>' +
+            '<span class="anniv-del" data-act="anniv-del" data-v="' + i + '">🗑</span></div>';
+    }).join('');
+    return '<div class="anniv-wrap">' + addCard + cards + '</div>';
+}
+APPS.anniv = {
+    name: '纪念日',
+    render() { return renderAnniv(); },
+    init() {},
+};
+HANDLERS.anniv = {
+    'anniv-add': () => {
+        const n = $('anniv-name'), d = $('anniv-date');
+        const name = n ? n.value.trim() : '';
+        const date = d ? d.value : '';
+        if (!name) { toast('给纪念日起个名字吧 ✍️'); return; }
+        if (!date) { toast('请选择日期 📅'); return; }
+        state.annivs.push({ id: 'a' + Date.now(), name, date });
+        lsSet('simphone_annivs', state.annivs);
+        renderWidgets();
+        openApp('anniv');
+        toast('已添加纪念日 🎉');
+    },
+    'anniv-del': (b) => {
+        state.annivs.splice(+b.dataset.v, 1);
+        lsSet('simphone_annivs', state.annivs);
+        openApp('anniv');
+        toast('已删除');
+    },
+};
+
+/* ============================================================
+   ⑥ 天气
+   ============================================================ */
+const CITIES = {
+    beijing: { name: '北京', temp: 28, desc: '多云', emoji: '⛅', hi: 31, lo: 21, hum: 45, wind: '东南风 3级', aqi: 62, rain: '10%' },
+    shanghai: { name: '上海', temp: 31, desc: '晴', emoji: '☀️', hi: 34, lo: 26, hum: 68, wind: '东风 4级', aqi: 48, rain: '5%' },
+    shenzhen: { name: '深圳', temp: 33, desc: '雷阵雨', emoji: '⛈️', hi: 35, lo: 27, hum: 82, wind: '南风 5级', aqi: 35, rain: '85%' },
+    chengdu: { name: '成都', temp: 26, desc: '小雨', emoji: '🌧️', hi: 28, lo: 21, hum: 75, wind: '北风 2级', aqi: 71, rain: '70%' },
+    guangzhou: { name: '广州', temp: 32, desc: '晴间多云', emoji: '🌤️', hi: 35, lo: 26, hum: 70, wind: '东南风 3级', aqi: 42, rain: '20%' },
+    hangzhou: { name: '杭州', temp: 29, desc: '阴', emoji: '☁️', hi: 31, lo: 24, hum: 72, wind: '东风 3级', aqi: 55, rain: '30%' },
+};
+state.weatherCity = 'beijing';
+
+function weatherWidget() {
+    const c = CITIES[state.weatherCity];
+    document.querySelectorAll('.w-emoji').forEach(el => el.textContent = c.emoji);
+    document.querySelectorAll('.w-temp').forEach(el => el.textContent = c.temp + '°');
+    document.querySelectorAll('.w-loc').forEach(el => el.textContent = c.name + ' · ' + c.desc);
+}
+renderWidgets(); // CITIES 就绪后刷新主屏小组件天气数据
+APPS.weather = {
+    name: '天气',
+    render() {
+        const c = CITIES[state.weatherCity];
+        const list = Object.keys(CITIES).map(k => {
+            const x = CITIES[k];
+            return '<div class="city-item" data-act="city" data-v="' + k + '">' +
+                '<span>' + x.emoji + ' ' + x.name + ' · ' + x.desc + '</span>' +
+                '<span class="ci-temp">' + x.temp + '°</span></div>';
+        }).join('');
+        return '<div class="weather-hero">' +
+            '<div class="wh-emoji">' + c.emoji + '</div>' +
+            '<div class="wh-temp">' + c.temp + '°C</div>' +
+            '<div class="wh-desc">' + c.name + ' · ' + c.desc + '</div>' +
+            '<div class="wh-range">最高 ' + c.hi + '°C · 最低 ' + c.lo + '°C</div></div>' +
+            '<div class="weather-detail">' +
+            '<div class="wd-item"><div class="wd-k">湿度</div><div class="wd-v">' + c.hum + '%</div></div>' +
+            '<div class="wd-item"><div class="wd-k">风速</div><div class="wd-v" style="font-size:13px">' + c.wind + '</div></div>' +
+            '<div class="wd-item"><div class="wd-k">降水概率</div><div class="wd-v">' + c.rain + '</div></div>' +
+            '</div>' +
+            '<div class="app-page-title" style="font-size:17px;padding:6px 4px 10px">其他城市</div>' +
+            '<div class="city-list">' + list + '</div>';
+    },
+    init() {},
+};
+HANDLERS.weather = {
+    city: (b) => {
+        state.weatherCity = b.dataset.v;
+        weatherWidget();
+        openApp('weather');
+    },
+};
+
+/* ============================================================
+   ⑦ 时钟（世界时钟 + 秒表）
+   ============================================================ */
+let clockTab = 'world';
+let swTimer = null;
+function renderClockWorld() {
+    const box = $('clock-world');
+    if (!box || !$('view-app').classList.contains('active')) return;
+    if (state.app !== 'clock') return;
+    const now = new Date();
+    const zones = [
+        { city: '北京', diff: 'GMT+8', tz: 8 },
+        { city: '东京', diff: 'GMT+9', tz: 9 },
+        { city: '伦敦', diff: 'GMT+0', tz: 0 },
+        { city: '纽约', diff: 'GMT-5', tz: -5 },
+        { city: '悉尼', diff: 'GMT+10', tz: 10 },
+        { city: '迪拜', diff: 'GMT+4', tz: 4 },
+    ];
+    box.innerHTML = zones.map(z => {
+        const d = new Date(now.getTime() + (z.tz - now.getTimezoneOffset() / 60) * 3600000);
+        return '<div class="world-row"><div><div class="wr-city">' + z.city + '</div><div class="wr-diff">' + z.diff + '</div></div>' +
+            '<div class="wr-time">' + fmtTime(d) + '</div></div>';
+    }).join('');
+}
+function swFormat(ms) {
+    const m = Math.floor(ms / 60000), s = Math.floor(ms % 60000 / 1000), cs = Math.floor(ms % 1000 / 10);
+    return pad2(m) + ':' + pad2(s) + '.' + pad2(cs);
+}
+function swTick() {
+    const el = $('sw-time');
+    if (el) el.textContent = swFormat(state.sw.elapsed + (Date.now() - state.sw.start));
+}
+APPS.clock = {
+    name: '时钟',
+    render() {
+        return '<div class="clock-tabs">' +
+            '<button class="clock-tab ' + (clockTab === 'world' ? 'on' : '') + '" data-act="tab" data-v="world">世界时钟</button>' +
+            '<button class="clock-tab ' + (clockTab === 'sw' ? 'on' : '') + '" data-act="tab" data-v="sw">秒表</button></div>' +
+            '<div id="clock-world"></div>' +
+            '<div class="stopwatch" id="stopwatch" style="display:' + (clockTab === 'sw' ? 'block' : 'none') + '">' +
+            '<div class="sw-time" id="sw-time">00:00.00</div>' +
+            '<div class="sw-laps" id="sw-laps"></div>' +
+            '<div class="sw-btns">' +
+            '<button class="sw-btn gray" data-act="sw-reset">复位</button>' +
+            '<button class="sw-btn green" data-act="sw-start">启动</button>' +
+            '<button class="sw-btn gray" data-act="sw-lap">计次</button>' +
+            '</div></div>';
+    },
+    init() {
+        renderClockWorld();
+        const el = $('sw-time');
+        if (el) {
+            if (state.sw.running) el.textContent = swFormat(state.sw.elapsed + (Date.now() - state.sw.start));
+            else el.textContent = swFormat(state.sw.elapsed);
+        }
+        const laps = $('sw-laps');
+        if (laps) laps.innerHTML = state.sw.laps.map((l, i) => '<div class="sw-lap"><span>计次 ' + (i + 1) + '</span><span>' + l + '</span></div>').join('');
+    },
+};
+HANDLERS.clock = {
+    tab: (b) => { clockTab = b.dataset.v; openApp('clock'); },
+    'sw-start': () => {
+        if (!state.sw.running) {
+            state.sw.running = true;
+            state.sw.start = Date.now();
+            swTimer = setInterval(swTick, 40);
+            toast('秒表启动 ⏱️');
+        } else {
+            state.sw.running = false;
+            state.sw.elapsed += Date.now() - state.sw.start;
+            clearInterval(swTimer);
+            toast('秒表停止');
+        }
+    },
+    'sw-reset': () => {
+        state.sw.running = false;
+        state.sw.elapsed = 0; state.sw.laps = [];
+        clearInterval(swTimer);
+        openApp('clock');
+    },
+    'sw-lap': () => {
+        if (!state.sw.running) return;
+        state.sw.laps.unshift(swFormat(state.sw.elapsed + (Date.now() - state.sw.start)));
+        const laps = $('sw-laps');
+        if (laps) laps.innerHTML = state.sw.laps.map((l, i) => '<div class="sw-lap"><span>计次 ' + (i + 1) + '</span><span>' + l + '</span></div>').join('');
+    },
+};
+
+/* ============================================================
+   ⑧ 日历
+   ============================================================ */
+function renderCalendarGrid() {
+    const year = state.calYear, month = state.calMonth;
+    const now = new Date();
+    $('cal-title').textContent = year + '年' + MONTHS[month];
+    const first = new Date(year, month, 1);
+    const startWeekday = first.getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPrev = new Date(year, month, 0).getDate();
+    let html = '';
+    for (let i = 0; i < startWeekday; i++) html += '<div class="cal-day other">' + (daysInPrev - startWeekday + i + 1) + '</div>';
+    for (let d = 1; d <= daysInMonth; d++) {
+        const isToday = d === now.getDate() && month === now.getMonth() && year === now.getFullYear();
+        html += '<div class="cal-day' + (isToday ? ' today' : '') + '">' + d + '</div>';
+    }
+    const total = startWeekday + daysInMonth;
+    const nextDays = (total % 7 === 0) ? 0 : 7 - (total % 7);
+    for (let i = 1; i <= nextDays; i++) html += '<div class="cal-day other">' + i + '</div>';
+    $('cal-days').innerHTML = html;
+}
+APPS.calendar = {
+    name: '日历',
+    render() {
+        const now = new Date();
+        if (!state.calYear) { state.calYear = now.getFullYear(); state.calMonth = now.getMonth(); }
+        return '<div class="cal-head"><button class="cal-nav" data-act="cal-prev">‹</button>' +
+            '<span class="ch-title" id="cal-title"></span>' +
+            '<button class="cal-nav" data-act="cal-next">›</button></div>' +
+            '<div class="cal-week">' + ['日', '一', '二', '三', '四', '五', '六'].map(w => '<span>' + w + '</span>').join('') + '</div>' +
+            '<div class="cal-days" id="cal-days"></div>';
+    },
+    init() { renderCalendarGrid(); },
+};
+HANDLERS.calendar = {
+    'cal-prev': () => { state.calMonth--; if (state.calMonth < 0) { state.calMonth = 11; state.calYear--; } renderCalendarGrid(); },
+    'cal-next': () => { state.calMonth++; if (state.calMonth > 11) { state.calMonth = 0; state.calYear++; } renderCalendarGrid(); },
+};
+
+/* ============================================================
+   ⑨ 备忘录（localStorage 持久化）
+   ============================================================ */
+function loadNotes() { try { return localStorage.getItem('simphone_notes') || ''; } catch (e) { return ''; } }
+function persistNotes(text) { try { localStorage.setItem('simphone_notes', text); return true; } catch (e) { return false; } }
+APPS.notes = {
+    name: '备忘录',
+    render() {
+        return '<div class="notes-box">' +
+            '<textarea id="notes-text" placeholder="写点什么…">' + esc(loadNotes()) + '</textarea>' +
+            '<button class="notes-save" data-act="notes-save">保存</button>' +
+            '<div class="notes-status" id="notes-status"></div></div>';
+    },
+    init() {},
+};
+HANDLERS.notes = {
+    'notes-save': () => {
+        const t = $('notes-text');
+        if (!t) return;
+        const ok = persistNotes(t.value);
+        const st = $('notes-status');
+        if (st) { st.textContent = ok ? '已保存 ✓ ' + fmtTime(new Date()) : '保存失败（浏览器限制）'; }
+        renderWidgets();
+        toast('备忘录已保存 📝');
+    },
+};
+
+/* ============================================================
+   ⑩ 浏览器（模拟搜索）
+   ============================================================ */
+function browserRenderPage(q) {
+    const page = $('browser-page');
+    if (!q) {
+        page.innerHTML = '<div class="bp-newtab"><div class="bp-logo">🌐</div><h3>锦书浏览器</h3>' +
+            '<p>输入关键词搜索，或点击下方快捷入口</p></div>' +
+            '<div class="bp-shortcuts">' +
+            '<div class="bp-sc" data-act="quick" data-v="锦书机"><div class="sc-ico" style="background:#0a84ff">📱</div><span class="sc-name">锦书机</span></div>' +
+            '<div class="bp-sc" data-act="quick" data-v="天气预报"><div class="sc-ico" style="background:#ff9f0a">⛅</div><span class="sc-name">天气</span></div>' +
+            '<div class="bp-sc" data-act="quick" data-v="今日新闻"><div class="sc-ico" style="background:#ff375f">📰</div><span class="sc-name">新闻</span></div>' +
+            '<div class="bp-sc" data-act="quick" data-v="美食推荐"><div class="sc-ico" style="background:#ffd60a">🍜</div><span class="sc-name">美食</span></div>' +
+            '<div class="bp-sc" data-act="quick" data-v="游戏攻略"><div class="sc-ico" style="background:#5e5ce6">🎮</div><span class="sc-name">游戏</span></div>' +
+            '<div class="bp-sc" data-act="quick" data-v="编程教程"><div class="sc-ico" style="background:#34c759">💻</div><span class="sc-name">编程</span></div>' +
+            '</div>';
+    } else {
+        page.innerHTML = '<div class="bp-search"><h3>“' + esc(q) + '” 的搜索结果</h3>' +
+            '<div class="bp-card"><div class="t">' + esc(q) + ' - 维基模拟百科</div><div class="s">这是模拟搜索结果。真实世界中，你可以通过任何搜索引擎获取关于“' + esc(q) + '”的详细信息。</div></div>' +
+            '<div class="bp-card"><div class="t">关于 ' + esc(q) + ' 的最新消息</div><div class="s">（模拟内容）今天有 3 条相关讨论，热度上升中 🔥</div></div>' +
+            '<div class="bp-card"><div class="t">相关推荐</div><div class="s">' + esc(q) + ' 教程 · ' + esc(q) + ' 图片 · ' + esc(q) + ' 视频 · ' + esc(q) + ' 百科</div></div>' +
+            '<div style="font-size:11px;color:#aaa;margin-top:14px">🔒 本页面为离线模拟，不会发起真实网络请求</div></div>';
+    }
+}
+APPS.browser = {
+    name: '浏览器',
+    render() {
+        return '<div class="browser-bar"><input class="browser-input" id="browser-input" placeholder="搜索或输入网址…">' +
+            '<button class="browser-go" data-act="search">➤</button></div>' +
+            '<div class="browser-page" id="browser-page"></div>';
+    },
+    init() {
+        browserRenderPage('');
+        const inp = $('browser-input');
+        if (inp) {
+            inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') doBrowserSearch(); });
+            setTimeout(() => inp.focus(), 300);
+        }
+    },
+};
+function doBrowserSearch() {
+    const inp = $('browser-input');
+    const q = (inp ? inp.value : '').trim();
+    browserRenderPage(q);
+    toast(q ? '已搜索：' + q : '请输入关键词');
+}
+HANDLERS.browser = {
+    search: doBrowserSearch,
+    quick: (b) => {
+        const q = b.dataset.v;
+        browserRenderPage(q);
+        const inp = $('browser-input');
+        if (inp) inp.value = q;
+    },
+};
+/* ============================================================
+    ⑪ 信息（玩家自建联系人 + 聊天 + 可选自动回复）
+    ============================================================ */
+const AUTO_REPLIES = [
+    '收到！😊', '哈哈，真的假的？', '好的好的，马上安排', '嗯嗯，晚点详细说',
+    '明白了！👍', '太棒了！', '在忙，稍后回你', '你说得对，我也这么觉得',
+    '笑死，哈哈哈哈', '好的～周末见！', '让我想想…🤔', '没问题，交给我吧',
+];
+const CONTACT_EMOJIS = ['😀', '😎', '🤖', '👩', '👨', '👧', '👦', '🐱', '🐶', '🦊', '🐼', '👾', '🧑‍🚀', '💃', '🧙'];
+const CONTACT_COLORS = ['#5e5ce6', '#ff9f0a', '#34c759', '#ff375f', '#0a84ff', '#ffd60a', '#ff2d55', '#64d2ff', '#8e8e93'];
+
+function getContact(id) { return state.contacts.find(c => c.id === id); }
+function contactMsgs(id) { return state.chats[id] || []; }
+function persistContacts() { lsSet('simphone_contacts', state.contacts); lsSet('simphone_chats', state.chats); }
+
+function renderMsgList() {
+    let html = '<div class="app-page-title">信息</div>';
+    if (!state.contacts.length) {
+        html += '<div class="empty-state"><div class="es-emoji">💬</div>' +
+            '<div class="es-title">还没有联系人</div>' +
+            '<div class="es-sub">像真实手机一样，先添加你的朋友吧～<br>添加后就能给他们发消息啦</div></div>';
+    } else {
+        html += state.contacts.map(c => {
+            const msgs = contactMsgs(c.id);
+            const last = msgs[msgs.length - 1];
+            return '<div class="msg-session" data-act="open-chat" data-v="' + c.id + '">' +
+                '<div class="msg-avatar" style="background:' + c.bg + '">' + c.avatar + '</div>' +
+                '<div class="ms-body"><div class="ms-name">' + esc(c.name) + '</div>' +
+                '<div class="ms-preview">' + (last ? (last.from === 'out' ? '我：' : '') + esc(last.text) : '开始聊天吧～') + '</div></div>' +
+                '<div style="text-align:right"><div class="ms-time">' + (last ? last.time : '') + '</div></div></div>';
+        }).join('');
+    }
+    html += '<button class="add-btn" data-act="contact-new">＋ 添加联系人</button>';
+    return html;
+}
+function renderContactForm() {
+    const emojis = CONTACT_EMOJIS.map(e =>
+        '<button class="form-emoji ' + (state.contactForm.avatar === e ? 'sel' : '') + '" data-act="cf-emoji" data-v="' + e + '">' + e + '</button>'
+    ).join('');
+    const colors = CONTACT_COLORS.map(c =>
+        '<div class="form-color ' + (state.contactForm.bg === c ? 'sel' : '') + '" data-act="cf-color" data-v="' + c + '" style="background:' + c + '"></div>'
+    ).join('');
+    return '<div class="setting-group" style="margin:4px">' +
+        '<div class="form-row"><label class="form-label">称呼</label>' +
+        '<input class="form-input" id="cf-name" placeholder="输入联系人名称（必填）" maxlength="12"></div>' +
+        '<div class="form-row"><label class="form-label">头像</label><div class="form-emoji-row">' + emojis + '</div></div>' +
+        '<div class="form-row"><label class="form-label">颜色</label><div class="form-color-row">' + colors + '</div></div>' +
+        '<div class="form-row" style="display:flex;align-items:center"><label class="form-label" style="margin:0">自动回复（对方会回你消息）</label>' +
+        '<div class="switch ' + (state.contactForm.autoReply ? 'on' : '') + '" data-act="cf-reply"></div></div>' +
+        '<button class="form-save" data-act="contact-save">保存联系人</button>' +
+        '<div class="hint-note">💡 开启自动回复后，对方会像真人一样回你消息</div></div>';
+}
+function renderChat(id) {
+    const c = getContact(id);
+    if (!c) { state.msgView = 'list'; openApp('messages'); return; }
+    state.msgView = 'chat';
+    state.currentChat = id;
+    $('app-title').textContent = c.name;
+    $('app-body').innerHTML = renderChatHTML(c);
+    const inp = $('chat-input');
+    if (inp) {
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMsg(); });
+        setTimeout(() => inp.focus(), 300);
+    }
+    const body = $('app-body');
+    if (body) body.scrollTop = body.scrollHeight;
+}
+function renderChatHTML(c) {
+    const msgs = contactMsgs(c.id);
+    return '<div class="chat-body">' +
+        '<div class="chat-day">' + fmtDate(new Date()) + '</div>' +
+        (msgs.length ? msgs.map(m =>
+            '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + '">' + esc(m.text) + '<div class="chat-time">' + m.time + '</div></div>'
+        ).join('') : '<div class="chat-day">👋 打个招呼吧</div>') +
+        '</div>' +
+        '<div class="chat-input-row"><input class="chat-input" id="chat-input" placeholder="发消息…">' +
+        '<button class="chat-send" data-act="send">➤</button></div>';
+}
+function sendMsg() {
+    const inp = $('chat-input');
+    if (!inp) return;
+    const text = inp.value.trim();
+    if (!text || !state.currentChat || state.chatBusy) return;
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    if (!state.chats[state.currentChat]) state.chats[state.currentChat] = [];
+    state.chats[state.currentChat].push({ from: 'out', text, time: fmtTime(new Date()) });
+    persistContacts();
+    inp.value = '';
+    renderChat(state.currentChat);
+    if (c.autoReply) {
+        state.chatBusy = true;
+        setTimeout(() => {
+            const reply = AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)];
+            const cid = state.currentChat;
+            if (cid && state.chats[cid]) {
+                state.chats[cid].push({ from: 'in', text: reply, time: fmtTime(new Date()) });
+                persistContacts();
+                if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === cid) {
+                    renderChat(cid);
+                    toast('收到新消息 💬');
+                }
+            }
+            state.chatBusy = false;
+        }, 1400 + Math.random() * 1600);
+    }
+}
+APPS.messages = {
+    name: '信息',
+    render() {
+        if (state.msgView === 'chat' && state.currentChat && getContact(state.currentChat)) {
+            const c = getContact(state.currentChat);
+            $('app-title').textContent = c.name;
+            return renderChatHTML(c);
+        }
+        if (state.msgView === 'form') {
+            $('app-title').textContent = '新联系人';
+            return renderContactForm();
+        }
+        state.msgView = 'list';
+        $('app-title').textContent = '信息';
+        return renderMsgList();
+    },
+    init() {},
+};
+HANDLERS.messages = {
+    'open-chat': (b) => renderChat(b.dataset.v),
+    'contact-new': () => { state.msgView = 'form'; openApp('messages'); },
+    'cf-emoji': (b) => {
+        state.contactForm.avatar = b.dataset.v;
+        document.querySelectorAll('.form-emoji').forEach(el => el.classList.toggle('sel', el === b));
+    },
+    'cf-color': (b) => {
+        state.contactForm.bg = b.dataset.v;
+        document.querySelectorAll('.form-color').forEach(el => el.classList.toggle('sel', el === b));
+    },
+    'cf-reply': (b) => {
+        state.contactForm.autoReply = !state.contactForm.autoReply;
+        b.classList.toggle('on', state.contactForm.autoReply);
+    },
+    'contact-save': () => {
+        const nameEl = $('cf-name');
+        const name = (nameEl ? nameEl.value : '').trim();
+        if (!name) { toast('请输入联系人名称'); return; }
+        const id = 'c' + Date.now();
+        state.contacts.push({ id, name, avatar: state.contactForm.avatar, bg: state.contactForm.bg, autoReply: state.contactForm.autoReply });
+        state.chats[id] = [];
+        persistContacts();
+        state.msgView = 'list';
+        openApp('messages');
+        toast('已添加联系人 ✓');
+    },
+    send: sendMsg,
+};
+// 返回列表（信息应用：聊天 / 表单 → 列表）
+const _origGoHome = goHome;
+goHome = function () {
+    if (state.app === 'messages' && state.msgView !== 'list') {
+        state.msgView = 'list';
+        state.currentChat = null;
+        $('app-title').textContent = '信息';
+        $('app-body').innerHTML = renderMsgList();
+        return;
+    }
+    _origGoHome();
+};
+$('app-back').addEventListener('click', () => {
+    if (state.app === 'messages' && state.msgView !== 'list') {
+        state.msgView = 'list';
+        state.currentChat = null;
+        $('app-title').textContent = '信息';
+        $('app-body').innerHTML = renderMsgList();
+    } else if (state.app === 'settings' && state.settingsPage !== 'main') {
+        state.settingsPage = 'main';
+        openApp('settings');
+    } else {
+        goHome();
+    }
+});
+
+/* ============================================================
+   ⑫ 电话（拨号盘 + 通话 + 模拟来电）
+   ============================================================ */
+let inCall = false, callTimerInterval = null, callStartTime = 0;
+function renderDialPad() {
+    return '<div class="dial-display" id="dial-display">' + (state.dialNum || '') + '</div>' +
+        '<div class="dial-pad">' +
+        [['1', ''], ['2', 'ABC'], ['3', 'DEF'], ['4', 'GHI'], ['5', 'JKL'], ['6', 'MNO'], ['7', 'PQRS'], ['8', 'TUV'], ['9', 'WXYZ'], ['*', ''], ['0', '+'], ['#', '']].map(k =>
+            '<button class="dial-key" data-act="dial" data-v="' + k[0] + '">' + k[0] + (k[1] ? '<span class="sub">' + k[1] + '</span>' : '') + '</button>'
+        ).join('') + '</div>' +
+        '<div class="dial-actions">' +
+        '<button class="dial-del" data-act="dial-del">⌫</button>' +
+        '<button class="dial-call" data-act="dial-call">📞</button>' +
+        '<button class="dial-del" data-act="sim-call" style="font-size:12px;width:52px">📲 模拟来电</button>' +
+        '</div>';
+}
+function renderCallLog() {
+    if (!state.callLog.length) return '<div style="text-align:center;color:#8f96ab;padding:40px 0">暂无通话记录</div>';
+    return state.callLog.map(c =>
+        '<div class="call-log-row"><span class="clr-name">' + c + '</span><span class="clr-time">今天</span></div>'
+    ).join('');
+}
+APPS.phone = {
+    name: '电话',
+    render() {
+        return '<div class="phone-tabs">' +
+            '<button class="phone-tab ' + (state.dialTab === 'keypad' ? 'on' : '') + '" data-act="ptab" data-v="keypad">键盘</button>' +
+            '<button class="phone-tab ' + (state.dialTab === 'recents' ? 'on' : '') + '" data-act="ptab" data-v="recents">最近</button></div>' +
+            (state.dialTab === 'keypad' ? renderDialPad() : renderCallLog());
+    },
+    init() {},
+};
+HANDLERS.phone = {
+    ptab: (b) => { state.dialTab = b.dataset.v; openApp('phone'); },
+    dial: (b) => {
+        state.dialNum = (state.dialNum + b.dataset.v).slice(0, 20);
+        const d = $('dial-display'); if (d) d.textContent = state.dialNum;
+    },
+    'dial-del': () => {
+        state.dialNum = state.dialNum.slice(0, -1);
+        const d = $('dial-display'); if (d) d.textContent = state.dialNum;
+    },
+    'dial-call': () => {
+        const num = state.dialNum;
+        if (!num) { toast('请先输入号码'); return; }
+        state.callLog.unshift(num);
+        startCallScreen(num, '📞');
+    },
+    'sim-call': () => {
+        $('call-banner').classList.add('show');
+        toast('📲 来电提醒：锦书助手');
+    },
+};
+function startCallScreen(name, avatar) {
+    if (inCall) return;
+    inCall = true;
+    const cs = $('call-screen');
+    if (!cs) return;
+    cs.querySelector('.call-avatar').textContent = avatar || '📞';
+    $('call-name').textContent = name;
+    $('call-status').textContent = '正在呼叫…';
+    $('call-timer').textContent = '';
+    cs.classList.add('open');
+    setTimeout(() => {
+        if (!inCall) return;
+        $('call-status').textContent = '通话中';
+        callStartTime = Date.now();
+        clearInterval(callTimerInterval);
+        callTimerInterval = setInterval(() => {
+            const sec = Math.floor((Date.now() - callStartTime) / 1000);
+            $('call-timer').textContent = pad2(Math.floor(sec / 60)) + ':' + pad2(sec % 60);
+        }, 1000);
+    }, 2200);
+}
+function endCallScreen() {
+    inCall = false;
+    clearInterval(callTimerInterval);
+    const cs = $('call-screen');
+    if (cs) cs.classList.remove('open');
+    toast('通话已结束');
+}
+// 将通话界面挂载到应用视图内
+(function () {
+    const cs = document.createElement('div');
+    cs.className = 'call-screen';
+    cs.id = 'call-screen';
+    cs.innerHTML = '<div class="call-avatar">📞</div><div class="call-name" id="call-name">未知</div>' +
+        '<div class="call-status" id="call-status">正在呼叫…</div>' +
+        '<div class="call-timer" id="call-timer"></div>' +
+        '<button class="call-end" data-act="hangup">📵</button>';
+    $('view-app').appendChild(cs);
+})();
+// 通话界面挂断按钮（用事件委托到 view-app）
+$('view-app').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act="hangup"]');
+    if (btn) endCallScreen();
+});
+// 来电横幅
+$('cb-accept').addEventListener('click', () => {
+    $('call-banner').classList.remove('show');
+    startCallScreen('锦书助手', '🤖');
+});
+$('cb-decline').addEventListener('click', () => {
+    $('call-banner').classList.remove('show');
+    toast('已拒绝来电 ❌');
+});
+
+/* ============================================================
+   初始化
+   ============================================================ */
+weatherWidget();
+syncStatusBar();
+showView('lock'); // 启动默认显示锁屏（否则所有视图隐藏 = 黑屏）
+console.log('📱 锦书机已启动');
+setTimeout(() => {
+    toast('欢迎体验 📱 点击右侧电源键解锁');
+}, 900);
+</script>
+</body>
+</html>
