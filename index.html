@@ -7,7 +7,7 @@
 <title>锦书机</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@100;200;300;400;500&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    锦书机 · 全部样式（参考多款小手机理念，独立设计）
@@ -1029,6 +1029,240 @@ body[data-icon="plain"] .app-icon .ico {
 .anniv-del { color: #8f96ab; cursor: pointer; padding: 6px; font-size: 15px; flex-shrink: 0; }
 .anniv-empty { text-align: center; color: #8f96ab; font-size: 13px; padding: 40px 0 20px; }
 .anniv-empty .big { font-size: 44px; display: block; margin-bottom: 10px; }
+/* ============================================================
+   v8 Chill 浅色主题覆盖层（参考 chill.kkk.kkk.ruiyaxin.xyz 设计语言）
+   机制：body[data-theme="chill"] 时整套浅色样式生效
+   不动原有深色规则 → 切换零回归；与参考站 [data-theme="dark"] 切换机制同构
+   ============================================================ */
+body[data-theme="chill"] {
+    --font-sans: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+    --font-serif: 'Playfair Display', 'Cormorant Garamond', 'Songti SC', 'STSong', serif;
+}
+/* 桌面背景 + 手机外壳：浅色金属 */
+body[data-theme="chill"] { background: #f2f2f2 !important; }
+body[data-theme="chill"] .phone {
+    background: linear-gradient(150deg, #ffffff 0%, #d9dade 60%, #e6e7eb 100%) !important;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 30px 80px rgba(0,0,0,.14) !important;
+}
+body[data-theme="chill"] .phone::before {
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.85), inset 0 -2px 6px rgba(0,0,0,.12) !important;
+}
+body[data-theme="chill"] .btn-side { background: linear-gradient(90deg, #c8c9ce, #9a9ba2) !important; }
+body[data-theme="chill"] .screen { background: #fafafa !important; }
+/* 状态栏：深色文字 */
+body[data-theme="chill"] .statusbar { color: #1a1a1a !important; }
+body[data-theme="chill"] .battery { border-color: rgba(0,0,0,.55) !important; }
+body[data-theme="chill"] .battery::after { background: rgba(0,0,0,.55) !important; }
+body[data-theme="chill"] .sb-grab:active { background: rgba(0,0,0,.07); }
+
+/* ---- 锁屏 ---- */
+body[data-theme="chill"] .view-lock,
+body[data-theme="chill"] .view-home {
+    background-image: linear-gradient(180deg, #f4f4f6 0%, #e9e9ee 55%, #dfe0e6 100%) !important;
+}
+body[data-theme="chill"] .lock-brand { color: rgba(20,20,25,.62) !important; text-shadow: 0 1px 8px rgba(255,255,255,.5); }
+body[data-theme="chill"] .lock-time {
+    background: linear-gradient(180deg, #1a1a1a 20%, #4a4a50 70%, #8a8a92 100%) !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: none !important;
+    filter: none !important;
+}
+body[data-theme="chill"] .lock-date { color: rgba(20,20,25,.55) !important; text-shadow: 0 1px 6px rgba(255,255,255,.6); }
+body[data-theme="chill"] .lock-btn {
+    background: rgba(255,255,255,.75) !important;
+    border: 1px solid rgba(0,0,0,.1) !important;
+    color: #1a1a1a !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,.1), inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+body[data-theme="chill"] .swipe-hint { color: rgba(20,20,25,.75) !important; }
+body[data-theme="chill"] .swipe-bar { background: rgba(0,0,0,.1) !important; border: 1px solid rgba(0,0,0,.12) !important; }
+body[data-theme="chill"] .swipe-bar::after { background: linear-gradient(100deg, transparent, rgba(0,0,0,.28), transparent) !important; }
+/* 锁屏密码面板 */
+body[data-theme="chill"] .lock-pass { background: rgba(245,245,247,.94) !important; }
+body[data-theme="chill"] .lp-title { color: #1a1a1a !important; }
+body[data-theme="chill"] .lp-dots i { border-color: rgba(0,0,0,.4) !important; }
+body[data-theme="chill"] .lp-dots i.filled { background: #1a1a1a !important; border-color: #1a1a1a !important; box-shadow: 0 0 8px rgba(0,0,0,.18); }
+body[data-theme="chill"] .lp-key { background: rgba(0,0,0,.06) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .lp-key:hover { background: rgba(0,0,0,.12) !important; }
+body[data-theme="chill"] .lp-key .lk-letters { color: rgba(0,0,0,.45) !important; }
+body[data-theme="chill"] .lp-cancel { color: #6d7280 !important; }
+body[data-theme="chill"] .lp-forgot-panel { background: rgba(250,250,252,.97) !important; }
+body[data-theme="chill"] .fp-title { color: #1a1a1a !important; }
+body[data-theme="chill"] .fp-input { border-color: rgba(0,0,0,.15) !important; background: rgba(0,0,0,.04) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .fp-btn { background: rgba(0,0,0,.06) !important; color: #1a1a1a !important; }
+
+/* ---- 主屏 ---- */
+body[data-theme="chill"] .w-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,.06) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08) !important;
+}
+body[data-theme="chill"] .w-card .w-time,
+body[data-theme="chill"] .w-card .w-date,
+body[data-theme="chill"] .w-card .w-temp,
+body[data-theme="chill"] .w-card .w-loc,
+body[data-theme="chill"] .w-card .w-big,
+body[data-theme="chill"] .w-card .w-sub,
+body[data-theme="chill"] .w-card .w-note,
+body[data-theme="chill"] .w-card .w-k { color: #1a1a1a !important; }
+body[data-theme="chill"] .w-tag {
+    color: rgba(0,0,0,.65) !important;
+    background: rgba(0,0,0,.05) !important;
+    border: 1px solid rgba(0,0,0,.08) !important;
+    box-shadow: none !important;
+}
+body[data-theme="chill"] .w-add { color: rgba(0,0,0,.7) !important; background: rgba(255,255,255,.7) !important; border-color: rgba(0,0,0,.25) !important; }
+body[data-theme="chill"] .widget-edit-tip { background: rgba(255,255,255,.9) !important; color: rgba(0,0,0,.75) !important; }
+body[data-theme="chill"] .widget-picker { background: rgba(255,255,255,.95) !important; border: 1px solid rgba(0,0,0,.08) !important; box-shadow: 0 24px 60px rgba(0,0,0,.18) !important; }
+body[data-theme="chill"] .widget-picker .wp-title { color: #1a1a1a !important; }
+body[data-theme="chill"] .wp-item { background: rgba(0,0,0,.05) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .page-dots i { background: rgba(0,0,0,.22) !important; }
+body[data-theme="chill"] .page-dots i.on { background: #1a1a1a !important; }
+/* 图标：玻璃白卡（仅毛玻璃样式） + 深色文字 */
+body[data-theme="chill"] .app-icon .lbl { color: #1a1a1a !important; text-shadow: none !important; }
+body[data-theme="chill"][data-icon="glass"] .app-icon .ico {
+    background: rgba(255,255,255,.75) !important;
+    border: 1px solid rgba(0,0,0,.08) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08) !important;
+}
+body[data-theme="chill"] .app-icon .ico { border-radius: 18px !important; }
+body[data-theme="chill"][data-icon="glass"] .dock .app-icon .ico {
+    background: rgba(255,255,255,.9) !important;
+    border-radius: 16px !important;
+}
+/* Dock：胶囊白玻璃 */
+body[data-theme="chill"] .dock {
+    margin: 0 14px 12px !important;
+    padding: 12px 22px !important;
+    border-radius: 100px !important;
+    background: rgba(255,255,255,.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(0,0,0,.08) !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,.1) !important;
+}
+
+/* ---- 应用页 ---- */
+body[data-theme="chill"] .view-app { background: #f5f5f7 !important; }
+body[data-theme="chill"] .app-topbar { color: #1a1a1a !important; }
+body[data-theme="chill"] .app-title, body[data-theme="chill"] .app-page-title { color: #1a1a1a !important; }
+body[data-theme="chill"] .app-back { color: #0a84ff !important; }
+/* 计算器 */
+body[data-theme="chill"] .calc-display { color: #1a1a1a !important; }
+body[data-theme="chill"] .calc-btn { background: #ffffff !important; color: #1a1a1a !important; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+body[data-theme="chill"] .calc-btn.gray { background: #e8e8ed !important; color: #111 !important; }
+/* 时钟 */
+body[data-theme="chill"] .clock-tab { background: rgba(0,0,0,.05) !important; color: #6d7280 !important; }
+body[data-theme="chill"] .clock-tab.on { background: #1a1a1a !important; color: #fff !important; }
+body[data-theme="chill"] .world-row { border-bottom-color: rgba(0,0,0,.07) !important; }
+body[data-theme="chill"] .wr-city, body[data-theme="chill"] .wr-time { color: #1a1a1a !important; }
+body[data-theme="chill"] .wr-diff { color: #8a8f9a !important; }
+body[data-theme="chill"] .sw-time { color: #1a1a1a !important; }
+body[data-theme="chill"] .sw-lap { color: #6d7280 !important; border-bottom-color: rgba(0,0,0,.06) !important; }
+body[data-theme="chill"] .sw-btn.gray { background: #e8e8ed !important; color: #ff9f0a !important; }
+/* 日历 */
+body[data-theme="chill"] .cal-head { color: #1a1a1a !important; }
+body[data-theme="chill"] .cal-day { color: #1a1a1a !important; }
+body[data-theme="chill"] .cal-day.other { color: #b0b3bb !important; }
+/* 备忘录 */
+body[data-theme="chill"] .notes-box textarea { background: #ffffff !important; border-color: rgba(0,0,0,.1) !important; color: #1a1a1a !important; }
+/* 天气 */
+body[data-theme="chill"] .wd-k, body[data-theme="chill"] .wd-v, body[data-theme="chill"] .wh-temp,
+body[data-theme="chill"] .wh-desc, body[data-theme="chill"] .wh-range { color: #1a1a1a !important; }
+body[data-theme="chill"] .city-item { background: #ffffff !important; color: #1a1a1a !important; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+body[data-theme="chill"] .city-item:active { background: #f2f2f5 !important; }
+/* 浏览器 */
+body[data-theme="chill"] .browser-input { background: rgba(0,0,0,.06) !important; color: #1a1a1a !important; }
+/* 信息 */
+body[data-theme="chill"] .msg-session .ms-name { color: #1a1a1a !important; }
+body[data-theme="chill"] .msg-session .ms-preview { color: #8a8f9a !important; }
+body[data-theme="chill"] .msg-session .ms-time { color: #b0b3bb !important; }
+body[data-theme="chill"] .msg-session:hover { background: rgba(0,0,0,.04); }
+body[data-theme="chill"] .chat-bubble.in { background: #ececf0 !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .chat-day { color: #b0b3bb !important; }
+body[data-theme="chill"] .chat-input-row { background: linear-gradient(180deg, transparent, #f5f5f7 40%) !important; }
+body[data-theme="chill"] .chat-input { background: #ffffff !important; border-color: rgba(0,0,0,.12) !important; color: #1a1a1a !important; }
+/* 电话 */
+body[data-theme="chill"] .phone-tab { background: rgba(0,0,0,.05) !important; color: #6d7280 !important; }
+body[data-theme="chill"] .phone-tab.on { background: #1a1a1a !important; color: #fff !important; }
+body[data-theme="chill"] .dial-display { color: #1a1a1a !important; }
+body[data-theme="chill"] .dial-key { background: rgba(0,0,0,.05) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .dial-key:active { background: rgba(0,0,0,.12) !important; }
+body[data-theme="chill"] .dial-key .sub { color: #8a8f9a !important; }
+body[data-theme="chill"] .call-log-row { border-bottom-color: rgba(0,0,0,.06) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .call-log-row .clr-time { color: #8a8f9a !important; }
+/* 音乐 */
+body[data-theme="chill"] .music-name, body[data-theme="chill"] .music-artist,
+body[data-theme="chill"] .mi-name, body[data-theme="chill"] .mi-artist { color: #1a1a1a !important; }
+body[data-theme="chill"] .music-item { background: #ffffff !important; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+body[data-theme="chill"] .music-item .mi-tag { color: #8a8f9a !important; border-color: rgba(0,0,0,.12) !important; }
+/* 设置 */
+body[data-theme="chill"] .setting-group { background: #ffffff !important; border: 1px solid rgba(0,0,0,.06) !important; box-shadow: 0 6px 20px rgba(0,0,0,.05); border-radius: 16px; }
+body[data-theme="chill"] .setting-group-title { color: #8a8f9a !important; }
+body[data-theme="chill"] .setting-row { color: #1a1a1a !important; }
+body[data-theme="chill"] .setting-row .sr-sub { color: #8a8f9a !important; }
+body[data-theme="chill"] .form-label { color: #6d7280 !important; }
+body[data-theme="chill"] .form-input { background: #f2f2f5 !important; border-color: rgba(0,0,0,.1) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .form-emoji { background: rgba(0,0,0,.05) !important; }
+body[data-theme="chill"] .preset-label { color: #6d7280 !important; }
+body[data-theme="chill"] .preset-chip { background: #f2f2f5 !important; border-color: rgba(0,0,0,.12) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .preset-chip:hover { background: #e8e8ed !important; }
+body[data-theme="chill"] .add-btn, body[data-theme="chill"] .upload-btn { color: #1a1a1a !important; background: #f2f2f5 !important; border-color: rgba(0,0,0,.18) !important; }
+body[data-theme="chill"] .add-btn:hover, body[data-theme="chill"] .upload-btn:hover { background: #e8e8ed !important; }
+body[data-theme="chill"] .hint-note { color: #8a8f9a !important; }
+body[data-theme="chill"] .css-editor { background: #ffffff !important; border-color: rgba(0,0,0,.1) !important; color: #0a84ff !important; }
+body[data-theme="chill"] .empty-state { color: #8a8f9a !important; }
+body[data-theme="chill"] .empty-state .es-title { color: #1a1a1a !important; }
+body[data-theme="chill"] .contact-item:hover { background: rgba(0,0,0,.04); }
+body[data-theme="chill"] .switch { background: #d8d8de !important; }
+body[data-theme="chill"] .switch.on { background: #34c759 !important; }
+/* 朋友圈 & 纪念日 */
+body[data-theme="chill"] .moment-editor { background: #ffffff !important; border-color: rgba(0,0,0,.08) !important; }
+body[data-theme="chill"] .moment-editor textarea { color: #1a1a1a !important; }
+body[data-theme="chill"] .moment-card { background: #ffffff !important; border-color: rgba(0,0,0,.06) !important; box-shadow: 0 4px 14px rgba(0,0,0,.05); }
+body[data-theme="chill"] .mc-name, body[data-theme="chill"] .mc-text, body[data-theme="chill"] .mc-cmt { color: #1a1a1a !important; }
+body[data-theme="chill"] .mc-time, body[data-theme="chill"] .mc-del, body[data-theme="chill"] .mc-like { color: #8a8f9a !important; }
+body[data-theme="chill"] .mc-foot { border-top-color: rgba(0,0,0,.06) !important; }
+body[data-theme="chill"] .mc-comments { background: rgba(0,0,0,.04) !important; }
+body[data-theme="chill"] .anniv-add-card { background: #ffffff !important; border-color: rgba(0,0,0,.2) !important; }
+body[data-theme="chill"] .anniv-add-card input { background: #f2f2f5 !important; border-color: rgba(0,0,0,.1) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .anniv-add-card input[type="date"] { color-scheme: light; }
+body[data-theme="chill"] .anniv-card { background: #ffffff !important; border-color: rgba(0,0,0,.06) !important; box-shadow: 0 4px 14px rgba(0,0,0,.05); }
+body[data-theme="chill"] .anniv-name { color: #1a1a1a !important; }
+body[data-theme="chill"] .anniv-date, body[data-theme="chill"] .anniv-del { color: #8a8f9a !important; }
+
+/* ---- 通知中心 / 控制中心 ---- */
+body[data-theme="chill"] .overlay { background: rgba(245,245,247,.72) !important; color: #1a1a1a !important; }
+body[data-theme="chill"] .notif-time { color: #1a1a1a !important; }
+body[data-theme="chill"] .notif-date { color: #6d7280 !important; }
+body[data-theme="chill"] .notif-card { background: rgba(255,255,255,.85) !important; box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+body[data-theme="chill"] .notif-card .nc-app { color: #8a8f9a !important; }
+body[data-theme="chill"] .notif-card .nc-title { color: #1a1a1a !important; }
+body[data-theme="chill"] .notif-card .nc-body { color: #4a4a50 !important; }
+body[data-theme="chill"] .cc-btn { background: rgba(255,255,255,.85) !important; color: #1a1a1a !important; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+body[data-theme="chill"] .cc-btn.on { background: rgba(52,199,89,.25) !important; }
+body[data-theme="chill"] .cc-btn.on-red { background: rgba(255,59,48,.25) !important; }
+body[data-theme="chill"] .cc-slider-row input[type=range] { accent-color: #1a1a1a !important; }
+body[data-theme="chill"] .cc-label-row { color: #4a4a50 !important; }
+
+/* ---- 其他 ---- */
+body[data-theme="chill"] .home-indicator { background: rgba(0,0,0,.45) !important; }
+body[data-theme="chill"] .call-banner { background: rgba(255,255,255,.92) !important; color: #1a1a1a !important; box-shadow: 0 12px 40px rgba(0,0,0,.15); }
+body[data-theme="chill"] .cb-info .cb-name { color: #1a1a1a !important; }
+body[data-theme="chill"] .cb-info .cb-status { color: #6d7280 !important; }
+/* 悬浮球菜单：浅色 */
+body[data-theme="chill"] .fb-menu { background: rgba(255,255,255,.96) !important; border-color: rgba(0,0,0,.08) !important; box-shadow: 0 16px 50px rgba(0,0,0,.18) !important; --fb-color: #1a1a1a !important; }
+body[data-theme="chill"] .fbm-item:hover { background: rgba(0,0,0,.05) !important; }
+body[data-theme="chill"] .fbm-ico { background: rgba(0,0,0,.05) !important; }
+body[data-theme="chill"] .fbm-nick { border-bottom-color: rgba(0,0,0,.07) !important; }
+/* 浅色细节修补：时间戳 / 选择器 / 滑块 / 照片选择 */
+body[data-theme="chill"] .chat-bubble.in .chat-time { color: rgba(0,0,0,.4) !important; }
+body[data-theme="chill"] .form-color.sel { border-color: #1a1a1a !important; }
+body[data-theme="chill"] input[type=range] { accent-color: #1a1a1a !important; }
+body[data-theme="chill"] .me-photo-pick .mpp-item { background: rgba(0,0,0,.05) !important; }
+body[data-theme="chill"] .me-photo-pick .mpp-add { background: rgba(0,0,0,.07) !important; color: #6d7280 !important; }
+body[data-theme="chill"] .music-item.playing { background: rgba(251,191,36,.18) !important; }
 </style>
     <style id="user-css"></style>
 </head>
@@ -1223,6 +1457,7 @@ body[data-icon="plain"] .app-icon .ico {
 </div>
 <div class="fb-menu" id="fb-menu">
     <div class="fbm-nick" id="fbm-nick">JINSHUJI</div>
+    <div class="fbm-item" data-fba="chill"><span class="fbm-ico">☁️</span><div><div class="fbm-title">Chill 浅色主题</div><div class="fbm-desc">一键切换极简浅色</div></div></div>
     <div class="fbm-item" data-fba="chat-jump"><span class="fbm-ico">💬</span><div><div class="fbm-title">跳转聊天</div><div class="fbm-desc">快速找到 TA</div></div></div>
     <div class="fbm-item" data-fba="app-launch"><span class="fbm-ico">🚀</span><div><div class="fbm-title">快捷启动</div><div class="fbm-desc">直接打开任意应用</div></div></div>
     <div class="fbm-item" data-fba="preset"><span class="fbm-ico">🎨</span><div><div class="fbm-title">切换预设</div><div class="fbm-desc">CSS / 字体 / API 快速切换</div></div></div>
@@ -1576,6 +1811,8 @@ function forgotOK() {
             state.settingsPage = 'app-launch';
             openApp('settings');
             $('app-title').textContent = '快捷启动';
+        } else if (act === 'chill') {
+            toggleChill();
         }
     });
 })();
@@ -2637,6 +2874,7 @@ APPS.settings = {
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">个性化</div>' +
             '<div class="setting-row" data-act="beauty" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎨</span><div>自定义美化<div class="sr-sub">' + (state.customCss || state.customWallpaper ? '已启用自定义外观' : '壁纸 / CSS') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="chill-toggle" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">☁️</span><div>Chill 浅色主题<div class="sr-sub">极简浅色 · 一键切换</div></div></div><div class="switch' + (chillTheme ? ' on' : '') + '" data-act="chill-toggle"></div></div>' +
             '<div class="setting-row" data-act="preset" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎛️</span><div>预设切换<div class="sr-sub">CSS 主题 / 字体 / API</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '<div class="setting-row" data-act="music-mgr" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎵</span><div>音乐管理<div class="sr-sub">' + state.customTracks.length + ' 首本地歌曲</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '<div class="setting-row" data-act="chat-jump" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">💬</span><div>跳转聊天<div class="sr-sub">快速进入与 TA 的对话</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
@@ -2699,6 +2937,7 @@ HANDLERS.settings = {
     preset: () => { state.settingsPage = 'preset'; openApp('settings'); $('app-title').textContent = '预设切换'; },
     fb: () => { state.settingsPage = 'fb'; openApp('settings'); $('app-title').textContent = '悬浮球设置'; },
     'settings-back': () => { state.settingsPage = 'main'; openApp('settings'); },
+    'chill-toggle': () => { toggleChill(); openApp('settings'); },
     'chat-jump': (b) => {
         const id = b && b.dataset ? b.dataset.v : null;
         if (id && getContact(id)) {
@@ -3621,6 +3860,26 @@ console.log('📱 锦书机已启动');
 setTimeout(() => {
     toast('欢迎体验 📱 点击右侧电源键解锁');
 }, 900);
+
+/* ============================================================
+   v8 Chill 浅色主题（参考 chill.kkk.kkk.ruiyaxin.xyz）
+   body[data-theme="chill"] 属性驱动 CSS 覆盖层，localStorage 持久化
+   ============================================================ */
+let chillTheme = lsGet('simphone_chill', false);
+function applyChill() {
+    if (chillTheme) document.body.setAttribute('data-theme', 'chill');
+    else document.body.removeAttribute('data-theme');
+    document.querySelectorAll('[data-act="chill-toggle"]').forEach(el => {
+        el.classList.toggle('on', chillTheme);
+    });
+}
+function toggleChill() {
+    chillTheme = !chillTheme;
+    lsSet('simphone_chill', chillTheme);
+    applyChill();
+    toast(chillTheme ? '已切换：Chill 浅色主题 ☁️' : '已切换：深色主题 🌙');
+}
+applyChill();
 </script>
 </body>
 </html>
