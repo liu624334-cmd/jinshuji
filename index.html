@@ -653,6 +653,201 @@ body[data-icon="plain"] .app-icon .ico {
 .chat-day { text-align: center; color: #6d7488; font-size: 11px; padding: 6px 0; }
 .chat-typing { align-self: flex-start; color: #8f96ab; font-size: 12px; padding: 4px 14px; animation: typingPulse 1.2s ease-in-out infinite; }
 @keyframes typingPulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+/* ===== v10 聊天增强：工具栏 & 消息卡片 ===== */
+.chat-toolbar { display: flex; gap: 2px; padding: 6px 10px 2px; overflow-x: auto; scrollbar-width: none; }
+.chat-toolbar::-webkit-scrollbar { display: none; }
+.ct-btn { flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; border: none; background: rgba(255,255,255,.08); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; }
+.ct-btn:active { transform: scale(.9); background: rgba(255,255,255,.16); }
+.ct-label { display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 9px; color: #8f96ab; }
+.ct-label .ct-btn { font-size: 16px; }
+.chat-bubble { position: relative; max-width: 74%; padding: 8px 12px; border-radius: 16px; font-size: 14px; line-height: 1.45; word-break: break-word; }
+.chat-bubble.out { align-self: flex-end; background: #0a84ff; color: #fff; border-bottom-right-radius: 4px; }
+.chat-bubble.in { align-self: flex-start; background: rgba(255,255,255,.1); color: #eef; border-bottom-left-radius: 4px; }
+.bub-img { padding: 4px; }
+.bub-img img { display: block; max-width: 200px; max-height: 200px; border-radius: 10px; }
+.bub-img .img-desc { font-size: 11px; color: #8f96ab; padding: 4px 6px 2px; }
+.bub-card { padding: 10px 12px; cursor: pointer; }
+.bub-card:active { transform: scale(.98); }
+/* 红包 */
+.bub-redpack { background: linear-gradient(135deg, #e74c3c, #c0392b) !important; color: #ffd !important; min-width: 200px; }
+.rp-box { display: flex; align-items: center; gap: 10px; }
+.rp-ico { font-size: 34px; }
+.rp-info .rp-t { font-size: 14px; font-weight: 600; }
+.rp-info .rp-s { font-size: 11px; opacity: .8; margin-top: 2px; }
+.rp-info .rp-a { font-size: 12px; color: #ffe066; margin-top: 4px; }
+/* 转账 */
+.bub-transfer { background: linear-gradient(135deg, #2d3436, #1e272e) !important; color: #fff !important; min-width: 200px; }
+.tr-box { display: flex; align-items: center; gap: 10px; }
+.tr-ico { font-size: 30px; }
+.tr-info .tr-t { font-size: 15px; font-weight: 700; color: #ffd; }
+.tr-info .tr-s { font-size: 11px; opacity: .75; margin-top: 3px; }
+/* 语音 */
+.bub-voice { display: flex; align-items: center; gap: 8px; min-width: 90px; cursor: pointer; }
+.vw-bars { display: flex; align-items: center; gap: 2px; height: 20px; }
+.vw-bars i { width: 3px; background: currentColor; border-radius: 2px; animation: vw 1s ease-in-out infinite; }
+.vw-bars i:nth-child(2) { animation-delay: .15s; } .vw-bars i:nth-child(3) { animation-delay: .3s; }
+.vw-bars i:nth-child(4) { animation-delay: .45s; } .vw-bars i:nth-child(5) { animation-delay: .6s; }
+.vw-bars i:nth-child(6) { animation-delay: .75s; }
+@keyframes vw { 0%,100% { height: 5px; } 50% { height: 18px; } }
+.vw-dur { font-size: 11px; opacity: .8; }
+/* 定位 */
+.bub-loc { background: linear-gradient(135deg, #27ae60, #16a085) !important; color: #fff !important; min-width: 200px; }
+.loc-map { height: 80px; border-radius: 8px; margin-bottom: 6px; background: radial-gradient(circle at 30% 40%, #2ecc71 0, transparent 60%), radial-gradient(circle at 70% 60%, #27ae60 0, transparent 55%), linear-gradient(145deg, #1e8449, #145a32); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.loc-name { font-size: 13px; font-weight: 600; }
+.loc-addr { font-size: 11px; opacity: .85; margin-top: 2px; }
+.loc-live { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; background: rgba(255,255,255,.22); padding: 2px 7px; border-radius: 10px; margin-top: 5px; }
+.loc-live .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: vw 1s infinite; }
+/* 分享链接 */
+.bub-share { background: #fff !important; color: #1c1c1e !important; min-width: 210px; box-shadow: 0 2px 10px rgba(0,0,0,.35); }
+.sh-t { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.sh-u { font-size: 11px; color: #0a84ff; word-break: break-all; }
+.sh-d { font-size: 11px; color: #8e8e93; margin-top: 4px; }
+/* 一起听歌 */
+.bub-music { background: linear-gradient(135deg, #fc3c44, #ff2d55) !important; color: #fff !important; min-width: 210px; }
+.mu-box { display: flex; align-items: center; gap: 10px; }
+.mu-cover { width: 40px; height: 40px; border-radius: 8px; background: #000; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.mu-info .mu-t { font-size: 13px; font-weight: 600; }
+.mu-info .mu-a { font-size: 11px; opacity: .85; margin-top: 2px; }
+.mu-info .mu-p { font-size: 10px; margin-top: 4px; color: #ffd; }
+/* 订单（外卖/购物） */
+.bub-order { background: linear-gradient(135deg, #e67e22, #d35400) !important; color: #fff !important; min-width: 220px; }
+.od-shop { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.od-items { font-size: 12px; opacity: .92; margin: 6px 0; }
+.od-price { font-size: 16px; font-weight: 700; color: #ffe066; }
+.od-status { font-size: 11px; margin-top: 6px; padding: 3px 8px; border-radius: 10px; background: rgba(255,255,255,.2); display: inline-block; }
+.od-track { height: 4px; border-radius: 2px; background: rgba(255,255,255,.25); margin-top: 8px; overflow: hidden; }
+.od-track i { display: block; height: 100%; background: #ffe066; border-radius: 2px; transition: width .8s; }
+/* 心声 */
+.bub-heart { background: linear-gradient(135deg, #ff6b9d, #ff2e63) !important; color: #fff !important; border: 1px dashed rgba(255,255,255,.5); }
+.bub-heart::before { content: '💗'; margin-right: 6px; }
+/* 视频通话记录 */
+.bub-vcall { background: linear-gradient(135deg, #4a4a55, #2b2b33) !important; color: #fff !important; }
+/* 图片AI生成标签 */
+.ai-gen-tag { position: absolute; top: 4px; right: 4px; font-size: 9px; background: rgba(0,0,0,.55); color: #ffe066; padding: 2px 6px; border-radius: 8px; }
+/* 消息操作菜单 */
+.msg-ops { position: absolute; z-index: 99; background: #262b38; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 4px; box-shadow: 0 8px 24px rgba(0,0,0,.5); display: flex; gap: 2px; }
+.msg-ops button { border: none; background: transparent; color: #eef; font-size: 11px; padding: 6px 9px; border-radius: 7px; cursor: pointer; white-space: nowrap; }
+.msg-ops button:active { background: rgba(255,255,255,.14); }
+/* 视频通话 */
+.vcall-screen { position: absolute; inset: 0; z-index: 80; background: linear-gradient(160deg, #10131f 0%, #1d2440 55%, #0b1026 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+.vcall-screen .vc-avatar { width: 120px; height: 120px; border-radius: 50%; font-size: 56px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 40px rgba(122,178,255,.45); animation: vcallPulse 2s infinite; }
+@keyframes vcallPulse { 0%,100% { box-shadow: 0 0 30px rgba(122,178,255,.3); } 50% { box-shadow: 0 0 60px rgba(122,178,255,.65); } }
+.vcall-screen .vc-name { font-size: 20px; font-weight: 600; }
+.vcall-screen .vc-status { font-size: 13px; color: #8f96ab; }
+.vcall-screen .vc-timer { font-size: 30px; font-weight: 300; letter-spacing: 2px; }
+.vcall-btns { display: flex; gap: 20px; }
+.vcall-btns button { width: 56px; height: 56px; border-radius: 50%; border: none; font-size: 22px; cursor: pointer; background: rgba(255,255,255,.12); color: #fff; }
+.vcall-btns .vc-hang { background: #ff3b30; }
+/* 录音界面 */
+.rec-bar { position: absolute; bottom: 64px; left: 0; right: 0; z-index: 96; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 8px; background: rgba(16,19,31,.9); }
+.rec-bar .rec-dot { width: 10px; height: 10px; border-radius: 50%; background: #ff3b30; animation: vw 1s infinite; }
+.rec-bar .rec-t { font-size: 13px; color: #fff; }
+/* 红包雨 */
+.rp-rain { position: fixed; inset: 0; z-index: 200; pointer-events: none; overflow: hidden; }
+.rp-rain span { position: absolute; top: -40px; font-size: 26px; animation: rpFall linear forwards; }
+@keyframes rpFall { to { transform: translateY(110vh) rotate(360deg); opacity: .9; } }
+/* 弹窗面板（收藏/外卖/购物/我的等） */
+.sheet { position: absolute; inset: 0; z-index: 95; background: rgba(0,0,0,.45); display: flex; align-items: flex-end; }
+.sheet-card { width: 100%; max-height: 82%; background: #171b28; border-radius: 18px 18px 0 0; display: flex; flex-direction: column; overflow: hidden; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sheet-head .sh-t { font-size: 15px; font-weight: 600; }
+.sheet-close { border: none; background: rgba(255,255,255,.1); color: #fff; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; }
+.sheet-body { flex: 1; overflow-y: auto; padding: 10px 14px; }
+.sheet-body::-webkit-scrollbar { width: 0; }
+/* 外卖/购物菜单 */
+.menu-shop { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+.menu-shop .ms-ico { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.ms-info { flex: 1; } .ms-info .ms-n { font-size: 14px; font-weight: 600; }
+.ms-info .ms-d { font-size: 11px; color: #8f96ab; margin-top: 2px; }
+.ms-add { border: none; background: #0a84ff; color: #fff; border-radius: 14px; padding: 4px 12px; font-size: 12px; cursor: pointer; }
+.menu-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+.menu-item .mi-emoji { font-size: 26px; width: 38px; text-align: center; }
+.menu-item .mi-info { flex: 1; } .menu-item .mi-n { font-size: 13px; } .menu-item .mi-p { font-size: 12px; color: #ff9f0a; margin-top: 2px; }
+/* 群聊 */
+.group-chip { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,.06); cursor: pointer; }
+.group-chip:active { background: rgba(255,255,255,.05); }
+.gc-avatar { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg,#5e5ce6,#9b59b6); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.gc-name { font-size: 14px; font-weight: 600; } .gc-sub { font-size: 11px; color: #8f96ab; margin-top: 3px; }
+.g-toolbar { display: flex; gap: 6px; padding: 8px 10px; overflow-x: auto; scrollbar-width: none; }
+.g-toolbar button { flex-shrink: 0; border: none; background: rgba(255,255,255,.09); color: #fff; font-size: 12px; padding: 6px 11px; border-radius: 14px; cursor: pointer; }
+.g-head { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(255,255,255,.05); }
+.g-head .gh-name { font-size: 14px; font-weight: 600; } .g-head .gh-sub { font-size: 11px; color: #8f96ab; }
+.g-msg { display: flex; gap: 8px; margin: 10px 14px; align-items: flex-start; }
+.g-msg .gm-av { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.g-msg .gm-name { font-size: 11px; color: #8f96ab; margin-bottom: 3px; }
+.g-msg .gm-bub { background: rgba(255,255,255,.1); border-radius: 10px; padding: 7px 10px; font-size: 13px; max-width: 220px; }
+.g-msg.gm-mine { flex-direction: row-reverse; }
+.g-msg.gm-mine .gm-bub { background: #0a84ff; color: #fff; }
+.g-msg.gm-sys { justify-content: center; } .g-msg.gm-sys .gm-bub { background: rgba(255,255,255,.06); font-size: 11px; color: #8f96ab; }
+.g-input-row { position: absolute; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 10px 14px 26px; background: linear-gradient(180deg, transparent, #10131f 40%); }
+.g-input { flex: 1; height: 38px; border-radius: 19px; border: none; background: rgba(255,255,255,.1); color: #fff; padding: 0 14px; font-size: 14px; outline: none; }
+/* 骰子 */
+.dice-wrap { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 20px 0; }
+.dice { width: 64px; height: 64px; border-radius: 14px; background: #fff; color: #1c1c1e; font-size: 30px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(0,0,0,.4); }
+.dice.rolling { animation: diceRoll .5s ease-in-out; }
+@keyframes diceRoll { 0% { transform: rotate(0) scale(1); } 25% { transform: rotate(90deg) scale(1.2); } 50% { transform: rotate(180deg) scale(.9); } 75% { transform: rotate(270deg) scale(1.15); } 100% { transform: rotate(360deg) scale(1); } }
+/* 投票 */
+.vote-card { background: rgba(255,255,255,.06); border-radius: 12px; padding: 12px; margin: 8px 0; }
+.vote-q { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.vote-opt { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: rgba(255,255,255,.07); border-radius: 8px; margin-bottom: 6px; font-size: 13px; cursor: pointer; }
+.vote-bar { height: 4px; border-radius: 2px; background: #0a84ff; }
+.vote-n { margin-left: auto; font-size: 11px; color: #8f96ab; }
+/* 我的页面 */
+.me-tabs { display: flex; gap: 6px; padding: 10px; overflow-x: auto; scrollbar-width: none; }
+.me-tabs button { flex-shrink: 0; border: none; background: rgba(255,255,255,.09); color: #fff; font-size: 12px; padding: 7px 12px; border-radius: 15px; cursor: pointer; }
+.me-tabs button.on { background: #0a84ff; }
+.me-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; }
+.me-cell { background: rgba(255,255,255,.06); border-radius: 14px; padding: 14px; cursor: pointer; }
+.me-cell:active { transform: scale(.97); background: rgba(255,255,255,.1); }
+.me-cell .mc-ico { font-size: 26px; } .me-cell .mc-t { font-size: 13px; font-weight: 600; margin-top: 6px; }
+.me-cell .mc-d { font-size: 10px; color: #8f96ab; margin-top: 3px; }
+.me-list-item { display: flex; align-items: center; gap: 10px; padding: 11px 4px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.me-list-item .mli-t { flex: 1; font-size: 13px; } .me-list-item .mli-s { font-size: 11px; color: #8f96ab; }
+.me-list-item .mli-x { border: none; background: rgba(255,255,255,.1); color: #fff; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-size: 11px; }
+.me-input { width: 100%; background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; color: #fff; padding: 10px 12px; font-size: 13px; margin: 8px 0; outline: none; resize: none; }
+.me-btn { border: none; background: #0a84ff; color: #fff; border-radius: 12px; padding: 9px 0; width: 100%; font-size: 14px; cursor: pointer; margin-top: 6px; }
+/* 时光胶囊 */
+.cap-card { background: linear-gradient(135deg, #5e5ce6, #9b59b6); border-radius: 16px; padding: 16px; margin-bottom: 10px; position: relative; overflow: hidden; }
+.cap-card .cap-t { font-size: 14px; font-weight: 600; } .cap-card .cap-d { font-size: 11px; opacity: .85; margin-top: 4px; }
+.cap-card.sealed::after { content: '🔒'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 28px; }
+/* 成就 */
+.ach-row { display: flex; align-items: center; gap: 10px; padding: 10px 4px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.ach-row .ach-ico { font-size: 24px; opacity: .3; filter: grayscale(1); }
+.ach-row.got .ach-ico { opacity: 1; filter: none; }
+.ach-row .ach-t { font-size: 13px; } .ach-row .ach-d { font-size: 11px; color: #8f96ab; }
+.ach-row.got .ach-d { color: #ffe066; }
+.ach-pop { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 300; background: linear-gradient(135deg, #ffe066, #ffb347); color: #5a3d00; border-radius: 20px; padding: 12px 22px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.5); animation: achIn .5s ease; }
+@keyframes achIn { from { transform: translateX(-50%) scale(.6); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+.ach-pop .ap-ico { font-size: 30px; } .ach-pop .ap-t { font-size: 13px; font-weight: 700; }
+/* 线下模式 */
+.offline-bar { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(255,59,48,.16); color: #ff6b5e; font-size: 12px; border-bottom: 1px solid rgba(255,59,48,.3); }
+/* 攻略难度 */
+.diff-chip { border: none; background: rgba(255,255,255,.09); color: #fff; font-size: 12px; padding: 6px 12px; border-radius: 14px; cursor: pointer; }
+.diff-chip.on { background: #0a84ff; }
+/* 共享实时位置 */
+.loc-live-card { background: linear-gradient(135deg, #1e8449, #145a32) !important; color: #fff !important; min-width: 200px; }
+/* 页脚提示 */
+.hint-note { font-size: 11px; color: #8f96ab; margin-top: 8px; }
+[data-theme="chill"] .chat-toolbar { background: transparent; }
+[data-theme="chill"] .ct-btn { background: rgba(0,0,0,.06); color: #3a3a44; }
+[data-theme="chill"] .ct-label { color: #7c8290; }
+[data-theme="chill"] .sheet-card { background: #fff; color: #3a3a44; }
+[data-theme="chill"] .me-input { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.12); color: #3a3a44; }
+[data-theme="chill"] .g-input { background: rgba(0,0,0,.06); color: #3a3a44; }
+[data-theme="chill"] .g-toolbar button, [data-theme="chill"] .me-tabs button, [data-theme="chill"] .diff-chip { background: rgba(0,0,0,.07); color: #3a3a44; }
+[data-theme="chill"] .g-toolbar button.on, [data-theme="chill"] .me-tabs button.on, [data-theme="chill"] .diff-chip.on { background: #0a84ff; color: #fff; }
+[data-theme="chill"] .me-cell { background: rgba(0,0,0,.05); }
+[data-theme="chill"] .me-cell .mc-d, [data-theme="chill"] .me-list-item .mli-s, [data-theme="chill"] .g-msg .gm-name, [data-theme="chill"] .g-head .gh-sub, [data-theme="chill"] .hint-note { color: #7c8290; }
+[data-theme="chill"] .chat-bubble.in { background: rgba(0,0,0,.07); color: #3a3a44; }
+[data-theme="chill"] .g-msg .gm-bub { background: rgba(0,0,0,.06); color: #3a3a44; }
+[data-theme="chill"] .vote-card, [data-theme="chill"] .vote-opt { background: rgba(0,0,0,.06); }
+[data-theme="chill"] .me-list-item { border-bottom-color: rgba(0,0,0,.08); }
+[data-theme="chill"] .bub-share { background: #fff !important; color: #1c1c1e !important; }
+[data-theme="chill"] .sheet-head { border-bottom-color: rgba(0,0,0,.1); }
+[data-theme="chill"] .sheet-close { background: rgba(0,0,0,.1); color: #3a3a44; }
+[data-theme="chill"] .menu-item, [data-theme="chill"] .menu-shop { border-bottom-color: rgba(0,0,0,.08); }
+[data-theme="chill"] .ms-info .ms-d { color: #7c8290; }
+[data-theme="chill"] .group-chip { border-bottom-color: rgba(0,0,0,.08); }
 .chat-input-row { position: absolute; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 10px 14px 26px; background: linear-gradient(180deg, transparent, #10131f 40%); }
 .chat-input { flex: 1; height: 38px; border-radius: 19px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); color: #fff; font-size: 14px; padding: 0 16px; outline: none; font-family: inherit; }
 .chat-send { width: 38px; height: 38px; border-radius: 50%; border: none; background: #0a84ff; color: #fff; font-size: 15px; cursor: pointer; flex-shrink: 0; }
@@ -899,6 +1094,9 @@ body[data-icon="plain"] .app-icon .ico {
 .cc-row .cc-k { color: #8f96ab; flex-shrink: 0; }
 .cc-row .cc-v { color: #e8eaf2; text-align: right; word-break: break-word; }
 .cc-clear { width: calc(100% - 40px); margin: 4px 20px 10px; padding: 10px 0; border-radius: 12px; border: none; background: rgba(255,59,48,.15); color: #ff453a; font-size: 13.5px; cursor: pointer; font-family: inherit; }
+.cc-btn { flex: 1; padding: 8px 0; border-radius: 10px; border: none; background: rgba(255,255,255,.1); color: #eef; font-size: 12px; cursor: pointer; font-family: inherit; }
+.cc-btn:active { background: rgba(255,255,255,.2); }
+.cc-card { max-height: 82vh; overflow-y: auto; }
 .cc-close-btn { width: calc(100% - 40px); margin: 0 20px 18px; padding: 11px 0; border-radius: 12px; border: none; background: #0a84ff; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
 /* 联系人列表 */
@@ -1599,6 +1797,29 @@ const state = {
     // v4 新增（锦书机）：朋友圈 & 纪念日
     moments: [],            // 朋友圈动态 [{id,text,img,time,likes,comments:[{name,text,time}]}]
     annivs: [],             // 纪念日 [{id,name,date}]  date: 'YYYY-MM-DD'
+    // v10 新增（参考柠檬机功能清单）：单聊增强 / 群聊 / 我的
+    favorites: [],          // 收藏消息 [{cid,text,time}]
+    groups: [],             // 群聊 [{id,name,members:[cids],msgs:[{from,text,time,kind}],roles:{cid:头衔},announcement,votes:[]}]
+    offline: false,         // 线下模式（模拟断网）
+    difficulty: {},         // 攻略难度 per contact: 'easy'|'normal'|'hard'
+    proactive: false,       // 主动发信息开关
+    orders: [],             // 外卖订单 [{id,shop,items,price,status,progress,time}]
+    shopOrders: [],         // 购物订单 [{id,name,emoji,price,status,time}]
+    aiImgs: [],             // AI生图记录 [{desc,url,time}]
+    hearts: [],             // 心声记录 [{cid,text,time}]
+    memories: {},           // 总结记忆 per contact: [字符串]
+    bills: [],              // 账单 [{id,type:'in'|'out',cat,amount,note,time}]
+    tags: [],               // 个性标签 [字符串]
+    logs: [],               // 空间日志 [{id,text,time}]
+    capsules: [],           // 时光胶囊 [{id,text,openAt,time}]
+    diaries: [],            // 我的日记 [{id,text,time,comments:[{name,text}]}]
+    achievements: [],       // 成就 [{id,got}]
+    vcall: null,            // 视频通话 {cid,start}
+    recSec: 0,              // 录音秒数
+    liveShare: null,        // 实时位置共享 {cid,time,place}
+    groupView: 'list',      // 群聊视图 'list' | 'chat'
+    currentGroup: null,     // 当前群聊 id
+    meTab: 'home',          // 我的页 tab
 };
 
 const WALLPAPERS = {
@@ -1705,6 +1926,23 @@ function loadPersist() {
     state.moments = lsGet('simphone_moments', []);
     state.annivs = lsGet('simphone_annivs', []);
     state.nickname = lsGet('simphone_nickname', '');
+    // v10
+    state.favorites = lsGet('simphone_favs', []);
+    state.groups = lsGet('simphone_groups', []);
+    state.offline = lsGet('simphone_offline', false);
+    state.difficulty = lsGet('simphone_diff', {});
+    state.proactive = lsGet('simphone_proactive', false);
+    state.orders = lsGet('simphone_orders', []);
+    state.shopOrders = lsGet('simphone_shoporders', []);
+    state.aiImgs = lsGet('simphone_aiimgs', []);
+    state.hearts = lsGet('simphone_hearts', []);
+    state.memories = lsGet('simphone_memories', {});
+    state.bills = lsGet('simphone_bills', []);
+    state.tags = lsGet('simphone_tags', []);
+    state.logs = lsGet('simphone_logs', []);
+    state.capsules = lsGet('simphone_capsules', []);
+    state.diaries = lsGet('simphone_diaries', []);
+    state.achievements = lsGet('simphone_ach', []);
     applyFB();
     applyWallpaper();
     applyIconStyle();
@@ -2022,6 +2260,8 @@ const GRID_APPS = [
     ['settings', '设置', '⚙️', 'linear-gradient(135deg,#8e8e93,#636366)'],
     ['music', '音乐', '🎵', 'linear-gradient(135deg,#fc3c44,#ff2d55)'],
     ['moments', '朋友圈', '📸', 'linear-gradient(135deg,#34c759,#7ddc4f)'],
+    ['group', '群聊', '👥', 'linear-gradient(135deg,#5e5ce6,#9b59b6)'],
+    ['me', '我的', '🙋', 'linear-gradient(135deg,#ff9f0a,#ff6482)'],
 ];
 const DOCK_APPS = ['phone', 'messages', 'browser', 'music'];
 const PER_PAGE = 12; // 主屏每页图标数（4 列 × 3 行）
@@ -2245,9 +2485,9 @@ $('overlay-cc').addEventListener('click', (e) => {
 
 // 控制中心开关
 function syncStatusBar() {
-    const wifi = state.wifi && !state.airplane;
-    $('sb-wifi').textContent = wifi ? '📶' : '🚫';
-    $('sb-wifi2').textContent = wifi ? '📶' : '🚫';
+    const wifi = state.wifi && !state.airplane && !state.offline;
+    $('sb-wifi').textContent = state.offline ? '📴' : (wifi ? '📶' : '🚫');
+    $('sb-wifi2').textContent = state.offline ? '📴' : (wifi ? '📶' : '🚫');
 }
 $('cc-wifi').addEventListener('click', () => {
     state.wifi = !state.wifi;
@@ -3811,17 +4051,40 @@ function renderChat(id) {
     }
     const body = $('app-body');
     if (body) body.scrollTop = body.scrollHeight;
+    // v10：气泡长按 → 收藏/撤回/复制
+    const msgs = contactMsgs(id);
+    body.querySelectorAll('.chat-bubble').forEach((el) => {
+        const wrap = el.closest('.chat-bubble-wrap');
+        const mi = wrap ? +wrap.dataset.i : -1;
+        if (mi < 0 || !msgs[mi]) return;
+        const m = msgs[mi];
+        let t1 = 0;
+        el.addEventListener('pointerdown', (e) => {
+            t1 = setTimeout(() => msgOpsMenu(e, m, id), 550);
+        });
+        el.addEventListener('pointerup', () => clearTimeout(t1));
+        el.addEventListener('pointerleave', () => clearTimeout(t1));
+    });
 }
 function renderChatHTML(c) {
     const msgs = contactMsgs(c.id);
     const gemo = { '男生': '🙋', '女生': '💃', '保密': '🤖', '未知': '🪐' }[c.gender] || '';
     const signBar = '<div class="chat-sign" data-act="cc-open" data-v="' + c.id + '">' +
         (c.sign ? '“' + esc(c.sign) + '” · ' : '') + gemo + ' 查看资料 ›</div>';
-    return '<div class="chat-body">' +
+    const offlineBar = state.offline ? '<div class="offline-bar">📴 线下模式：消息无法收发，去设置关闭</div>' : '';
+    // v10 聊天工具栏
+    const tools = [
+        ['pick-image', '📷', '图片'], ['ai-gen-img', '✨', 'AI生图'], ['rp', '🧧', '红包'], ['tr', '💰', '转账'],
+        ['rec', '🎤', '语音'], ['loc', '📍', '位置'], ['food', '🛵', '外卖'], ['shop', '🛍️', '购物'],
+        ['share', '🔗', '链接'], ['music', '🎵', '听歌'], ['vcall', '📹', '视频'], ['heart', '💗', '心声'],
+        ['memory', '🧠', '记忆'], ['diff', '🎯', '难度'], ['offline', '📴', '离线'],
+    ].map(t => '<div class="ct-label" data-act="tool" data-v="' + t[0] + '"><button class="ct-btn">' + t[1] + '</button><span>' + t[2] + '</span></div>').join('');
+    const toolbar = '<div class="chat-toolbar">' + tools + '</div>';
+    return offlineBar + toolbar + '<div class="chat-body">' +
         signBar +
         '<div class="chat-day">' + fmtDate(new Date()) + '</div>' +
         (msgs.length ? msgs.map(m =>
-            '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + '">' + esc(m.text) + '<div class="chat-time">' + m.time + '</div></div>'
+            '<div class="chat-bubble-wrap" data-i="' + msgs.indexOf(m) + '">' + bubbleHTML(m) + '</div>'
         ).join('') : '<div class="chat-day">👋 打个招呼吧</div>') +
         '</div>' +
         '<div class="chat-input-row"><input class="chat-input" id="chat-input" placeholder="发消息…">' +
@@ -3831,6 +4094,17 @@ function renderChatHTML(c) {
 function showContactCard(c) {
     const gemo = { '男生': '🙋', '女生': '💃', '保密': '🤖', '未知': '🪐' }[c.gender] || '🤖';
     const row = (k, v) => '<div class="cc-row"><span class="cc-k">' + k + '</span><span class="cc-v">' + v + '</span></div>';
+    // v10：攻略难度 / 记忆 / 收藏
+    const diff = state.difficulty[c.id] || 'normal';
+    const mems = (state.memories[c.id] || []).slice(0, 3);
+    const favs = state.favorites.filter(f => f.cid === c.id).slice(0, 3);
+    const diffLabel = { easy: '简单 💚', normal: '普通 💙', hard: '困难 ❤️' }[diff];
+    const memHTML = mems.length ? mems.map(m =>
+        '<div class="cc-row"><span class="cc-k">🧠</span><span class="cc-v">' + esc(m.text.slice(0, 40)) + (m.text.length > 40 ? '…' : '') + '</span></div>'
+    ).join('') : '';
+    const favHTML = favs.length ? favs.map(f =>
+        '<div class="cc-row"><span class="cc-k">⭐</span><span class="cc-v">' + esc(f.text.slice(0, 30)) + '</span></div>'
+    ).join('') : '';
     const mask = document.createElement('div');
     mask.className = 'cc-mask';
     mask.innerHTML = '<div class="cc-card">' +
@@ -3846,10 +4120,28 @@ function showContactCard(c) {
         row('人设', c.persona ? esc(c.persona) : '模型本体（无预设）') +
         (c.personaDoc ? row('素材库', c.personaDoc.length + ' 字 · TA会引用它回你') : '') +
         row('消息', ((state.chats[c.id] || []).length) + ' 条') +
+        row('攻略难度', diffLabel) +
+        (memHTML || '') +
+        (favHTML || '') +
         '</div>' +
+        '<div style="display:flex;gap:8px;padding:10px 14px 4px">' +
+        '<button class="cc-btn" data-v10="diff">🎯 难度</button>' +
+        '<button class="cc-btn" data-v10="proactive">' + (state.proactive ? '💌 主动消息：开' : '💌 主动消息：关') + '</button>' +
+        '<button class="cc-btn" data-v10="favs">⭐ 收藏(' + state.favorites.filter(f => f.cid === c.id).length + ')</button></div>' +
         '<button class="cc-clear" id="cc-clear">清空聊天记录</button>' +
         '<button class="cc-close-btn" id="cc-close">关闭</button></div>';
-    mask.addEventListener('click', (e) => { if (e.target === mask) mask.remove(); });
+    mask.addEventListener('click', (e) => {
+        if (e.target === mask) mask.remove();
+        const btn = e.target.closest('[data-v10]');
+        if (btn) {
+            const act = btn.dataset.v10;
+            mask.remove();
+            state.currentChat = c.id;
+            if (act === 'diff') showDifficulty();
+            else if (act === 'proactive') toggleProactive();
+            else if (act === 'favs') showFavs(c.id);
+        }
+    });
     mask.querySelector('#cc-clear').addEventListener('click', () => {
         state.chats[c.id] = [];
         persistContacts();
@@ -3860,6 +4152,13 @@ function showContactCard(c) {
     mask.querySelector('#cc-close').addEventListener('click', () => mask.remove());
     document.body.appendChild(mask);
 }
+function showFavs(cid) {
+    const favs = state.favorites.filter(f => f.cid === cid);
+    if (!favs.length) { toast('还没有收藏的消息'); return; }
+    showSheet('⭐ 收藏的消息', favs.map(f =>
+        '<div class="me-list-item"><span class="mli-t">' + esc(f.text) + '</span><span class="mli-s">' + f.time + '</span></div>'
+    ).join(''));
+}
 function sendMsg() {
     const inp = $('chat-input');
     if (!inp) return;
@@ -3867,6 +4166,11 @@ function sendMsg() {
     if (!text || !state.currentChat || state.chatBusy) return;
     const c = getContact(state.currentChat);
     if (!c) return;
+    // v10：线下模式模拟断网——消息发不出去
+    if (state.offline) {
+        toast('📴 线下模式：消息无法发送');
+        return;
+    }
     if (!state.chats[state.currentChat]) state.chats[state.currentChat] = [];
     state.chats[state.currentChat].push({ from: 'out', text, time: fmtTime(new Date()) });
     persistContacts();
@@ -3875,6 +4179,13 @@ function sendMsg() {
     if (c.autoReply) {
         // v9.1：自动回复 = 调用真实大模型 API；未配置 API → 对方回复不了（静默不回复）
         if (!hasApiConfig()) return;
+        // v10：攻略难度——困难模式对方可能已读不回
+        const diff = state.difficulty[c.id] || 'normal';
+        if (diff === 'hard' && Math.random() < 0.35) {
+            toast('对方已读，但没有回复…');
+            return;
+        }
+        const delayBase = diff === 'easy' ? 400 : (diff === 'hard' ? 2000 : 900);
         state.chatBusy = true;
         showTyping();
         setTimeout(async () => {
@@ -3893,8 +4204,1057 @@ function sendMsg() {
                 toast('对方没有回复（API调用失败）📡');
             }
             state.chatBusy = false;
-        }, 600 + Math.random() * 900);
+        }, delayBase + Math.random() * 800);
     }
+}
+/* ============================================================
+   v10 聊天增强（参考柠檬机功能清单）
+   收藏 / 撤回 / 图片 / AI生图 / 定位 / 实时位置 / 一起听歌 /
+   红包 / 转账 / 语音 / 视频通话 / 心声 / 外卖 / 购物 / 分享链接 /
+   线下模式 / 攻略难度 / 主动发信息 / 总结记忆 / 成就
+   ============================================================ */
+function persistV10() {
+    ['favs', 'groups', 'offline', 'diff', 'proactive', 'orders', 'shoporders', 'aiimgs', 'hearts', 'memories', 'bills', 'tags', 'logs', 'capsules', 'diaries', 'ach'].forEach(k => {
+        lsSet('simphone_' + k, state[({ favs: 'favorites', diff: 'difficulty', shoporders: 'shopOrders', aiimgs: 'aiImgs' }[k] || k)]);
+    });
+}
+function addBill(type, cat, amount, note) {
+    state.bills.unshift({ id: 'b' + Date.now(), type, cat, amount, note, time: fmtTime(new Date()) + ' ' + fmtDate(new Date()) });
+    persistV10();
+}
+function closeSheet() {
+    // 可能有多层 sheet（如外卖：店列表→菜品菜单），全部关闭
+    document.querySelectorAll('.sheet').forEach(s => s.remove());
+}
+function showSheet(title, bodyHTML, onOpen) {
+    const mask = document.createElement('div');
+    mask.className = 'sheet';
+    mask.innerHTML = '<div class="sheet-card"><div class="sheet-head"><span class="sh-t">' + title + '</span>' +
+        '<button class="sheet-close" data-act="sheet-close">✕</button></div><div class="sheet-body">' + bodyHTML + '</div></div>';
+    mask.addEventListener('click', (e) => {
+        if (e.target === mask || e.target.closest('[data-act="sheet-close"]')) { closeSheet(); return; }
+        // sheet 挂在 body 下，不在 app-body 的事件委托范围内，这里单独分发
+        const btn = e.target.closest('[data-act]');
+        if (btn && state.app && HANDLERS[state.app] && HANDLERS[state.app][btn.dataset.act]) {
+            HANDLERS[state.app][btn.dataset.act](btn, e);
+        }
+    });
+    document.body.appendChild(mask);
+    if (onOpen) onOpen(mask);
+    return mask;
+}
+/* ---------- 消息类型渲染 ---------- */
+function bubbleHTML(m) {
+    const t = m.type || 'text';
+    const time = '<div class="chat-time">' + m.time + '</div>';
+    if (t === 'image') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-img">' +
+            '<img src="' + m.url + '" alt="">' + (m.desc ? '<div class="img-desc">' + esc(m.desc) + '</div>' : '') + time + '</div>';
+    }
+    if (t === 'redpack') {
+        const opened = m.opened ? '<div class="rp-info"><div class="rp-t">' + esc(m.from === 'in' ? '已领取' : '已发送') + '</div><div class="rp-a">' + esc(m.from === 'in' ? '¥' + m.amount : '') + '</div></div>'
+            : '<div class="rp-info"><div class="rp-t">' + esc(m.msg || '恭喜发财') + '</div><div class="rp-s">' + (m.from === 'in' ? '点击领取红包' : '等待对方领取') + '</div></div>';
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-redpack bub-card' + (m.from === 'in' && !m.opened ? '" data-act="open-rp" data-v="' + m._i : '') + '">' +
+            '<div class="rp-box"><div class="rp-ico">🧧</div>' + opened + '</div>' + time + '</div>';
+    }
+    if (t === 'transfer') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-transfer bub-card" data-act="open-tr" data-v="' + m._i + '">' +
+            '<div class="tr-box"><div class="tr-ico">💰</div><div class="tr-info"><div class="tr-t">¥' + m.amount + '</div>' +
+            '<div class="tr-s">' + (m.from === 'in' ? (m.opened ? '已收款' : '转账给你') : (m.opened ? '已转账' : '转账')) + '</div></div></div>' + time + '</div>';
+    }
+    if (t === 'voice') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-voice" data-act="play-voice">' +
+            '<span>' + (m.from === 'in' ? '🎧' : '🎤') + '</span><span class="vw-bars"><i></i><i></i><i></i><i></i><i></i><i></i></span>' +
+            '<span class="vw-dur">' + m.dur + '"</span>' + time + '</div>';
+    }
+    if (t === 'loc') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-loc bub-card">' +
+            '<div class="loc-map">📍</div><div class="loc-name">' + esc(m.name) + '</div><div class="loc-addr">' + esc(m.addr) + '</div>' +
+            (m.live ? '<div class="loc-live"><span class="dot"></span>正在共享实时位置</div>' : '') + time + '</div>';
+    }
+    if (t === 'share') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-share bub-card" data-act="open-share" data-v="' + esc(m.url) + '">' +
+            '<div class="sh-t">🔗 ' + esc(m.title) + '</div><div class="sh-u">' + esc(m.url) + '</div>' +
+            (m.desc ? '<div class="sh-d">' + esc(m.desc) + '</div>' : '') + time + '</div>';
+    }
+    if (t === 'music') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-music bub-card" data-act="play-music" data-v="' + m.track + '">' +
+            '<div class="mu-box"><div class="mu-cover">🎵</div><div class="mu-info"><div class="mu-t">' + esc(m.name) + '</div>' +
+            '<div class="mu-a">' + esc(m.artist) + '</div><div class="mu-p">🎧 一起听歌</div></div></div>' + time + '</div>';
+    }
+    if (t === 'order') {
+        const pct = m.progress || 0;
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-order bub-card">' +
+            '<div class="od-shop">' + m.emoji + ' ' + esc(m.shop) + '</div>' +
+            '<div class="od-items">' + esc(m.items) + '</div><div class="od-price">¥' + m.price + '</div>' +
+            '<div class="od-status">' + m.status + '</div><div class="od-track"><i style="width:' + pct + '%"></i></div>' + time + '</div>';
+    }
+    if (t === 'heart') {
+        return '<div class="chat-bubble in bub-heart">' + esc(m.text) + time + '</div>';
+    }
+    if (t === 'vcall') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-vcall">📹 ' + (m.from === 'in' ? '对方发起了' : '你发起了') + '视频通话 · ' + m.dur + time + '</div>';
+    }
+    if (t === 'sys') {
+        return '<div class="chat-day">' + esc(m.text) + '</div>';
+    }
+    return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + '">' + esc(m.text) + time + '</div>';
+}
+function msgOpsMenu(e, m, cid) {
+    const old = document.querySelector('.msg-ops');
+    if (old) old.remove();
+    const el = e.target.closest('.chat-bubble');
+    if (!el) return;
+    const ops = document.createElement('div');
+    ops.className = 'msg-ops';
+    const rect = el.getBoundingClientRect();
+    ops.style.top = Math.max(8, rect.top - 40) + 'px';
+    ops.style.left = Math.min(rect.left + 10, window.innerWidth - 160) + 'px';
+    const isMine = m.from === 'out';
+    ops.innerHTML = '<button data-op="fav">⭐ 收藏</button>' +
+        (isMine ? '<button data-op="recall">↩️ 撤回</button>' : '') +
+        '<button data-op="copy">📋 复制</button>';
+    ops.addEventListener('click', (ev) => {
+        const op = ev.target.closest('[data-op]');
+        if (!op) return;
+        const t = m.type === 'text' ? m.text : ({ redpack: '[红包]', transfer: '[转账]', voice: '[语音]', image: '[图片]', loc: '[位置]', share: '[链接]', music: '[音乐]', order: '[订单]', vcall: '[视频通话]', heart: '[心声]' }[m.type] || m.text);
+        if (op.dataset.op === 'fav') {
+            state.favorites.unshift({ cid, text: t, time: m.time });
+            persistV10();
+            toast('已收藏 ⭐');
+            unlock('fav1');
+        } else if (op.dataset.op === 'recall') {
+            const arr = state.chats[cid];
+            const idx = arr.indexOf(m);
+            if (idx >= 0) { arr.splice(idx, 1); persistContacts(); renderChat(cid); toast('已撤回 ↩️'); }
+        } else if (op.dataset.op === 'copy') {
+            try { navigator.clipboard.writeText(t); } catch (err) {}
+            toast('已复制 📋');
+        }
+        ops.remove();
+    });
+    document.body.appendChild(ops);
+    setTimeout(() => {
+        document.addEventListener('click', function h(ev2) {
+            if (!ops.contains(ev2.target)) { ops.remove(); document.removeEventListener('click', h); }
+        });
+    }, 0);
+}
+/* ---------- 红包 & 转账 ---------- */
+function sendRedpack() {
+    if (!state.currentChat) return;
+    showSheet('发红包', '<input class="me-input" id="rp-msg" placeholder="祝福语（默认：恭喜发财）"/>' +
+        '<input class="me-input" id="rp-amt" placeholder="金额（1-200）"/><button class="me-btn" data-act="rp-send">塞钱进红包 🧧</button>');
+}
+function doSendRedpack() {
+    const msg = ($('rp-msg') ? $('rp-msg').value : '').trim() || '恭喜发财';
+    const amt = parseFloat($('rp-amt') ? $('rp-amt').value : '');
+    if (!amt || amt <= 0 || amt > 200) { toast('请输入 1-200 的金额'); return; }
+    const cid = state.currentChat;
+    if (!state.chats[cid]) state.chats[cid] = [];
+    const m = { from: 'out', type: 'redpack', msg, amount: amt.toFixed(2), time: fmtTime(new Date()), opened: false };
+    m._i = state.chats[cid].length;
+    state.chats[cid].push(m);
+    addBill('out', '红包', amt.toFixed(2), '发给 ' + (getContact(cid) ? (getContact(cid).myNote || getContact(cid).name) : ''));
+    persistContacts();
+    closeSheet();
+    renderChat(cid);
+    unlock('rp1');
+}
+function openRedpack(m, cid) {
+    if (m.opened) return;
+    m.opened = true;
+    addBill('in', '红包', m.amount, '来自 ' + (getContact(cid) ? (getContact(cid).myNote || getContact(cid).name) : ''));
+    persistContacts();
+    renderChat(cid);
+    // 红包雨动画
+    const rain = document.createElement('div');
+    rain.className = 'rp-rain';
+    for (let i = 0; i < 12; i++) {
+        const s = document.createElement('span');
+        s.textContent = '🧧';
+        s.style.left = (Math.random() * 96) + 'vw';
+        s.style.animationDuration = (1.4 + Math.random() * 1.6) + 's';
+        rain.appendChild(s);
+    }
+    document.body.appendChild(rain);
+    setTimeout(() => rain.remove(), 3200);
+    const got = document.createElement('div');
+    got.className = 'ach-pop';
+    got.innerHTML = '<span class="ap-ico">🧧</span><span class="ap-t">领取了 ¥' + m.amount + ' 的红包！</span>';
+    document.body.appendChild(got);
+    setTimeout(() => got.remove(), 2200);
+    unlock('rp2');
+}
+function sendTransfer() {
+    if (!state.currentChat) return;
+    showSheet('转账', '<input class="me-input" id="tr-amt" placeholder="转账金额" type="number"/>' +
+        '<input class="me-input" id="tr-note" placeholder="备注（可留空）"/><button class="me-btn" data-act="tr-send">转账 💰</button>');
+}
+function doSendTransfer() {
+    const amt = parseFloat($('tr-amt') ? $('tr-amt').value : '');
+    if (!amt || amt <= 0) { toast('请输入有效金额'); return; }
+    const note = ($('tr-note') ? $('tr-note').value : '').trim();
+    const cid = state.currentChat;
+    if (!state.chats[cid]) state.chats[cid] = [];
+    const m = { from: 'out', type: 'transfer', amount: amt.toFixed(2), note, time: fmtTime(new Date()), opened: false };
+    m._i = state.chats[cid].length;
+    state.chats[cid].push(m);
+    addBill('out', '转账', amt.toFixed(2), note || ('转账给 ' + (getContact(cid) ? (getContact(cid).myNote || getContact(cid).name) : '')));
+    persistContacts();
+    closeSheet();
+    renderChat(cid);
+}
+function openTransfer(m, cid) {
+    if (m.opened) return;
+    m.opened = true;
+    addBill('in', '转账', m.amount, '来自 ' + (getContact(cid) ? (getContact(cid).myNote || getContact(cid).name) : '') + (m.note ? ' · ' + m.note : ''));
+    persistContacts();
+    renderChat(cid);
+    const got = document.createElement('div');
+    got.className = 'ach-pop';
+    got.innerHTML = '<span class="ap-ico">💰</span><span class="ap-t">已收款 ¥' + m.amount + '</span>';
+    document.body.appendChild(got);
+    setTimeout(() => got.remove(), 2200);
+}
+/* ---------- 图片 & AI生图 ---------- */
+function pickImage() {
+    const f = document.createElement('input');
+    f.type = 'file';
+    f.accept = 'image/*';
+    f.addEventListener('change', () => {
+        const file = f.files[0];
+        if (!file) return;
+        const rd = new FileReader();
+        rd.onload = () => {
+            const cid = state.currentChat;
+            if (!cid || !state.chats[cid]) return;
+            state.chats[cid].push({ from: 'out', type: 'image', url: rd.result, time: fmtTime(new Date()) });
+            persistContacts();
+            renderChat(cid);
+        };
+        rd.readAsDataURL(file);
+    });
+    f.click();
+}
+function aiGenImg() {
+    showSheet('AI 生图', '<input class="me-input" id="ai-desc" placeholder="描述你想生成的画面，如：日落时分的海边，两个人散步"/>' +
+        '<button class="me-btn" data-act="ai-gen">✨ 生成图片</button><div class="hint-note">本地绘制生成，无需联网；配好 API 后也可接入真实生图模型</div>');
+}
+function doAiGen() {
+    const desc = ($('ai-desc') ? $('ai-desc').value : '').trim();
+    if (!desc) { toast('先描述一下画面'); return; }
+    const btn = document.querySelector('[data-act="ai-gen"]');
+    if (btn) { btn.textContent = '生成中…'; btn.disabled = true; }
+    setTimeout(() => {
+        const url = drawAIImg(desc);
+        const cid = state.currentChat;
+        if (cid && state.chats[cid]) {
+            state.chats[cid].push({ from: 'out', type: 'image', url, desc, time: fmtTime(new Date()) });
+            state.aiImgs.unshift({ desc, url, time: fmtTime(new Date()) });
+            persistV10();
+            persistContacts();
+        }
+        closeSheet();
+        renderChat(cid);
+        unlock('ai1');
+    }, 900);
+}
+function drawAIImg(desc) {
+    const cv = document.createElement('canvas');
+    cv.width = 400; cv.height = 300;
+    const x = cv.getContext('2d');
+    const hue = Math.abs(hashStr(desc)) % 360;
+    const g = x.createLinearGradient(0, 0, 400, 300);
+    g.addColorStop(0, 'hsl(' + hue + ',70%,55%)');
+    g.addColorStop(1, 'hsl(' + ((hue + 60) % 360) + ',75%,35%)');
+    x.fillStyle = g;
+    x.fillRect(0, 0, 400, 300);
+    for (let i = 0; i < 40; i++) {
+        x.fillStyle = 'hsla(' + ((hue + i * 17) % 360) + ',80%,70%,' + (0.15 + Math.random() * 0.3) + ')';
+        x.beginPath();
+        x.arc(Math.random() * 400, Math.random() * 300, 6 + Math.random() * 40, 0, Math.PI * 2);
+        x.fill();
+    }
+    x.fillStyle = 'rgba(255,255,255,.92)';
+    x.font = 'bold 15px sans-serif';
+    x.textAlign = 'center';
+    const lines = desc.length > 24 ? [desc.slice(0, 24), desc.slice(24, 48)] : [desc];
+    lines.forEach((ln, i) => x.fillText(ln, 200, 150 + i * 20));
+    x.font = '11px sans-serif';
+    x.fillStyle = 'rgba(255,255,255,.75)';
+    x.fillText('✨ AI 生成', 200, 284);
+    return cv.toDataURL('image/png');
+}
+function hashStr(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
+/* ---------- 语音消息 & minimax 语音包 ---------- */
+let recTimer = null;
+function startRec() {
+    state.recSec = 0;
+    closeSheet();
+    const bar = document.createElement('div');
+    bar.className = 'rec-bar';
+    bar.id = 'rec-bar';
+    bar.innerHTML = '<span class="rec-dot"></span><span class="rec-t" id="rec-t">0"</span><button class="ct-btn" data-act="rec-stop" style="width:64px;border-radius:16px">完成 ✓</button>';
+    // rec-bar 挂在 body 下，不在 app-body 事件委托内，单独分发
+    bar.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-act]');
+        if (btn && state.app && HANDLERS[state.app] && HANDLERS[state.app][btn.dataset.act]) HANDLERS[state.app][btn.dataset.act](btn, e);
+    });
+    document.body.appendChild(bar);
+    recTimer = setInterval(() => {
+        state.recSec++;
+        const t = $('rec-t');
+        if (t) t.textContent = state.recSec + '"';
+        if (state.recSec >= 60) stopRec();
+    }, 1000);
+}
+function stopRec() {
+    clearInterval(recTimer);
+    const bar = $('rec-bar');
+    if (bar) bar.remove();
+    const cid = state.currentChat;
+    if (!cid || !state.chats[cid]) return;
+    const dur = Math.max(1, state.recSec);
+    state.chats[cid].push({ from: 'out', type: 'voice', dur, time: fmtTime(new Date()) });
+    persistContacts();
+    renderChat(cid);
+}
+/* ---------- 定位 & 实时位置 ---------- */
+const LOC_POOL = [
+    { name: '锦书咖啡·静安店', addr: '静安区愚园路 168 号 1F' },
+    { name: '苏河湾艺术中心', addr: '静安区北苏州路 998 号' },
+    { name: '人民广场', addr: '黄浦区人民大道 120 号' },
+    { name: '陆家嘴滨江', addr: '浦东新区滨江大道' },
+];
+const LIVE_PLACES = ['正在路过苏州河', '快到静安寺了', '在久光百货门口', '打车去你那边', '在便利店买水'];
+function sendLoc(live) {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    if (live) {
+        const m = { from: 'out', type: 'loc', name: '实时位置共享', addr: LIVE_PLACES[0], live: true, time: fmtTime(new Date()) };
+        state.chats[c.id].push(m);
+        state.liveShare = { cid: c.id, start: Date.now(), idx: 0 };
+        persistContacts();
+        renderChat(c.id);
+        // 模拟位置移动
+        const iv = setInterval(() => {
+            if (!state.liveShare || state.liveShare.cid !== c.id) { clearInterval(iv); return; }
+            state.liveShare.idx = (state.liveShare.idx + 1) % LIVE_PLACES.length;
+            const last = state.chats[c.id][state.chats[c.id].length - 1];
+            if (last && last.type === 'loc' && last.live) { last.addr = LIVE_PLACES[state.liveShare.idx]; persistContacts(); }
+            if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) renderChat(c.id);
+        }, 5000);
+        setTimeout(() => { if (state.liveShare && state.liveShare.cid === c.id) state.liveShare = null; }, 60000);
+    } else {
+        showSheet('发送位置', LOC_POOL.map((p, i) =>
+            '<div class="menu-shop" data-act="send-loc" data-v="' + i + '" style="cursor:pointer"><div class="ms-ico">📍</div>' +
+            '<div class="ms-info"><div class="ms-n">' + p.name + '</div><div class="ms-d">' + p.addr + '</div></div></div>'
+        ).join(''));
+    }
+}
+function doSendLoc(i) {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const p = LOC_POOL[i];
+    state.chats[c.id].push({ from: 'out', type: 'loc', name: p.name, addr: p.addr, time: fmtTime(new Date()) });
+    persistContacts();
+    closeSheet();
+    renderChat(c.id);
+}
+/* ---------- 分享链接 ---------- */
+function sendShare() {
+    showSheet('分享链接', '<input class="me-input" id="sh-title" placeholder="标题"/>' +
+        '<input class="me-input" id="sh-url" placeholder="https://…"/>' +
+        '<input class="me-input" id="sh-desc" placeholder="描述（可留空）"/>' +
+        '<button class="me-btn" data-act="sh-send">发送 🔗</button>');
+}
+function doSendShare() {
+    const title = ($('sh-title') ? $('sh-title').value : '').trim();
+    const url = ($('sh-url') ? $('sh-url').value : '').trim();
+    if (!title || !url) { toast('标题和链接都要填'); return; }
+    const desc = ($('sh-desc') ? $('sh-desc').value : '').trim();
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    state.chats[c.id].push({ from: 'out', type: 'share', title, url, desc, time: fmtTime(new Date()) });
+    persistContacts();
+    closeSheet();
+    renderChat(c.id);
+}
+/* ---------- 一起听歌 ---------- */
+const MUSIC_POOL = [
+    { name: '晴天', artist: '周杰伦' },
+    { name: '起风了', artist: '买辣椒也用券' },
+    { name: '小幸运', artist: '田馥甄' },
+    { name: '海阔天空', artist: 'Beyond' },
+    { name: '平凡之路', artist: '朴树' },
+];
+function sendMusic() {
+    showSheet('一起听歌', MUSIC_POOL.map((m, i) =>
+        '<div class="menu-shop" data-act="send-mu" data-v="' + i + '" style="cursor:pointer"><div class="ms-ico">🎵</div>' +
+        '<div class="ms-info"><div class="ms-n">' + m.name + '</div><div class="ms-d">' + m.artist + '</div></div></div>'
+    ).join(''));
+}
+function doSendMusic(i) {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const m = MUSIC_POOL[i];
+    state.chats[c.id].push({ from: 'out', type: 'music', name: m.name, artist: m.artist, track: i, time: fmtTime(new Date()) });
+    persistContacts();
+    closeSheet();
+    renderChat(c.id);
+}
+/* ---------- 视频通话 ---------- */
+let vcallTimer = null, vcallStart = 0;
+function startVCall(c) {
+    if (state.vcall) return;
+    state.vcall = { cid: c.id, start: Date.now() };
+    const vc = document.createElement('div');
+    vc.className = 'vcall-screen';
+    vc.id = 'vcall-screen';
+    vc.innerHTML = '<div class="vc-avatar" style="background:' + c.bg + '">' + c.avatar + '</div>' +
+        '<div class="vc-name">' + esc(c.myNote || c.name) + '</div>' +
+        '<div class="vc-status">视频通话中…</div><div class="vc-timer" id="vc-timer">00:00</div>' +
+        '<div class="vcall-btns"><button data-act="vc-mute">🔇</button><button class="vc-hang" data-act="vc-hang">📵</button><button data-act="vc-cam">📷</button></div>';
+    $('view-app').appendChild(vc);
+    vcallStart = Date.now();
+    clearInterval(vcallTimer);
+    vcallTimer = setInterval(() => {
+        const sec = Math.floor((Date.now() - vcallStart) / 1000);
+        const t = $('vc-timer');
+        if (t) t.textContent = pad2(Math.floor(sec / 60)) + ':' + pad2(sec % 60);
+    }, 1000);
+}
+function endVCall() {
+    if (!state.vcall) return;
+    const sec = Math.floor((Date.now() - state.vcall.start) / 1000);
+    const c = getContact(state.vcall.cid);
+    clearInterval(vcallTimer);
+    const vc = $('vcall-screen');
+    if (vc) vc.remove();
+    if (c && state.chats[c.id]) {
+        state.chats[c.id].push({ from: 'out', type: 'vcall', dur: Math.max(1, Math.floor(sec / 60)) + '分' + (sec % 60) + '秒', time: fmtTime(new Date()) });
+        persistContacts();
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) renderChat(c.id);
+    }
+    state.vcall = null;
+    toast('视频通话已结束 📹');
+}
+/* ---------- 心声 ---------- */
+const HEART_POOL = [
+    '其实我每天都会翻你的朋友圈好几遍…',
+    '你发消息的时候，我假装没看见，其实开心得要命',
+    '我在想，要是能一直这样聊天就好了',
+    '你不在的时候，我把我们的聊天记录看了又看',
+    '有时候想跟你说好多话，又怕你觉得我烦',
+    '听到你说晚安，我才能安心睡觉',
+];
+function sendHeart() {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    if (state.chatBusy) return;
+    state.chatBusy = true;
+    showTyping();
+    setTimeout(async () => {
+        hideTyping();
+        let text = '';
+        if (hasApiConfig()) {
+            try {
+                const r = await callApiRaw(c, '现在请说出你的心里话（不能直接说“这是心里话”，要像日常聊天一样自然，20字以内）');
+                if (r) text = r;
+            } catch (e) {}
+        }
+        if (!text) text = HEART_POOL[Math.floor(Math.random() * HEART_POOL.length)];
+        state.chats[c.id].push({ from: 'in', type: 'heart', text, time: fmtTime(new Date()) });
+        state.hearts.unshift({ cid: c.id, text, time: fmtTime(new Date()) });
+        persistV10();
+        persistContacts();
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) renderChat(c.id);
+        state.chatBusy = false;
+    }, 900 + Math.random() * 700);
+}
+function callApiRaw(c, prompt) {
+    if (!hasApiConfig()) return Promise.resolve(null);
+    const body = {
+        model: state.apiConfig.model,
+        messages: [
+            { role: 'system', content: '你是' + (c.myNote || c.name) + '，在' + (c.taNote ? '和' + c.taNote + '用微信聊天' : '微信聊天') + '。' + (c.persona ? '性格：' + c.persona + '。' : '') + '只输出内容本身，不暴露AI身份。' + prompt },
+            { role: 'user', content: '（内部指令）' }
+        ],
+        temperature: 0.9,
+        max_tokens: 60,
+    };
+    return fetch(state.apiConfig.base + '/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + state.apiConfig.key },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(20000),
+    }).then(r => r.json()).then(d => (d.choices && d.choices[0] && d.choices[0].message && d.choices[0].message.content) ? d.choices[0].message.content.trim() : null).catch(() => null);
+}
+/* ---------- 外卖 ---------- */
+const FOOD_SHOPS = [
+    { name: '锦书轻食', emoji: '🥗', desc: '健康餐 · 30分钟送达', items: [['鸡胸沙拉', 28], ['牛油果吐司', 22], ['燕麦酸奶碗', 18]] },
+    { name: '川渝小馆', emoji: '🌶️', desc: '川菜 · 40分钟送达', items: [['水煮牛肉', 58], ['麻婆豆腐', 26], ['夫妻肺片', 38]] },
+    { name: '日料食堂', emoji: '🍣', desc: '寿司 · 35分钟送达', items: [['三文鱼刺身', 68], ['鳗鱼饭', 45], ['加州卷', 32]] },
+    { name: '甜心烘焙', emoji: '🍰', desc: '甜品 · 25分钟送达', items: [['草莓蛋糕', 32], ['提拉米苏', 35], ['芒果班戟', 22]] },
+];
+function sendFood() {
+    showSheet('点外卖', FOOD_SHOPS.map((s, i) =>
+        '<div class="menu-shop" data-act="food-shop" data-v="' + i + '" style="cursor:pointer"><div class="ms-ico" style="background:rgba(255,255,255,.1)">' + s.emoji + '</div>' +
+        '<div class="ms-info"><div class="ms-n">' + s.name + '</div><div class="ms-d">' + s.desc + '</div></div><button class="ms-add">点单</button></div>'
+    ).join(''), (mask) => {
+        mask.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-act="food-shop"]');
+            if (!btn) return;
+            const si = +btn.dataset.v;
+            showSheet('' + FOOD_SHOPS[si].emoji + ' ' + FOOD_SHOPS[si].name, FOOD_SHOPS[si].items.map((it, ii) =>
+                '<div class="menu-item" data-act="food-item" data-v="' + si + ':' + ii + '" style="cursor:pointer"><span class="mi-emoji">' + ['🥗', '🍞', '🥣', '🥩', '🌶️', '🥡', '🍣', '🍱', '🍙', '🍰', '🍮', '🥭'][ii] + '</span>' +
+                '<div class="mi-info"><div class="mi-n">' + it[0] + '</div><div class="mi-p">¥' + it[1] + '</div></div><button class="ms-add">加入</button></div>'
+            ).join(''));
+        });
+    });
+}
+function doFoodItem(v) {
+    const [si, ii] = v.split(':').map(Number);
+    const shop = FOOD_SHOPS[si], item = shop.items[ii];
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const id = 'o' + Date.now();
+    const order = { id, shop: shop.name, emoji: shop.emoji, items: item[0] + ' ×1', price: item[1], status: '商家已接单', progress: 10, time: fmtTime(new Date()) };
+    state.orders.unshift(order);
+    state.chats[c.id].push({ from: 'out', type: 'order', shop: shop.name, emoji: shop.emoji, items: item[0] + ' ×1', price: item[1], status: '商家已接单', progress: 10, time: fmtTime(new Date()) });
+    addBill('out', '外卖', item[1], shop.name + ' · ' + item[0]);
+    persistV10();
+    persistContacts();
+    closeSheet();
+    renderChat(c.id);
+    // 灵动岛配送进度
+    const stages = ['商家已接单', '骑手取餐中', '配送中', '即将送达', '已送达 🎉'];
+    let st = 0;
+    const iv = setInterval(() => {
+        st++;
+        const o = state.orders.find(x => x.id === id);
+        if (!o || st >= stages.length) { clearInterval(iv); return; }
+        o.status = stages[st];
+        o.progress = 10 + st * 20;
+        persistV10();
+        updateIsland();
+        if (st === stages.length - 1) {
+            toast('🛵 外卖已送达：' + shop.name);
+            unlock('food1');
+        }
+        // 同步更新聊天里的订单卡片
+        const cid = c.id;
+        const last = state.chats[cid][state.chats[cid].length - 1];
+        if (last && last.type === 'order') { last.status = o.status; last.progress = o.progress; persistContacts(); }
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === cid) renderChat(cid);
+    }, 8000);
+}
+function updateIsland() {
+    const o = state.orders.find(x => x.status !== '已送达 🎉');
+    const el = $('island');
+    if (!el) return;
+    if (o) {
+        el.innerHTML = '<span style="font-size:11px;color:#fff;padding-right:10px">🛵 ' + o.shop + ' ' + o.status + '</span>';
+        el.style.width = 'auto';
+        el.style.minWidth = '118px';
+        el.style.justifyContent = 'flex-end';
+        el.style.background = '#000';
+    } else {
+        el.innerHTML = '';
+        el.style.width = '118px';
+        el.style.minWidth = '';
+        el.style.justifyContent = 'flex-end';
+        el.style.background = '#000';
+    }
+}
+/* ---------- 购物 ---------- */
+const SHOP_ITEMS = [
+    { name: '陶瓷马克杯', emoji: '☕', price: 69, desc: '手作 · 锦书文创' },
+    { name: '帆布托特包', emoji: '👜', price: 129, desc: '原创设计' },
+    { name: '香薰蜡烛', emoji: '🕯️', price: 89, desc: '雪松与鼠尾草' },
+    { name: '蓝牙耳机', emoji: '🎧', price: 299, desc: '降噪 · 白色' },
+    { name: '拍立得相纸', emoji: '📸', price: 59, desc: '白边 · 20张' },
+];
+function sendShop() {
+    showSheet('购物', SHOP_ITEMS.map((it, i) =>
+        '<div class="menu-shop" data-act="shop-item" data-v="' + i + '" style="cursor:pointer"><div class="ms-ico" style="background:rgba(255,255,255,.1)">' + it.emoji + '</div>' +
+        '<div class="ms-info"><div class="ms-n">' + it.name + '</div><div class="ms-d">' + it.desc + '</div></div><div class="ms-info" style="flex:0"><div class="mi-p">¥' + it.price + '</div></div><button class="ms-add">买</button></div>'
+    ).join(''));
+}
+function doShopItem(i) {
+    const it = SHOP_ITEMS[i];
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    state.shopOrders.unshift({ id: 's' + Date.now(), name: it.name, emoji: it.emoji, price: it.price, status: '已下单', time: fmtTime(new Date()) });
+    state.chats[c.id].push({ from: 'out', type: 'order', shop: '🛍️ ' + it.name, emoji: it.emoji, items: it.desc, price: it.price, status: '已下单', progress: 100, time: fmtTime(new Date()) });
+    addBill('out', '购物', it.price, it.name);
+    persistV10();
+    persistContacts();
+    closeSheet();
+    renderChat(c.id);
+    toast('🛍️ 下单成功：' + it.name);
+}
+/* ---------- 总结记忆 ---------- */
+function summaryMemory() {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const msgs = state.chats[c.id] || [];
+    if (msgs.length < 2) { toast('聊天记录太少了，多说几句再总结吧'); return; }
+    showSheet('总结记忆', '<div class="me-input" style="min-height:70px" id="mem-wait">⏳ 正在回顾你们的聊天…</div>', async (mask) => {
+        const wait = $('mem-wait');
+        setTimeout(async () => {
+            let summary = '';
+            if (hasApiConfig()) {
+                const recent = msgs.slice(-20).map(m => (m.from === 'out' ? '我' : (c.taNote || 'TA')) + '：' + (m.text || '[卡片消息]')).join('\n');
+                summary = await callApiRaw(c, '请用 3 句话总结上面的聊天记录，概括你们的关系状态和聊过的话题，直接输出总结');
+            }
+            if (!summary) {
+                const topics = msgs.filter(m => m.from === 'in' && m.text).slice(-6).map(m => m.text.slice(0, 12)).join('、');
+                summary = '你们聊了 ' + msgs.length + ' 条消息。TA 最近说过：' + (topics || '（暂时没有文字内容）') + '。';
+            }
+            if (!state.memories[c.id]) state.memories[c.id] = [];
+            state.memories[c.id].unshift({ text: summary, time: fmtTime(new Date()) + ' ' + fmtDate(new Date()) });
+            persistV10();
+            if (wait) {
+                wait.value = '🧠 ' + summary;
+                const btn = document.createElement('button');
+                btn.className = 'me-btn';
+                btn.dataset.act = 'mem-ok';
+                btn.textContent = '完成 ✓';
+                wait.parentNode.appendChild(btn);
+                unlock('mem1');
+            }
+        }, 800);
+    });
+}
+/* ---------- 主动发信息 ---------- */
+const PROACTIVE_POOL = [
+    '在干嘛呢～',
+    '今天天气不错，要不要出去走走？',
+    '我刚刚路过一家新开的咖啡店，下次带你去',
+    '睡了吗？',
+    '突然好想你',
+    '给你看我刚拍的照片！',
+    '周末有空吗？想约你',
+    '你吃饭了吗？',
+];
+let proactiveTimer = null;
+function toggleProactive() {
+    state.proactive = !state.proactive;
+    persistV10();
+    if (state.proactive) {
+        if (proactiveTimer) clearInterval(proactiveTimer);
+        proactiveTimer = setInterval(() => {
+            const auto = state.contacts.filter(c => c.autoReply && !state.difficulty[c.id] === 'hard');
+            if (!auto.length) return;
+            const c = auto[Math.floor(Math.random() * auto.length)];
+            if (state.offline) return;
+            if (!state.chats[c.id]) state.chats[c.id] = [];
+            const text = PROACTIVE_POOL[Math.floor(Math.random() * PROACTIVE_POOL.length)];
+            state.chats[c.id].push({ from: 'in', text, time: fmtTime(new Date()) });
+            persistContacts();
+            if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) {
+                renderChat(c.id);
+                toast('📩 ' + (c.myNote || c.name) + ' 发来消息');
+            }
+        }, 45000);
+        toast('已开启：TA 们会主动找你 💌');
+    } else {
+        if (proactiveTimer) clearInterval(proactiveTimer);
+        toast('已关闭主动消息');
+    }
+}
+/* ---------- 攻略难度 ---------- */
+function setDifficulty(d) {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    state.difficulty[c.id] = d;
+    persistV10();
+    closeSheet();
+    toast('攻略难度：' + ({ easy: '简单 💚', normal: '普通 💙', hard: '困难 ❤️' }[d] || d));
+}
+function showDifficulty() {
+    const cur = state.difficulty[state.currentChat] || 'normal';
+    showSheet('攻略难度', '<div class="hint-note" style="margin-bottom:10px">难度影响 TA 回复的速度和主动性</div>' +
+        ['easy', 'normal', 'hard'].map(d =>
+            '<div class="diff-chip ' + (cur === d ? 'on' : '') + '" data-act="set-diff" data-v="' + d + '" style="display:block;width:100%;text-align:center;margin-bottom:8px;padding:10px">' +
+            ({ easy: '💚 简单：秒回，经常主动找你', normal: '💙 普通：正常聊天节奏', hard: '❤️ 困难：爱答不理，偶尔已读不回' }[d]) + '</div>'
+        ).join(''));
+}
+/* ---------- 成就系统 ---------- */
+const ACHIEVEMENTS = [
+    { id: 'first', ico: '🌱', name: '初次见面', desc: '添加第一个联系人' },
+    { id: 'chat1', ico: '💬', name: '打开话匣子', desc: '和 TA 聊满 10 条' },
+    { id: 'rp1', ico: '🧧', name: '财大气粗', desc: '发出第一个红包' },
+    { id: 'rp2', ico: '🎁', name: '手气不错', desc: '领取一个红包' },
+    { id: 'ai1', ico: '✨', name: 'AI 画师', desc: '用 AI 生成一张图片' },
+    { id: 'mem1', ico: '🧠', name: '过目不忘', desc: '总结一次记忆' },
+    { id: 'food1', ico: '🛵', name: '干饭人', desc: '点一份外卖' },
+    { id: 'group1', ico: '👥', name: '呼朋唤友', desc: '创建第一个群聊' },
+    { id: 'dice1', ico: '🎲', name: '欧皇附体', desc: '掷骰子掷出 6' },
+    { id: 'cap1', ico: '⏳', name: '写给未来', desc: '埋下一颗时光胶囊' },
+    { id: 'diary1', ico: '📖', name: '记录生活', desc: '写下第一篇日记' },
+    { id: 'fav1', ico: '⭐', name: '念念不忘', desc: '收藏一条消息' },
+];
+function unlock(id) {
+    if (state.achievements.includes(id)) return;
+    state.achievements.push(id);
+    persistV10();
+    const a = ACHIEVEMENTS.find(x => x.id === id);
+    if (!a) return;
+    const pop = document.createElement('div');
+    pop.className = 'ach-pop';
+    pop.innerHTML = '<span class="ap-ico">' + a.ico + '</span><span><div class="ap-t">成就达成：' + a.name + '</div><div style="font-size:11px;opacity:.8">' + a.desc + '</div></span>';
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 2600);
+}
+function checkAch() {
+    if (state.contacts.length >= 1) unlock('first');
+    const total = Object.values(state.chats).reduce((s, a) => s + a.length, 0);
+    if (total >= 10) unlock('chat1');
+}
+/* ---------- 线下模式 ---------- */
+function toggleOffline() {
+    state.offline = !state.offline;
+    persistV10();
+    syncStatusBar();
+    toast(state.offline ? '📴 已进入线下模式（无法收发消息）' : '📶 已恢复联网');
+}
+/* ---------- 群聊 ---------- */
+function renderGroupList() {
+    if (!state.groups.length) return '<div class="empty-state"><div class="es-emoji">👥</div><div class="es-title">还没有群聊</div><div class="es-sub">拉上你的联系人，建个群一起玩～</div></div>';
+    return state.groups.map(g => {
+        const last = g.msgs[g.msgs.length - 1];
+        return '<div class="group-chip" data-act="open-group" data-v="' + g.id + '">' +
+            '<div class="gc-avatar">' + (g.emoji || '👥') + '</div>' +
+            '<div><div class="gc-name">' + esc(g.name) + '</div><div class="gc-sub">' + g.members.length + ' 人 · ' + (last ? (last.name + '：' + esc(String(last.text).slice(0, 14))) : g.announcement || '群公告：无') + '</div></div></div>';
+    }).join('');
+}
+function renderGroupChat(g) {
+    const head = '<div class="g-head"><div class="gc-avatar" style="width:34px;height:34px;font-size:17px">' + (g.emoji || '👥') + '</div>' +
+        '<div><div class="gh-name">' + esc(g.name) + ' <span style="font-size:10px;color:#8f96ab">(' + g.members.length + '人)</span></div>' +
+        '<div class="gh-sub">📢 ' + esc(g.announcement || '暂无公告') + '</div></div></div>';
+    const toolbar = '<div class="g-toolbar">' +
+        '<button data-act="g-dice">🎲 掷骰子</button><button data-act="g-vote">🗳 投票</button>' +
+        '<button data-act="g-ann">📢 公告</button><button data-act="g-title">🏷 头衔</button>' +
+        '<button data-act="g-members">👥 成员</button></div>';
+    const msgs = g.msgs.map(m => {
+        if (m.kind === 'sys') return '<div class="g-msg gm-sys"><div class="gm-bub">' + esc(m.text) + '</div></div>';
+        const c = getContact(m.cid);
+        const isMine = m.from === 'me';
+        const nm = isMine ? (state.nickname || '我') : (c ? (c.myNote || c.name) : 'TA');
+        const av = isMine ? '🙂' : (c ? c.avatar : '👤');
+        const bg = isMine ? '#5e5ce6' : (c ? c.bg : '#555');
+        const title = (!isMine && c && g.roles && g.roles[c.id]) ? ' · ' + g.roles[c.id] : '';
+        return '<div class="g-msg' + (isMine ? ' gm-mine' : '') + '">' +
+            '<div class="gm-av" style="background:' + bg + '">' + av + '</div>' +
+            '<div><div class="gm-name">' + esc(nm) + esc(title) + '</div><div class="gm-bub">' + esc(m.text) + '</div></div></div>';
+    }).join('');
+    return head + toolbar + '<div class="chat-body">' + msgs + '</div>' +
+        '<div class="g-input-row"><input class="g-input" id="g-input" placeholder="发消息…">' +
+        '<button class="chat-send" data-act="g-send">➤</button></div>';
+}
+function renderGroups() {
+    return '<div class="app-page-title">群聊</div>' + renderGroupList() +
+        '<button class="add-btn" data-act="group-new">＋ 新建群聊</button>';
+}
+function groupNew() {
+    const cids = state.contacts.map(c => c.id);
+    if (!cids.length) { toast('先添加联系人，才能建群'); return; }
+    showSheet('新建群聊', '<input class="me-input" id="g-name" placeholder="群名称（必填）"/>' +
+        '<input class="me-input" id="g-ann" placeholder="群公告（可留空）"/>' +
+        '<div class="hint-note">选择成员（至少 2 人）：</div>' +
+        cids.map(cid => {
+            const c = getContact(cid);
+            return '<div class="me-list-item" data-act="g-member" data-v="' + cid + '"><span class="mli-t">' + esc(c.myNote || c.name) + '</span><span class="mli-s" data-role="check">未选</span></div>';
+        }).join('') +
+        '<button class="me-btn" data-act="g-create">创建群聊 🎉</button>');
+}
+let gSelMembers = [];
+function doGroupMember(cid, el) {
+    const i = gSelMembers.indexOf(cid);
+    if (i >= 0) gSelMembers.splice(i, 1);
+    else gSelMembers.push(cid);
+    const s = el.querySelector('[data-role="check"]');
+    if (s) s.textContent = i >= 0 ? '未选' : '✓ 已选';
+}
+function doGroupCreate() {
+    const name = ($('g-name') ? $('g-name').value : '').trim();
+    if (!name) { toast('请输入群名称'); return; }
+    if (gSelMembers.length < 2) { toast('至少选 2 个成员'); return; }
+    const ann = ($('g-ann') ? $('g-ann').value : '').trim();
+    const g = { id: 'g' + Date.now(), name, emoji: '👥', members: gSelMembers.slice(), msgs: [], roles: {}, announcement: ann || ('欢迎来到 ' + name + '！') };
+    gSelMembers = [];
+    state.groups.unshift(g);
+    g.msgs.push({ kind: 'sys', text: '群「' + name + '」创建成功 🎉' });
+    persistV10();
+    closeSheet();
+    state.groupView = 'list';
+    openApp('group');
+    unlock('group1');
+}
+function gAddMsg(g, m) {
+    g.msgs.push(m);
+    persistV10();
+    return m;
+}
+function gSys(g, text) { return gAddMsg(g, { kind: 'sys', text }); }
+function gRoll(g) {
+    const val = 1 + Math.floor(Math.random() * 6);
+    const gid = g.id;
+    // 掷骰子动画
+    const d = document.createElement('div');
+    d.className = 'dice-wrap';
+    d.innerHTML = '<div class="dice rolling" id="dice-box">?</div>';
+    document.body.appendChild(d);
+    setTimeout(() => {
+        const db = $('dice-box');
+        if (db) db.textContent = val;
+        setTimeout(() => {
+            d.remove();
+            gSys(g, '你掷出了 ' + val + ' 点 🎲');
+            if (state.app === 'group' && state.groupView === 'chat' && state.currentGroup === gid) openApp('group');
+            if (val === 6) unlock('dice1');
+        }, 500);
+    }, 500);
+}
+function gVote(g) {
+    showSheet('发起投票', '<input class="me-input" id="v-q" placeholder="投票问题"/>' +
+        '<input class="me-input" id="v-opt" placeholder="选项，用 / 分隔，如：火锅 / 烧烤 / 日料"/>' +
+        '<button class="me-btn" data-act="v-create">发起 🗳</button>');
+}
+function doVoteCreate(gid) {
+    const q = ($('v-q') ? $('v-q').value : '').trim();
+    const opt = ($('v-opt') ? $('v-opt').value : '').trim();
+    if (!q || !opt) { toast('问题和选项都要填'); return; }
+    const g = state.groups.find(x => x.id === gid);
+    if (!g) return;
+    if (!g.votes) g.votes = [];
+    const vote = { id: 'v' + Date.now(), q, opts: opt.split('/').map(s => s.trim()).filter(Boolean), counts: {}, voted: [] };
+    g.votes.unshift(vote);
+    gSys(g, '🗳 发起投票：' + q);
+    closeSheet();
+    renderGroupChatView(g);
+}
+function gVoteUI(g) {
+    if (!g.votes || !g.votes.length) return '<div class="hint-note" style="padding:20px 0;text-align:center">暂无进行中的投票</div>';
+    return g.votes.map(v => {
+        const total = Math.max(1, v.voted.length);
+        return '<div class="vote-card"><div class="vote-q">🗳 ' + esc(v.q) + '</div>' +
+            v.opts.map((o, i) => {
+                const n = v.counts[o] || 0;
+                return '<div class="vote-opt" data-act="vote-opt" data-v="' + v.id + '" data-o="' + esc(o) + '"><span>' + o + '</span>' +
+                    '<span style="flex:1"><span class="vote-bar" style="display:block;width:' + Math.round(n / total * 100) + '%"></span></span>' +
+                    '<span class="vote-n">' + n + '票</span></div>';
+            }).join('') + '</div>';
+    }).join('');
+}
+function doVoteOpt(vid, o) {
+    const g = state.groups.find(x => x.votes && x.votes.some(v => v.id === vid));
+    if (!g) return;
+    const v = g.votes.find(x => x.id === vid);
+    if (!v || v.voted.includes('me')) { toast('你已经投过啦'); return; }
+    v.voted.push('me');
+    v.counts[o] = (v.counts[o] || 0) + 1;
+    persistV10();
+    closeSheet();
+    toast('投票成功 ✓');
+}
+function gAnnounce(g) {
+    showSheet('修改群公告', '<textarea class="me-input" id="g-ann2">' + esc(g.announcement || '') + '</textarea>' +
+        '<button class="me-btn" data-act="g-ann-ok">发布 📢</button>');
+}
+function doGAnnOk(gid) {
+    const text = ($('g-ann2') ? $('g-ann2').value : '').trim();
+    const g = state.groups.find(x => x.id === gid);
+    if (!g) return;
+    if (!text) { toast('公告不能为空'); return; }
+    g.announcement = text;
+    gSys(g, '📢 群主修改了公告：「' + text + '」');
+    closeSheet();
+    renderGroupChatView(g);
+}
+function gTitles(g) {
+    showSheet('成员头衔', g.members.map(cid => {
+        const c = getContact(cid);
+        const t = (g.roles && g.roles[cid]) || '';
+        return '<div class="me-list-item"><span class="mli-t">' + esc(c ? (c.myNote || c.name) : '?') + '</span>' +
+            '<input class="me-input" style="flex:1;margin:0 8px;height:32px;padding:4px 10px" placeholder="头衔" value="' + esc(t) + '" data-title="' + cid + '">' +
+            '<button class="mli-x" data-act="g-title-ok" data-v="' + cid + '">✓</button></div>';
+    }).join(''));
+}
+function doGTitleOk(cid) {
+    const inp = document.querySelector('[data-title="' + cid + '"]');
+    const g = state.groups.find(x => x.id === state.currentGroup);
+    if (!g || !inp) return;
+    const v = inp.value.trim();
+    if (v) { if (!g.roles) g.roles = {}; g.roles[cid] = v; }
+    else if (g.roles) delete g.roles[cid];
+    const c = getContact(cid);
+    gSys(g, '🏷 你给 ' + (c ? (c.myNote || c.name) : '成员') + ' 设置了头衔「' + v + '」');
+    persistV10();
+    closeSheet();
+    renderGroupChatView(g);
+}
+function gMembersView(g) {
+    showSheet('群成员', g.members.map(cid => {
+        const c = getContact(cid);
+        const t = (g.roles && g.roles[cid]) || '';
+        return '<div class="me-list-item"><span class="mli-t">' + esc(c ? (c.myNote || c.name) : '?') + (t ? ' · ' + esc(t) : '') + '</span><span class="mli-s">' + (c ? esc(c.sign || '') : '') + '</span></div>';
+    }).join(''));
+}
+function renderGroupChatView(g) {
+    if (!g) return;
+    state.groupView = 'chat';
+    state.currentGroup = g.id;
+    $('app-title').textContent = g.name;
+    $('app-body').innerHTML = renderGroupChat(g);
+    const inp = $('g-input');
+    if (inp) {
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') gSend(); });
+        setTimeout(() => inp.focus(), 300);
+    }
+    const body = $('app-body');
+    if (body) body.scrollTop = body.scrollHeight;
+}
+function gSend() {
+    const inp = $('g-input');
+    if (!inp) return;
+    const text = inp.value.trim();
+    const g = state.groups.find(x => x.id === state.currentGroup);
+    if (!text || !g) return;
+    inp.value = '';
+    gAddMsg(g, { from: 'me', cid: null, text, time: fmtTime(new Date()) });
+    renderGroupChatView(g);
+    // 成员们随机回复（有API调API，否则本地模板）
+    setTimeout(() => {
+        const c = getContact(g.members[Math.floor(Math.random() * g.members.length)]);
+        if (!c) return;
+        let reply = '';
+        if (hasApiConfig()) {
+            callApiRaw(c, '你在群里' + g.name + '看到消息「' + text + '」，回一句（20字以内，口语化）').then(r => {
+                if (r) {
+                    gAddMsg(g, { from: 'in', cid: c.id, text: r, time: fmtTime(new Date()) });
+                    if (state.app === 'group' && state.groupView === 'chat' && state.currentGroup === g.id) renderGroupChatView(g);
+                }
+            });
+        }
+        if (!reply && !hasApiConfig()) {
+            // 本地模板回复
+            const pool = ['哈哈哈哈哈', '有道理！', '真的假的？', '我也这么觉得', '展开说说？', '等我一下，我看看', '笑死我了', '你说得对'];
+            reply = pool[Math.floor(Math.random() * pool.length)];
+            gAddMsg(g, { from: 'in', cid: c.id, text: reply, time: fmtTime(new Date()) });
+            if (state.app === 'group' && state.groupView === 'chat' && state.currentGroup === g.id) renderGroupChatView(g);
+        }
+    }, 800 + Math.random() * 1200);
+}
+/* ---------- 我的页面 ---------- */
+function meHome() {
+    const got = state.achievements.length;
+    return '<div class="me-tabs">' +
+        ['home', 'tags', 'logs', 'bills', 'capsules', 'ach', 'diaries'].map(t =>
+            '<button data-act="me-tab" data-v="' + t + '" class="' + (state.meTab === t ? 'on' : '') + '">' +
+            ({ home: '首页', tags: '个性标签', logs: '空间日志', bills: '账单', capsules: '时光胶囊', ach: '成就墙', diaries: '我的日记' }[t]) + '</button>'
+        ).join('') + '</div>' + meBody();
+}
+function meBody() {
+    const t = state.meTab || 'home';
+    if (t === 'tags') {
+        return '<div style="padding:12px"><input class="me-input" id="tag-input" placeholder="添加个性标签，如：夜猫子 / 咖啡重度依赖"/>' +
+            '<button class="me-btn" data-act="tag-add">＋ 添加标签</button>' +
+            '<div style="margin-top:14px">' + (state.tags.length ? state.tags.map((x, i) =>
+                '<div class="me-list-item"><span class="mli-t">🏷 ' + esc(x) + '</span><button class="mli-x" data-act="tag-del" data-v="' + i + '">✕</button></div>'
+            ).join('') : '<div class="hint-note" style="text-align:center;padding:30px 0">还没有标签，加一个吧</div>') + '</div></div>';
+    }
+    if (t === 'logs') {
+        return '<div style="padding:12px"><textarea class="me-input" id="log-input" rows="4" placeholder="记录此刻的心情…"></textarea>' +
+            '<button class="me-btn" data-act="log-add">📝 写日志</button>' +
+            '<div style="margin-top:14px">' + (state.logs.length ? state.logs.map((x, i) =>
+                '<div class="me-list-item" style="align-items:flex-start"><div style="flex:1"><div class="mli-t" style="white-space:pre-wrap">' + esc(x.text) + '</div><div class="mli-s">' + x.time + '</div></div>' +
+                '<button class="mli-x" data-act="log-del" data-v="' + i + '">✕</button></div>'
+            ).join('') : '<div class="hint-note" style="text-align:center;padding:30px 0">空间日志是空的</div>') + '</div></div>';
+    }
+    if (t === 'bills') {
+        const totalIn = state.bills.filter(b => b.type === 'in').reduce((s, b) => s + (+b.amount || 0), 0);
+        const totalOut = state.bills.filter(b => b.type === 'out').reduce((s, b) => s + (+b.amount || 0), 0);
+        return '<div style="padding:12px"><div style="display:flex;gap:10px;margin-bottom:12px">' +
+            '<div class="me-cell" style="flex:1;cursor:default"><div class="mc-t">收入</div><div class="mc-d" style="color:#34c759;font-size:15px">+¥' + totalIn.toFixed(2) + '</div></div>' +
+            '<div class="me-cell" style="flex:1;cursor:default"><div class="mc-t">支出</div><div class="mc-d" style="color:#ff3b30;font-size:15px">-¥' + totalOut.toFixed(2) + '</div></div></div>' +
+            (state.bills.length ? state.bills.map((b, i) =>
+                '<div class="me-list-item"><span class="mli-t">' + (b.type === 'in' ? '+' : '-') + '¥' + b.amount + ' <span style="color:#8f96ab;font-size:11px">' + esc(b.cat) + ' · ' + esc(b.note) + '</span></span>' +
+                '<span class="mli-s">' + b.time.split(' ')[0] + '</span><button class="mli-x" data-act="bill-del" data-v="' + i + '">✕</button></div>'
+            ).join('') : '<div class="hint-note" style="text-align:center;padding:30px 0">还没有账单（红包/转账/外卖会自动记账）</div>') + '</div>';
+    }
+    if (t === 'capsules') {
+        return '<div style="padding:12px"><textarea class="me-input" id="cap-text" rows="4" placeholder="写给未来的自己或 TA 的信…"></textarea>' +
+            '<input class="me-input" id="cap-date" placeholder="开启日期，如 2026-12-31"/>' +
+            '<button class="me-btn" data-act="cap-add">⏳ 埋下时光胶囊</button>' +
+            '<div style="margin-top:14px">' + (state.capsules.length ? state.capsules.map((x, i) => {
+                const canOpen = new Date(x.openAt) <= new Date();
+                return '<div class="cap-card ' + (canOpen ? '' : 'sealed') + '" data-act="cap-open" data-v="' + i + '" style="cursor:' + (canOpen ? 'pointer' : 'default') + '">' +
+                    '<div class="cap-t">' + (canOpen ? '📩 ' + esc(x.text) : '🕰 写给未来的信') + '</div>' +
+                    '<div class="cap-d">' + (canOpen ? x.time : '将于 ' + x.openAt + ' 开启') + '</div></div>';
+            }).join('') : '<div class="hint-note" style="text-align:center;padding:30px 0">把现在的心情，寄给未来</div>') + '</div></div>';
+    }
+    if (t === 'ach') {
+        return '<div style="padding:12px">' + ACHIEVEMENTS.map(a => {
+            const got = state.achievements.includes(a.id);
+            return '<div class="ach-row ' + (got ? 'got' : '') + '"><span class="ach-ico">' + a.ico + '</span>' +
+                '<div><div class="ach-t">' + a.name + '</div><div class="ach-d">' + (got ? '✓ ' : '') + a.desc + '</div></div></div>';
+        }).join('') + '</div>';
+    }
+    if (t === 'diaries') {
+        return '<div style="padding:12px"><textarea class="me-input" id="diary-input" rows="4" placeholder="今天发生了什么…"></textarea>' +
+            '<button class="me-btn" data-act="diary-add">📖 写日记</button>' +
+            '<div style="margin-top:14px">' + (state.diaries.length ? state.diaries.map((x, i) =>
+                '<div style="background:rgba(255,255,255,.05);border-radius:12px;padding:12px;margin-bottom:10px">' +
+                '<div class="mli-t" style="white-space:pre-wrap">' + esc(x.text) + '</div><div class="mli-s" style="margin-top:4px">' + x.time + '</div>' +
+                (x.comments && x.comments.length ? x.comments.map(cm => '<div class="hint-note" style="margin-top:6px;padding-left:8px;border-left:2px solid rgba(255,255,255,.2)">💬 ' + esc(cm.name) + '：' + esc(cm.text) + '</div>').join('') : '') +
+                '<div style="margin-top:8px"><button class="diff-chip" data-act="diary-comment" data-v="' + i + '">💬 等 TA 评论</button></div>' +
+                '</div>'
+            ).join('') : '<div class="hint-note" style="text-align:center;padding:30px 0">日记是空的，写下第一篇吧</div>') + '</div></div>';
+    }
+    // home
+    return '<div class="me-grid">' +
+        [['tags', '🏷️', '个性标签', state.tags.length + ' 个'], ['logs', '📜', '空间日志', state.logs.length + ' 篇'],
+            ['bills', '🧾', '账单', state.bills.length + ' 笔'], ['capsules', '⏳', '时光胶囊', state.capsules.length + ' 颗'],
+            ['ach', '🏆', '成就墙', state.achievements.length + '/' + ACHIEVEMENTS.length],
+            ['diaries', '📖', '我的日记', state.diaries.length + ' 篇']].map(c =>
+            '<div class="me-cell" data-act="me-tab" data-v="' + c[0] + '"><div class="mc-ico">' + c[1] + '</div><div class="mc-t">' + c[2] + '</div><div class="mc-d">' + c[3] + '</div></div>'
+        ).join('') + '</div>';
+}
+function diaryComment(i) {
+    const d = state.diaries[i];
+    if (!d) return;
+    if (!state.contacts.length) { toast('先添加联系人，TA 才能评论'); return; }
+    if (d.comments && d.comments.some(c => c.name === 'TA')) { toast('TA 已经评论过啦'); return; }
+    const c = getContact(state.contacts[Math.floor(Math.random() * state.contacts.length)].id);
+    const nm = c ? (c.myNote || c.name) : 'TA';
+    let text = '';
+    if (hasApiConfig()) {
+        callApiRaw(c, '看到' + (state.nickname || '我') + '的日记「' + d.text.slice(0, 40) + '」，写一句评论（15字以内，符合你的性格）').then(r => {
+            if (r) {
+                if (!d.comments) d.comments = [];
+                d.comments.push({ name: nm, text: r });
+                persistV10();
+                toast('💬 ' + nm + ' 评论了你的日记');
+                meRerender();
+            }
+        });
+    }
+    if (!text && !hasApiConfig()) {
+        const pool = ['看哭了，抱抱你', '哇，你文笔真好', '下次带上我！', '这必须记下来', '哈哈哈哈哈不愧是你', '我懂你'];
+        text = pool[Math.floor(Math.random() * pool.length)];
+        if (!d.comments) d.comments = [];
+        d.comments.push({ name: nm, text });
+        persistV10();
+        toast('💬 ' + nm + ' 评论了你的日记');
+        meRerender();
+    }
+}
+function meRerender() {
+    if (state.app === 'me') openApp('me');
 }
 APPS.messages = {
     name: '信息',
@@ -3970,6 +5330,159 @@ HANDLERS.messages = {
     },
     'cc-open': (b) => { const c = getContact(b.dataset.v); if (c) showContactCard(c); },
     send: sendMsg,
+    // ===== v10 聊天增强 =====
+    tool: (b) => {
+        const t = b.dataset.v;
+        if (t === 'pick-image') pickImage();
+        else if (t === 'ai-gen-img') aiGenImg();
+        else if (t === 'rp') sendRedpack();
+        else if (t === 'tr') sendTransfer();
+        else if (t === 'rec') startRec();
+        else if (t === 'loc') sendLoc(false);
+        else if (t === 'food') sendFood();
+        else if (t === 'shop') sendShop();
+        else if (t === 'share') sendShare();
+        else if (t === 'music') sendMusic();
+        else if (t === 'vcall') { const c = getContact(state.currentChat); if (c) startVCall(c); }
+        else if (t === 'heart') sendHeart();
+        else if (t === 'memory') summaryMemory();
+        else if (t === 'diff') showDifficulty();
+        else if (t === 'offline') toggleOffline();
+    },
+    'rp-send': doSendRedpack,
+    'open-rp': (b) => {
+        const cid = state.currentChat;
+        const msgs = state.chats[cid] || [];
+        const m = msgs[+b.dataset.v];
+        if (m && m.type === 'redpack') openRedpack(m, cid);
+    },
+    'open-tr': (b) => {
+        const cid = state.currentChat;
+        const msgs = state.chats[cid] || [];
+        const m = msgs[+b.dataset.v];
+        if (m && m.type === 'transfer') openTransfer(m, cid);
+    },
+    'tr-send': doSendTransfer,
+    'ai-gen': doAiGen,
+    'rec-stop': stopRec,
+    'play-voice': () => toast('🎧 播放语音中…'),
+    'play-music': (b) => {
+        const i = +b.dataset.v;
+        const m = MUSIC_POOL[i];
+        if (!m) return;
+        toast('🎵 正在播放：' + m.name + ' - ' + m.artist);
+        openApp('music');
+    },
+    'open-share': (b) => {
+        const url = b.dataset.v;
+        if (url && /^https?:\/\//.test(url)) { state.browserUrl = url; openApp('browser'); }
+    },
+    'send-loc': (b) => doSendLoc(+b.dataset.v),
+    'send-mu': (b) => doSendMusic(+b.dataset.v),
+    'sh-send': doSendShare,
+    'food-shop': (b) => { /* 在 showSheet onOpen 里处理 */ },
+    'food-item': (b) => doFoodItem(b.dataset.v),
+    'shop-item': (b) => doShopItem(+b.dataset.v),
+    'set-diff': (b) => setDifficulty(b.dataset.v),
+    'mem-ok': () => closeSheet(),
+    'vc-hang': endVCall,
+    'vc-mute': () => toast('🔇 已静音'),
+    'vc-cam': () => toast('📷 切换摄像头'),
+};
+/* ============================================================
+   v10 群聊 App
+   ============================================================ */
+APPS.group = {
+    name: '群聊',
+    render() {
+        if (state.groupView === 'chat' && state.currentGroup) {
+            const g = state.groups.find(x => x.id === state.currentGroup);
+            if (g) { $('app-title').textContent = g.name; return renderGroupChat(g); }
+        }
+        state.groupView = 'list';
+        state.currentGroup = null;
+        $('app-title').textContent = '群聊';
+        return renderGroups();
+    },
+    init() {
+        const inp = $('g-input');
+        if (inp) inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') gSend(); });
+    },
+};
+HANDLERS.group = {
+    'open-group': (b) => {
+        const g = state.groups.find(x => x.id === b.dataset.v);
+        if (g) renderGroupChatView(g);
+    },
+    'group-new': groupNew,
+    'g-member': (b) => doGroupMember(b.dataset.v, b),
+    'g-create': doGroupCreate,
+    'g-send': gSend,
+    'g-dice': () => { const g = state.groups.find(x => x.id === state.currentGroup); if (g) gRoll(g); },
+    'g-vote': () => { const g = state.groups.find(x => x.id === state.currentGroup); if (g) gVote(g); },
+    'v-create': () => { const g = state.groups.find(x => x.id === state.currentGroup); if (g) doVoteCreate(g.id); },
+    'vote-opt': (b) => doVoteOpt(b.dataset.v, b.dataset.o),
+    'g-ann': () => { const g = state.groups.find(x => x.id === state.currentGroup); if (g) gAnnounce(g); },
+    'g-ann-ok': () => { const g = state.groups.find(x => x.id === state.currentGroup); if (g) doGAnnOk(g.id); },
+    'g-title': () => { const g = state.groups.find(x => x.id === state.currentGroup); if (g) gTitles(g); },
+    'g-title-ok': (b) => doGTitleOk(b.dataset.v),
+    'g-members': () => { const g = state.groups.find(x => x.id === state.currentGroup); if (g) gMembersView(g); },
+};
+/* ============================================================
+   v10 我的 App（个性标签 / 空间日志 / 账单 / 时光胶囊 / 成就墙 / 我的日记）
+   ============================================================ */
+APPS.me = {
+    name: '我的',
+    render() {
+        $('app-title').textContent = '我的';
+        return meHome();
+    },
+    init() {},
+};
+HANDLERS.me = {
+    'me-tab': (b) => { state.meTab = b.dataset.v; openApp('me'); },
+    'tag-add': () => {
+        const v = ($('tag-input') ? $('tag-input').value : '').trim();
+        if (!v) { toast('输入标签内容'); return; }
+        state.tags.unshift(v);
+        persistV10();
+        openApp('me');
+    },
+    'tag-del': (b) => { state.tags.splice(+b.dataset.v, 1); persistV10(); openApp('me'); },
+    'log-add': () => {
+        const v = ($('log-input') ? $('log-input').value : '').trim();
+        if (!v) { toast('写点什么吧'); return; }
+        state.logs.unshift({ id: 'l' + Date.now(), text: v, time: fmtTime(new Date()) + ' ' + fmtDate(new Date()) });
+        persistV10();
+        openApp('me');
+    },
+    'log-del': (b) => { state.logs.splice(+b.dataset.v, 1); persistV10(); openApp('me'); },
+    'bill-del': (b) => { state.bills.splice(+b.dataset.v, 1); persistV10(); openApp('me'); },
+    'cap-add': () => {
+        const text = ($('cap-text') ? $('cap-text').value : '').trim();
+        const date = ($('cap-date') ? $('cap-date').value : '').trim();
+        if (!text || !date) { toast('写下内容并设定开启日期'); return; }
+        if (isNaN(new Date(date))) { toast('日期格式：YYYY-MM-DD'); return; }
+        state.capsules.unshift({ id: 'c' + Date.now(), text, openAt: date, time: fmtTime(new Date()) + ' ' + fmtDate(new Date()) });
+        persistV10();
+        openApp('me');
+        unlock('cap1');
+    },
+    'cap-open': (b) => {
+        const x = state.capsules[+b.dataset.v];
+        if (!x) return;
+        if (new Date(x.openAt) > new Date()) { toast('🔒 还没到开启时间：' + x.openAt); return; }
+        toast('📩 未来的你收到了这封信');
+    },
+    'diary-add': () => {
+        const v = ($('diary-input') ? $('diary-input').value : '').trim();
+        if (!v) { toast('写点什么吧'); return; }
+        state.diaries.unshift({ id: 'd' + Date.now(), text: v, time: fmtTime(new Date()) + ' ' + fmtDate(new Date()), comments: [] });
+        persistV10();
+        openApp('me');
+        unlock('diary1');
+    },
+    'diary-comment': (b) => diaryComment(+b.dataset.v),
 };
 // 返回列表（信息应用：聊天 / 表单 → 列表）
 const _origGoHome = goHome;
@@ -3981,6 +5494,13 @@ goHome = function () {
         $('app-body').innerHTML = renderMsgList();
         return;
     }
+    if (state.app === 'group' && state.groupView !== 'list') {
+        state.groupView = 'list';
+        state.currentGroup = null;
+        $('app-title').textContent = '群聊';
+        $('app-body').innerHTML = renderGroups();
+        return;
+    }
     _origGoHome();
 };
 $('app-back').addEventListener('click', () => {
@@ -3989,6 +5509,11 @@ $('app-back').addEventListener('click', () => {
         state.currentChat = null;
         $('app-title').textContent = '信息';
         $('app-body').innerHTML = renderMsgList();
+    } else if (state.app === 'group' && state.groupView !== 'list') {
+        state.groupView = 'list';
+        state.currentGroup = null;
+        $('app-title').textContent = '群聊';
+        $('app-body').innerHTML = renderGroups();
     } else if (state.app === 'settings' && state.settingsPage !== 'main') {
         state.settingsPage = 'main';
         openApp('settings');
