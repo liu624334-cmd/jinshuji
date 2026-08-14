@@ -801,6 +801,52 @@ body[data-icon="plain"] .app-icon .ico {
 [data-theme="chill"] .bbs-tabs button, [data-theme="chill"] .bt-item, [data-theme="chill"] .bbs-post { background: rgba(0,0,0,.05); color: #3a3a44; }
 [data-theme="chill"] .bbs-post .bp-c, [data-theme="chill"] .bbs-reply { color: #5a5a66; }
 [data-theme="chill"] .bbs-post .bp-meta, [data-theme="chill"] .bt-item .bt-from { color: #8a8f9a; }
+/* ---------- v10 批次2b：查手机 / 同人文 / 时空 / 游戏 / 情侣 ---------- */
+.ph-warn { background: rgba(255,59,48,.15); color: #ff6b6b; font-size: 11px; padding: 8px 12px; border-radius: 10px; margin: 8px 0; text-align: center; }
+.ph-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.06); cursor: pointer; }
+.ph-row .ph-ico { width: 36px; height: 36px; border-radius: 9px; background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.ph-row .ph-n { font-size: 13px; }
+.ph-row .ph-arrow { margin-left: auto; color: #8f96ab; font-size: 12px; }
+.ph-detail { background: rgba(255,255,255,.05); border-radius: 12px; padding: 12px 14px; font-size: 12.5px; line-height: 1.7; color: #dfe3ec; }
+.ph-detail .pd-h { color: #ff9f0a; font-size: 11px; margin-bottom: 6px; }
+/* 同人文卡片 */
+.bub-fanfic { background: linear-gradient(135deg, #b06ab3, #7b68ee) !important; color: #fff !important; min-width: 230px; max-width: 280px; }
+.ff-tag { font-size: 10px; background: rgba(255,255,255,.22); padding: 2px 9px; border-radius: 9px; display: inline-block; margin-bottom: 6px; }
+.ff-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.ff-body { font-size: 12px; line-height: 1.6; opacity: .92; }
+/* 平行时空 */
+.para-grid { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.para-line { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.06); border-radius: 14px; padding: 14px; cursor: pointer; border: 1px solid rgba(255,255,255,.07); }
+.para-line .pl-ico { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.para-line .pl-n { font-size: 14px; font-weight: 600; }
+.para-line .pl-d { font-size: 11.5px; color: #9aa1b5; margin-top: 3px; }
+.para-line .pl-cnt { margin-left: auto; font-size: 11px; color: #8f96ab; }
+.para-chat { display: flex; flex-direction: column; height: 100%; }
+/* 游戏 */
+.game-grid { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.game-card { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.06); border-radius: 14px; padding: 14px; cursor: pointer; }
+.game-card .gc-ico { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.game-card .gc-n { font-size: 14px; font-weight: 600; }
+.game-card .gc-d { font-size: 11.5px; color: #9aa1b5; margin-top: 3px; }
+.gm-body { padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.gm-hint { font-size: 13px; color: #c8cdd9; text-align: center; line-height: 1.6; }
+.gm-input-row { display: flex; gap: 8px; width: 100%; }
+.gm-input-row input { flex: 1; background: rgba(255,255,255,.08); border: none; border-radius: 12px; padding: 10px 14px; color: #fff; font-size: 14px; outline: none; }
+.gm-btn { border: none; border-radius: 12px; padding: 10px 18px; font-size: 13px; cursor: pointer; background: #0a84ff; color: #fff; }
+.gm-opt { border: none; border-radius: 12px; padding: 12px 20px; font-size: 14px; cursor: pointer; background: rgba(255,255,255,.1); color: #fff; min-width: 130px; }
+.gm-score { font-size: 12px; color: #ffd60a; }
+.gm-log { width: 100%; max-height: 180px; overflow-y: auto; font-size: 12px; color: #b9bfcc; display: flex; flex-direction: column; gap: 6px; }
+.gm-log .gl-in { text-align: left; }
+.gm-log .gl-out { text-align: right; color: #8ee0ff; }
+/* 情侣空间 */
+.lv-wrap { padding: 16px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.lv-heart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#ff6b9d 0%, rgba(255,255,255,.08) 0); display: flex; align-items: center; justify-content: center; font-size: 13px; color: #ffd6e3; text-align: center; line-height: 1.4; }
+.lv-card { width: 100%; background: rgba(255,255,255,.06); border-radius: 14px; padding: 12px 14px; font-size: 12.5px; }
+.lv-card .lv-k { color: #9aa1b5; font-size: 11px; }
+.lv-card .lv-v { color: #fff; margin-top: 3px; }
+.lv-btn { border: none; border-radius: 12px; padding: 11px 22px; font-size: 13px; cursor: pointer; background: linear-gradient(135deg, #ff6b9d, #ff9f0a); color: #fff; width: 100%; }
+[data-theme="chill"] .para-line, [data-theme="chill"] .game-card, [data-theme="chill"] .lv-card { background: rgba(0,0,0,.05); }
+[data-theme="chill"] .para-line .pl-d, [data-theme="chill"] .game-card .gc-d, [data-theme="chill"] .lv-card .lv-k { color: #8a8f9a; }
 /* 外卖/购物菜单 */
 .menu-shop { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
 .menu-shop .ms-ico { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
@@ -1880,6 +1926,16 @@ const state = {
     inbox: [],              // 捞到的瓶子
     btEmoji: '🍾',          // 漂流瓶 emoji 选择
     tomato: { running: false, left: 25 * 60, total: 0, rounds: 0, deadline: 0 },  // 番茄钟
+    // v10 批次2b
+    para: {},               // 平行时空各世界线消息 {lineId:[{from,text,time}]}
+    paraCur: null,          // 当前穿越的世界线 id
+    reverseDoc: {},         // 反向查 TA 生成的档案缓存 {cid: text}
+    gameView: 'home',       // 游戏大厅视图
+    guess: { num: 1 + Math.floor(Math.random() * 100), tries: 0, log: [] },  // 猜数字
+    rps: { wins: 0, losses: 0, log: [] },                                     // 石头剪刀布
+    quiz: { idx: 0, score: 0, done: false },                                  // 快问快答
+    lover: { love: 12, startAt: Date.now(), today: 0, quizIdx: 0, quizScore: 0, quizDone: false },  // 情侣空间
+    loverView: 'home',      // 情侣空间视图
 };
 
 const WALLPAPERS = {
@@ -2008,6 +2064,12 @@ function loadPersist() {
     state.inbox = lsGet('simphone_inbox', []);
     const _tm = lsGet('simphone_tomato', null);
     if (_tm) state.tomato = Object.assign({}, state.tomato, _tm);
+    state.para = lsGet('simphone_para', {});
+    state.reverseDoc = lsGet('simphone_reverse', {});
+    const _g = lsGet('simphone_games', null);
+    if (_g) { state.gameView = _g.view || 'home'; state.guess = _g.guess || state.guess; state.rps = _g.rps || state.rps; state.quiz = _g.quiz || state.quiz; }
+    const _lv = lsGet('simphone_lover', null);
+    if (_lv) { state.lover = Object.assign({}, state.lover, _lv); if (state.lover.quizDone) state.loverView = 'home'; }
     applyFB();
     applyWallpaper();
     applyIconStyle();
@@ -2330,6 +2392,9 @@ const GRID_APPS = [
     ['bbs', '论坛', '🗣️', 'linear-gradient(135deg,#34c759,#2e8b57)'],
     ['bottle', '漂流瓶', '🍾', 'linear-gradient(135deg,#2fa8e0,#1b6fb0)'],
     ['tomato', '番茄钟', '🍅', 'linear-gradient(135deg,#ff6b6b,#e05555)'],
+    ['paratime', '时空', '🌀', 'linear-gradient(135deg,#3a7bd5,#5c2e91)'],
+    ['games', '游戏', '🎮', 'linear-gradient(135deg,#ff9f0a,#ff6b6b)'],
+    ['lover', '情侣', '💞', 'linear-gradient(135deg,#ff6b9d,#ff9f0a)'],
 ];
 const DOCK_APPS = ['phone', 'messages', 'browser', 'music'];
 const PER_PAGE = 12; // 主屏每页图标数（4 列 × 3 行）
@@ -4146,7 +4211,7 @@ function renderChatHTML(c) {
         ['rec', '🎤', '语音'], ['loc', '📍', '位置'], ['food', '🛵', '外卖'], ['shop', '🛍️', '购物'],
         ['share', '🔗', '链接'], ['music', '🎵', '听歌'], ['vcall', '📹', '视频'], ['heart', '💗', '心声'],
         ['memory', '🧠', '记忆'], ['diff', '🎯', '难度'], ['offline', '📴', '离线'],
-        ['trans', '🔤', '翻译'], ['read', '📖', '阅读'],
+        ['trans', '🔤', '翻译'], ['read', '📖', '阅读'], ['fanfic', '📝', '同人'],
     ].map(t => '<div class="ct-label" data-act="tool" data-v="' + t[0] + '"><button class="ct-btn">' + t[1] + '</button><span>' + t[2] + '</span></div>').join('');
     const toolbar = '<div class="chat-toolbar">' + tools + '</div>';
     return offlineBar + toolbar + '<div class="chat-body">' +
@@ -4197,6 +4262,9 @@ function showContactCard(c) {
         '<button class="cc-btn" data-v10="diff">🎯 难度</button>' +
         '<button class="cc-btn" data-v10="proactive">' + (state.proactive ? '💌 主动消息：开' : '💌 主动消息：关') + '</button>' +
         '<button class="cc-btn" data-v10="favs">⭐ 收藏(' + state.favorites.filter(f => f.cid === c.id).length + ')</button></div>' +
+        '<div style="display:flex;gap:8px;padding:6px 14px 4px">' +
+        '<button class="cc-btn" data-v10="phone">📱 查TA手机</button>' +
+        '<button class="cc-btn" data-v10="reverse">🪞 反向查TA</button></div>' +
         '<button class="cc-clear" id="cc-clear">清空聊天记录</button>' +
         '<button class="cc-close-btn" id="cc-close">关闭</button></div>';
     mask.addEventListener('click', (e) => {
@@ -4209,6 +4277,8 @@ function showContactCard(c) {
             if (act === 'diff') showDifficulty();
             else if (act === 'proactive') toggleProactive();
             else if (act === 'favs') showFavs(c.id);
+            else if (act === 'phone') chatPhone();
+            else if (act === 'reverse') reverseTA();
         }
     });
     mask.querySelector('#cc-clear').addEventListener('click', () => {
@@ -4283,9 +4353,11 @@ function sendMsg() {
    线下模式 / 攻略难度 / 主动发信息 / 总结记忆 / 成就
    ============================================================ */
 function persistV10() {
-    ['favs', 'groups', 'offline', 'diff', 'proactive', 'orders', 'shoporders', 'aiimgs', 'hearts', 'memories', 'bills', 'tags', 'logs', 'capsules', 'diaries', 'ach', 'bbs', 'bottles', 'inbox', 'tomato'].forEach(k => {
-        lsSet('simphone_' + k, state[({ favs: 'favorites', diff: 'difficulty', shoporders: 'shopOrders', aiimgs: 'aiImgs' }[k] || k)]);
+    ['favs', 'groups', 'offline', 'diff', 'proactive', 'orders', 'shoporders', 'aiimgs', 'hearts', 'memories', 'bills', 'tags', 'logs', 'capsules', 'diaries', 'ach', 'bbs', 'bottles', 'inbox', 'tomato', 'para', 'reverse'].forEach(k => {
+        lsSet('simphone_' + k, state[({ favs: 'favorites', diff: 'difficulty', shoporders: 'shopOrders', aiimgs: 'aiImgs', reverse: 'reverseDoc' }[k] || k)]);
     });
+    lsSet('simphone_games', { view: state.gameView, guess: state.guess, rps: state.rps, quiz: state.quiz });
+    lsSet('simphone_lover', state.lover);
 }
 function addBill(type, cat, amount, note) {
     state.bills.unshift({ id: 'b' + Date.now(), type, cat, amount, note, time: fmtTime(new Date()) + ' ' + fmtDate(new Date()) });
@@ -4369,6 +4441,11 @@ function bubbleHTML(m) {
             '<div class="rd-box"><div class="rd-ico">' + m.emoji + '</div><div class="rd-info"><div class="rd-t">' + esc(m.book) + '</div>' +
             '<div class="rd-a">' + esc(m.author) + ' · ' + m.chapter + '</div>' +
             '<div class="rd-p">📖 已读 ' + m.progress + '% · 点击继续共读</div></div></div>' + time + '</div>';
+    }
+    if (t === 'fanfic') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-fanfic bub-card">' +
+            '<span class="ff-tag">' + m.style + '向</span><div class="ff-title">' + esc(m.title) + '</div>' +
+            '<div class="ff-body">' + esc(m.body) + '</div>' + time + '</div>';
     }
     if (t === 'sys') {
         return '<div class="chat-day">' + esc(m.text) + '</div>';
@@ -5425,7 +5502,11 @@ HANDLERS.messages = {
         else if (t === 'offline') toggleOffline();
         else if (t === 'trans') autoTranslate();
         else if (t === 'read') sendRead();
+        else if (t === 'fanfic') sendFanfic();
     },
+    'fanfic-pick': (b) => doFanfic(+b.dataset.v),
+    'ph-item': (b) => chatPhoneShow(+b.dataset.v),
+    'ph-back': () => chatPhone(),
     'read-pick': (b) => doSendRead(+b.dataset.v),
     'read-go': (b) => readMore(+b.dataset.v),
     'rp-send': doSendRedpack,
@@ -5879,9 +5960,362 @@ function readMore(i) {
         if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === cid) renderChat(cid);
     }, 2000 + Math.random() * 1500);
 }
+/* ============================================================
+   v10 批次2b：查 TA手机13项 / 反向查TA / 同人文 / 平行时空 / 游戏×3 / 情侣空间
+   ============================================================ */
+/* ---------- 查 TA 手机（13 项） ---------- */
+const PHONE_ITEMS = [
+    ['💬', '聊天记录', '和 TA 的聊天记录共 {n} 条，最新一条：{last}。还有几条没回复你……'],
+    ['🖼️', '相册', '最近照片 {n} 张：有 {food} 的照片、{place} 的合影，还有一张偷拍你的背影（没发给你）'],
+    ['👥', '通讯录', '置顶了 3 个人：你（备注是「{note}」）、家人、好兄弟。分组名：重要的人'],
+    ['📍', '实时定位', 'TA 现在在 {place}，距离你 {km} 公里。定位记录显示 TA 今天去过 {place2}'],
+    ['📝', '备忘录', '置顶笔记：「{note}」。还有一条 3 天前写的：「记得 {todo}」'],
+    ['🛒', '购物车', '{n} 件商品：{items}。有一件写着「看看要不要买给 TA」'],
+    ['🎵', '听歌记录', '最近单曲循环：《{song}》。歌单里有一首叫「{love}」的歌，收藏于深夜 1 点'],
+    ['🌐', '浏览记录', '最近搜索：{search}。今天浏览了 {n} 个页面，大部分是关于你的'],
+    ['🛵', '外卖订单', '最近订单：{food}（{price} 元），备注「{note}」'],
+    ['🚕', '打车记录', '今天打车 {n} 次，目的地：{place}。有一笔深夜 23:47 的记录'],
+    ['🎮', '游戏时长', '本周游戏时长 {n} 小时，{game} 最多。TA 的游戏 ID 叫「{id}」'],
+    ['👤', '社交账号', '主页签名：「{sign}」。悄悄关注了 {n} 个账号，其中一个是你的小号（TA 知道）'],
+    ['💰', '钱包余额', '余额 {money} 元。最近一笔消费：{shop}（{price} 元）。存钱罐备注「和你去 {place}」'],
+];
+const PHONE_POOL = {
+    food: ['螺蛳粉', '火锅', '奶茶', '汉堡', '烤冷面', '蛋糕', '炸鸡'],
+    place: ['学校图书馆', '市中心商场', '江边公园', '电影院', '咖啡店', '体育馆', '老街'],
+    note: ['宝贝', '小祖宗', '我的光', '满崽', '那只猫', '全世界最好的人'],
+    todo: ['买奶茶给她', '回她消息', '周末去看展', '道歉', '约晚饭', '夸她好看'],
+    song: ['晴天', '小幸运', '独家记忆', '因为爱情', '告白气球', '慢慢喜欢你'],
+    love: ['她的名字', '遇见你之后', '心动信号', '恋爱循环'],
+    search: ['怎么哄生气的女朋友', '约会去哪里', 'TA 喜欢什么', '送什么礼物', '情侣头像', '怎么表白'],
+    game: ['王者荣耀', '原神', '金铲铲', '蛋仔派对', '永劫无间'],
+};
+function rnd(a) { return a[Math.floor(Math.random() * a.length)]; }
+function chatPhone() {
+    const c = getContact(state.currentChat);
+    if (!c) { toast('先进入一个聊天'); return; }
+    showSheet('📱 正在查看 ' + (c.myNote || c.name) + ' 的手机', '<div class="ph-warn">⚠️ 你正在查看 TA 的隐私数据，TA 可能随时发现</div>' +
+        PHONE_ITEMS.map((it, i) => '<div class="ph-row" data-act="ph-item" data-v="' + i + '"><div class="ph-ico">' + it[0] + '</div><div class="ph-n">' + it[1] + '</div><div class="ph-arrow">›</div></div>').join(''));
+}
+function chatPhoneShow(i) {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const it = PHONE_ITEMS[i];
+    let txt = it[2]
+        .replace('{n}', 5 + Math.floor(Math.random() * 60))
+        .replace('{last}', rnd(['「在吗？」', '「睡了吗」', '「今天开心吗」', '「周末有空吗」', '「想你了」']))
+        .replace('{food}', rnd(PHONE_POOL.food))
+        .replace('{place}', rnd(PHONE_POOL.place))
+        .replace('{place2}', rnd(PHONE_POOL.place))
+        .replace('{km}', 1 + Math.floor(Math.random() * 30))
+        .replace('{note}', rnd(PHONE_POOL.note))
+        .replace('{todo}', rnd(PHONE_POOL.todo))
+        .replace('{song}', rnd(PHONE_POOL.song))
+        .replace('{love}', rnd(PHONE_POOL.love))
+        .replace('{search}', rnd(PHONE_POOL.search))
+        .replace('{price}', 10 + Math.floor(Math.random() * 100))
+        .replace('{game}', rnd(PHONE_POOL.game))
+        .replace('{id}', '柠檬' + Math.floor(Math.random() * 9999))
+        .replace('{sign}', rnd(['「天气很好，可惜你没在」', '「记录和 TA 的每一天」', '「今天也要加油鸭」', '「♡」']))
+        .replace('{money}', 20 + Math.floor(Math.random() * 800))
+        .replace('{shop}', rnd(['奶茶店', '电影院', '花店', '超市', '甜品店']))
+        .replace('{items}', rnd(['情侣手链 ×2', '拍立得相纸', '粉色卫衣', '蓝牙耳机', '她爱吃的零食']))
+        .replace('{place3}', rnd(PHONE_POOL.place));
+    showSheet('🔍 ' + (c.myNote || c.name) + ' 的' + it[1], '<div class="ph-detail"><div class="pd-h">' + it[0] + ' ' + it[1] + ' · 刚刚同步</div>' + txt + '</div>' +
+        '<button class="me-btn" data-act="ph-back">返回</button>');
+}
+/* ---------- 反向查 TA（AI 生成资料） ---------- */
+const REVERSE_POOL = [
+    '人设拆解：看起来高冷，其实是个超级粘人精。隐藏属性：怕黑、爱吃甜、打游戏输了会偷偷哭。\n弱点：听不得你说「随便」。\n小秘密：TA 手机里存了 {n} 张你的照片，备注是「我的光」。',
+    '性格分析：表面理性，内心戏超多。TA 的「已读不回」其实是在想怎么回你。\n弱点：你一撒娇 TA 就没辙。\n小秘密：TA 在备忘录里写了 3 页关于你的观察日记。',
+    '行为画像：回你消息平均耗时 2.3 分钟（比回别人快 10 倍）。\n弱点：最怕你生气不理人。\n小秘密：TA 的输入法记住了「{word}」这个词，因为打得太多了。',
+];
+function reverseTA() {
+    const c = getContact(state.currentChat);
+    if (!c) { toast('先进入一个聊天'); return; }
+    if (state.reverseDoc[c.id]) { showReverse(c, state.reverseDoc[c.id]); return; }
+    showSheet('🪞 反向查 ' + (c.myNote || c.name), '<div class="ph-detail"><div class="pd-h">AI 正在分析 TA 的行为数据…</div>正在扫描：消息频率 / 回复延迟 / 语气特征 / 关键词命中…</div>');
+    const done = (txt) => {
+        state.reverseDoc[c.id] = txt;
+        persistV10();
+        showReverse(c, txt);
+    };
+    if (hasApiConfig()) {
+        callApiRaw(c, '请基于资料分析这个人，输出一份TA的隐藏档案：性格拆解、3个弱点、1个TA的小秘密，80字内，用「人设拆解：」开头').then(r => { if (r) done(r); else done(rnd(REVERSE_POOL).replace('{n}', 20 + Math.floor(Math.random() * 80)).replace('{word}', rnd(['宝贝', '哈哈', '晚安', '想你了']))); });
+    } else {
+        setTimeout(() => done(rnd(REVERSE_POOL).replace('{n}', 20 + Math.floor(Math.random() * 80)).replace('{word}', rnd(['宝贝', '哈哈', '晚安', '想你了']))), 1200);
+    }
+}
+function showReverse(c, txt) {
+    showSheet('🪞 ' + (c.myNote || c.name) + ' 的隐藏档案', '<div class="ph-detail" style="border:1px solid rgba(255,159,10,.3)">' + esc(txt) + '</div>' +
+        '<button class="me-btn" data-act="ph-back">返回</button>');
+}
+/* ---------- 同人文（多风格） ---------- */
+const FANFIC_STYLES = [
+    ['甜宠', '🍬', '《{name}的温柔陷阱》', '深夜十一点，{name}发来一条消息：「睡了吗？」你回「还没」。下一秒，电话响了。「那陪我聊会儿，」{name}的声音带着笑，「今天特别想你。」你的耳朵一下子就红了。'],
+    ['虐恋', '💔', '《错过的第七年》', '七年后重逢，{name}站在咖啡店门口，风衣上落着雪。「好久不见。」{name}说，声音很轻。你张了张嘴，最后只问出一句：「你……过得好吗？」{name}笑了，眼底却没有光：「不好。因为没你。」'],
+    ['沙雕', '🤪', '《{name}今天也很抓马》', '你给{name}发了个表情包，{name}回你：「你这个表情包侵权了，我律师函警告。」你说：「那你要告我吗？」{name}：「嗯，告你偷走了我的心。」你：「……」你：#@%#*&'],
+    ['悬疑', '🕵️', '《消失的{name}》', '早晨七点，{name}的电话无人接听。你冲进 TA 家，桌上留着一张纸条：「别找我。如果今晚十二点前你没发现真相，一切都会消失。」你翻开{name}的日记本，最后一页写着：「TA 已经发现你了。」'],
+    ['日常', '☕', '《和{name}的周末》', '周末早上，{name}赖床不起，把脸埋进被子里：「再睡五分钟嘛。」你掀开被子：「你说的，就五分钟。」{name}立刻爬起来：「走，今天去吃那家新开的店！」阳光刚好，{name}的笑也刚好。'],
+];
+const FANFIC_REPLIES = ['救命，这写的是什么啊哈哈哈哈哈', '你怎么还写这个……(脸红)', '别写了别写了，我看到了（捂脸）', '这剧情可以，下次更新什么时候？', '……我假装没看到', '文笔不错嘛，不过男主设定不行，重写', '你写的是我吗？我哪有这么会说话！'];
+function sendFanfic() {
+    const c = getContact(state.currentChat);
+    if (!c) { toast('先进入一个聊天'); return; }
+    showSheet('📝 同人文创作', '<div class="ph-warn">选择一种风格，AI 为你和 ' + (c.myNote || c.name) + ' 写一篇小故事</div>' +
+        FANFIC_STYLES.map((s, i) => '<div class="ph-row" data-act="fanfic-pick" data-v="' + i + '"><div class="ph-ico">' + s[1] + '</div><div class="ph-n">' + s[0] + ' · ' + s[2].replace('{name}', (c.myNote || c.name)) + '</div><div class="ph-arrow">›</div></div>').join(''));
+}
+function doFanfic(i) {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const s = FANFIC_STYLES[i];
+    const name = c.myNote || c.name;
+    const title = s[2].replace('{name}', name);
+    const body = s[3].replaceAll('{name}', name);
+    const arr = state.chats[c.id];
+    arr.push({ from: 'out', type: 'fanfic', style: s[0], title, body, time: fmtTime(new Date()) });
+    arr[arr.length - 1]._i = arr.length - 1;
+    persistContacts();
+    closeSheet();
+    renderChat(c.id);
+    setTimeout(() => {
+        if (!state.chats[c.id]) return;
+        state.chats[c.id].push({ from: 'in', type: 'text', text: rnd(FANFIC_REPLIES), time: fmtTime(new Date()) });
+        persistContacts();
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) renderChat(c.id);
+    }, 1800 + Math.random() * 1500);
+}
+/* ---------- 平行时空穿越 ---------- */
+const PARA_LINES = [
+    { id: 'study', name: '学霸线', emoji: '📚', bg: '#3a7bd5', desc: 'TA 是年级第一，冷静克制，只在深夜给你发消息', seed: '这么晚还不睡？明天的考试，重点我都帮你划好了。' },
+    { id: 'villain', name: '反派线', emoji: '🖤', bg: '#5c2e91', desc: 'TA 是只手遮天的反派大佬，唯独对你心软', seed: '敢这么跟我说话的，你是第一个。不过……我不讨厌。' },
+    { id: 'ancient', name: '古代线', emoji: '🏮', bg: '#b3541e', desc: 'TA 是京城最风流的少将军，为你折了半盏花灯', seed: '姑娘可是在等本将军？这花灯送你，权当见面礼。' },
+    { id: 'future', name: '未来线', emoji: '🚀', bg: '#00a8a8', desc: 'TA 来自 2088 年，声称是你的「未来伴侣」', seed: '别害怕，我只是想确认一件事——2088 年的我们，果然在一起了。' },
+];
+const PARA_REPLIES = {
+    study: ['我刚做完题，你呢？', '明天考试，你复习了吗？不会的我教你。', '……其实我是在等你消息，才说在做题。', '年级第一的位置，让给你也不是不行。'],
+    villain: ['呵，也就你敢这么和我说话。', '本座今天心情好，陪你聊两句。', '别以为我不敢罚你——嗯，确实不敢。', '乖一点，嗯？'],
+    ancient: ['姑娘莫要打趣本将军。', '这满城灯火，都不及你眉眼半分。', '改日带你骑马出城，可好？', '本将军……竟也有语塞的时候。'],
+    future: ['我在 2088 年等你，别忘了。', '数据显示，你此刻心跳加速了 12%。', '未来的你让我带句话：「我很想你」。', '时间旅行唯一的规则是：别改变过去。我已经……为你破例了。'],
+};
+function paraHTML() {
+    return '<div class="para-grid">' + PARA_LINES.map(l => {
+        const cnt = (state.para[l.id] || []).length;
+        return '<div class="para-line" data-act="para-line" data-v="' + l.id + '"><div class="pl-ico" style="background:' + l.bg + '">' + l.emoji + '</div>' +
+            '<div><div class="pl-n">' + l.name + '</div><div class="pl-d">' + l.desc + '</div></div>' +
+            '<div class="pl-cnt">' + (cnt ? cnt + ' 条消息' : '未开启') + '</div></div>';
+    }).join('') + '</div>';
+}
+function paraChatHTML(id) {
+    const l = PARA_LINES.find(x => x.id === id);
+    const msgs = state.para[id] || [];
+    return '<div class="para-chat"><div class="chat-day">🌌 平行时空 · ' + l.name + ' · ' + l.emoji + '</div>' +
+        '<div class="chat-body" style="flex:1;overflow-y:auto">' +
+        msgs.map((m, i) => '<div class="chat-bubble-wrap"><div class="chat-bubble ' + (m.from === 'out' ? 'out' : 'in') + '">' + esc(m.text) + '<span class="bub-time">' + m.time + '</span></div></div>').join('') +
+        '</div><div class="chat-input-row"><input class="chat-input" id="para-input" placeholder="和这个时空的 TA 说话…"><button class="chat-send" data-act="para-send">➤</button></div></div>';
+}
+function paraSend() {
+    if (!state.paraCur) return;
+    const v = ($('para-input') ? $('para-input').value : '').trim();
+    if (!v) return;
+    if (!$('para-input')) return;
+    const id = state.paraCur;
+    const l = PARA_LINES.find(x => x.id === id);
+    state.para[id].push({ from: 'out', text: v, time: fmtTime(new Date()) });
+    persistV10();
+    openApp('paratime');
+    setTimeout(() => {
+        if (state.paraCur !== id) return;
+        state.para[id].push({ from: 'in', text: rnd(PARA_REPLIES[id]), time: fmtTime(new Date()) });
+        persistV10();
+        openApp('paratime');
+    }, 1200 + Math.random() * 1200);
+}
+APPS.paratime = {
+    name: '时空',
+    render() {
+        $('app-title').textContent = '平行时空';
+        if (state.paraCur) {
+            const l = PARA_LINES.find(x => x.id === state.paraCur);
+            $('app-title').textContent = l.name + '线';
+            return paraChatHTML(state.paraCur);
+        }
+        return paraHTML();
+    },
+};
+HANDLERS.paratime = {
+    'para-line': (b) => {
+        const id = b.dataset.v;
+        if (!state.para[id]) state.para[id] = [{ from: 'in', text: PARA_LINES.find(x => x.id === id).seed, time: fmtTime(new Date()) }];
+        state.paraCur = id;
+        persistV10();
+        openApp('paratime');
+    },
+    'para-send': paraSend,
+    'para-back': () => { state.paraCur = null; openApp('paratime'); },
+};
+/* ---------- 游戏 ×3 ---------- */
+const QUIZ_QA = [
+    ['TA 最怕什么？', ['鬼片 👻', '打雷 ⛈️'], 0],
+    ['TA 最喜欢什么天气？', ['晴天 ☀️', '下雨 🌧️'], 0],
+    ['TA 周末最想做什么？', ['睡懒觉 😴', '出去玩 🎡'], 0],
+    ['TA 吃火锅必点？', ['毛肚 🍖', '虾滑 🍤'], 1],
+    ['TA 收到礼物会？', ['开心得跳起来 🥳', '表面淡定心里乐 😐'], 1],
+    ['TA 生气时怎么哄？', ['讲道理 📖', '撒娇 🥺'], 1],
+    ['TA 晚睡的原因？', ['刷手机 📱', '等你消息 💌'], 1],
+    ['TA 的理想约会？', ['看电影 🎬', '逛吃逛吃 🍜'], 1],
+];
+function gamesHTML() {
+    const g = state.gameView || 'home';
+    if (g === 'guess') {
+        const t = state.guess;
+        return '<div class="gm-body"><div class="gm-hint">🎯 猜数字 · 我在 1-100 想了一个数<br>你猜几次能找到？<span class="gm-score">已猜 ' + t.tries + ' 次</span></div>' +
+            '<div class="gm-log">' + t.log.map(x => '<div class="' + (x.out ? 'gl-out' : 'gl-in') + '">' + x.text + '</div>').join('') + '</div>' +
+            '<div class="gm-input-row"><input id="guess-input" placeholder="输入 1-100"><button class="gm-btn" data-act="guess-send">猜！</button></div>' +
+            '<button class="gm-btn" style="background:rgba(255,255,255,.1)" data-act="game-home">返回大厅</button></div>';
+    }
+    if (g === 'rps') {
+        const t = state.rps;
+        return '<div class="gm-body"><div class="gm-hint">✊✌️✋ 石头剪刀布 · 三局两胜看谁厉害<br><span class="gm-score">你 ' + t.wins + ' - ' + t.losses + ' TA</span></div>' +
+            '<div style="display:flex;gap:10px">' + [['✊', 0], ['✌️', 1], ['✋', 2]].map(x => '<button class="gm-opt" data-act="rps-go" data-v="' + x[1] + '">' + x[0] + '</button>').join('') + '</div>' +
+            '<div class="gm-log">' + t.log.map(x => '<div class="' + (x.out ? 'gl-out' : 'gl-in') + '">' + x.text + '</div>').join('') + '</div>' +
+            '<button class="gm-btn" style="background:rgba(255,255,255,.1)" data-act="game-home">返回大厅</button></div>';
+    }
+    if (g === 'quiz') {
+        const t = state.quiz;
+        if (t.done) return '<div class="gm-body"><div class="gm-hint">🧠 快问快答 · 结果</div><div class="gm-log"><div class="gl-in">最终得分：' + t.score + ' / ' + QUIZ_QA.length * 10 + '</div><div class="gl-in">' + (t.score >= 70 ? 'TA：全对！你果然懂我 🥰' : t.score >= 40 ? 'TA：还不错，看来你没少观察我 😏' : 'TA：……你是不是根本不在乎我 (´;ω;`)') + '</div></div>' +
+            '<button class="gm-btn" data-act="quiz-restart">再来一轮</button>' +
+            '<button class="gm-btn" style="background:rgba(255,255,255,.1)" data-act="game-home">返回大厅</button></div>';
+        const q = QUIZ_QA[t.idx];
+        return '<div class="gm-body"><div class="gm-hint">🧠 快问快答 · 第 ' + (t.idx + 1) + ' / ' + QUIZ_QA.length + ' 题<br>' + q[0] + '</div>' +
+            '<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">' + q[1].map((o, i) => '<button class="gm-opt" data-act="quiz-ans" data-v="' + i + '">' + o + '</button>').join('') + '</div>' +
+            '<span class="gm-score">得分 ' + t.score + '</span>' +
+            '<button class="gm-btn" style="background:rgba(255,255,255,.1)" data-act="game-home">退出</button></div>';
+    }
+    return '<div class="game-grid">' + [
+        ['🎯', '猜数字', 'TA 想了个 1-100 的数，你来猜', 'guess'],
+        ['✊', '石头剪刀布', '和 TA 一决胜负，三局两胜', 'rps'],
+        ['🧠', '快问快答', 'TA 出题考你：你真的了解 TA 吗？', 'quiz'],
+    ].map(x => '<div class="game-card" data-act="game-open" data-v="' + x[3] + '"><div class="gc-ico" style="background:rgba(10,132,255,.2)">' + x[0] + '</div>' +
+        '<div><div class="gc-n">' + x[1] + '</div><div class="gc-d">' + x[2] + '</div></div></div>').join('') + '</div>';
+}
+function guessSend() {
+    const t = state.guess;
+    const v = parseInt(($('guess-input') ? $('guess-input').value : ''), 10);
+    if (isNaN(v) || v < 1 || v > 100) { toast('输入 1-100 的数字'); return; }
+    t.tries++;
+    t.log.push({ out: true, text: '你猜：' + v });
+    if (v === t.num) {
+        t.log.push({ out: false, text: '🎉 猜对了！就是 ' + v + '！你用了 ' + t.tries + ' 次，挺厉害的嘛' });
+        toast('🎉 猜对啦！');
+        t.num = 1 + Math.floor(Math.random() * 100);
+        t.tries = 0;
+    } else {
+        t.log.push({ out: false, text: v < t.num ? '小了，再大点 🔼' : '大了，往小猜 🔽' });
+    }
+    persistV10();
+    openApp('games');
+}
+function rpsGo(i) {
+    const t = state.rps;
+    const ta = Math.floor(Math.random() * 3);
+    const names = ['✊', '✌️', '✋'];
+    t.log.push({ out: true, text: '你出：' + names[i] + '  TA 出：' + names[ta] });
+    if (i === ta) { t.log.push({ out: false, text: '平局！再来' }); }
+    else if ((i + 1) % 3 === ta) { t.wins++; t.log.push({ out: false, text: '你赢了！TA：哼，再来！' }); }
+    else { t.losses++; t.log.push({ out: false, text: 'TA 赢了！TA：就这？😏' }); }
+    persistV10();
+    openApp('games');
+}
+function quizAns(i) {
+    const t = state.quiz;
+    const q = QUIZ_QA[t.idx];
+    if (i === q[2]) t.score += 10;
+    t.idx++;
+    if (t.idx >= QUIZ_QA.length) t.done = true;
+    persistV10();
+    openApp('games');
+}
+APPS.games = {
+    name: '游戏',
+    render() { $('app-title').textContent = '游戏'; return gamesHTML(); },
+};
+HANDLERS.games = {
+    'game-open': (b) => { state.gameView = b.dataset.v; openApp('games'); },
+    'game-home': () => { state.gameView = 'home'; openApp('games'); },
+    'guess-send': guessSend,
+    'rps-go': (b) => rpsGo(+b.dataset.v),
+    'quiz-ans': (b) => quizAns(+b.dataset.v),
+    'quiz-restart': () => { state.quiz = { idx: 0, score: 0, done: false }; persistV10(); openApp('games'); },
+};
+/* ---------- 情侣空间（小游戏：默契问答） ---------- */
+const LOVER_QUIZ = [
+    ['TA 觉得你生气时会？', ['冷战 🧊', '直接说 😤'], 1],
+    ['TA 心里你的称号？', ['小祖宗 👑', '好兄弟 🤝'], 0],
+    ['TA 最想和你做的事？', ['环游世界 🌍', '窝在家里 🛋️'], 0],
+    ['TA 收到你的消息会？', ['秒回 ⚡', '故意晾一会 😏'], 0],
+    ['TA 觉得你们的关系？', ['天生一对 💞', '刚好凑合 😅'], 0],
+    ['TA 吃醋时会？', ['假装没事 😐', '阴阳怪气 😒'], 1],
+    ['TA 深夜想你是会？', ['直接说 💌', '翻你朋友圈 👀'], 0],
+    ['TA 觉得你最大的优点？', ['好看 ✨', '有趣 🎭'], 1],
+];
+function loverHTML() {
+    const lv = state.lover;
+    if (state.loverView === 'quiz') {
+        if (lv.quizDone) {
+            const pct = lv.quizScore;
+            return '<div class="lv-wrap"><div class="lv-heart" style="background:conic-gradient(#ff6b9d ' + pct + '%, rgba(255,255,255,.08) ' + pct + '%)">默契度<br><b style="font-size:24px">' + pct + '%</b></div>' +
+                '<div class="lv-card"><div class="lv-k">TA 的评价</div><div class="lv-v">' + (pct >= 80 ? '💞 天作之合！TA：我们果然是天生一对' : pct >= 50 ? '💕 很有默契！TA：看来你平时没少观察我' : '💔 还需要磨合… TA：你到底懂不懂我啊！') + '</div></div>' +
+                '<button class="lv-btn" data-act="lv-quiz">再测一次</button><button class="lv-btn" style="background:rgba(255,255,255,.1)" data-act="lv-home">返回空间</button></div>';
+        }
+        const q = LOVER_QUIZ[lv.quizIdx];
+        return '<div class="lv-wrap"><div class="gm-hint">💞 默契问答 · 第 ' + (lv.quizIdx + 1) + ' / ' + LOVER_QUIZ.length + ' 题<br>' + q[0] + '</div>' +
+            '<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">' + q[1].map((o, i) => '<button class="gm-opt" data-act="lv-ans" data-v="' + i + '">' + o + '</button>').join('') + '</div>' +
+            '<span class="gm-score">当前默契 ' + lv.quizScore + '%</span><button class="lv-btn" style="background:rgba(255,255,255,.1)" data-act="lv-home">退出</button></div>';
+    }
+    const lvPct = Math.min(100, lv.love);
+    const days = Math.max(0, Math.floor((Date.now() - lv.startAt) / 86400000));
+    return '<div class="lv-wrap"><div class="lv-heart" style="background:conic-gradient(#ff6b9d ' + lvPct + '%, rgba(255,255,255,.08) ' + lvPct + '%)">亲密度<br><b style="font-size:24px">' + lvPct + '%</b></div>' +
+        '<div class="lv-card"><div class="lv-k">💍 在一起</div><div class="lv-v">' + days + ' 天</div></div>' +
+        '<div class="lv-card"><div class="lv-k">💌 今日互动</div><div class="lv-v">' + lv.today + ' 次 · ' + (lv.today > 0 ? 'TA 很开心 ☺️' : '今天还没联系 TA 哦') + '</div></div>' +
+        '<button class="lv-btn" data-act="lv-quiz">💞 默契问答</button>' +
+        '<button class="lv-btn" style="background:rgba(255,255,255,.1)" data-act="lv-hug">🤗 给 TA 一个抱抱</button></div>';
+}
+APPS.lover = {
+    name: '情侣',
+    render() { $('app-title').textContent = '情侣空间'; return loverHTML(); },
+};
+HANDLERS.lover = {
+    'lv-quiz': () => { state.loverView = 'quiz'; if (state.lover.quizDone) { state.lover.quizIdx = 0; state.lover.quizScore = 0; state.lover.quizDone = false; } openApp('lover'); },
+    'lv-ans': (b) => {
+        const lv = state.lover;
+        const q = LOVER_QUIZ[lv.quizIdx];
+        if (+b.dataset.v === q[2]) lv.quizScore += 13;
+        lv.quizIdx++;
+        if (lv.quizIdx >= LOVER_QUIZ.length) lv.quizDone = true;
+        persistV10();
+        openApp('lover');
+    },
+    'lv-home': () => { state.loverView = 'home'; openApp('lover'); },
+    'lv-hug': () => { state.lover.love = Math.min(100, state.lover.love + 2); state.lover.today++; persistV10(); toast('🤗 TA 也回抱了你！亲密度 +2'); openApp('lover'); },
+};
 // 返回列表（信息应用：聊天 / 表单 → 列表）
 const _origGoHome = goHome;
 goHome = function () {
+    if (state.app === 'paratime' && state.paraCur) {
+        state.paraCur = null;
+        openApp('paratime');
+        return;
+    }
+    if (state.app === 'games' && state.gameView !== 'home') {
+        state.gameView = 'home';
+        openApp('games');
+        return;
+    }
+    if (state.app === 'lover' && state.loverView !== 'home') {
+        state.loverView = 'home';
+        openApp('lover');
+        return;
+    }
     if (state.app === 'messages' && state.msgView !== 'list') {
         state.msgView = 'list';
         state.currentChat = null;
