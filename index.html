@@ -754,6 +754,53 @@ body[data-icon="plain"] .app-icon .ico {
 .sheet-close { border: none; background: rgba(255,255,255,.1); color: #fff; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; }
 .sheet-body { flex: 1; overflow-y: auto; padding: 10px 14px; }
 .sheet-body::-webkit-scrollbar { width: 0; }
+/* ---------- v10 批次2：论坛 / 漂流瓶 / 番茄钟 / 一起阅读 ---------- */
+.bbs-tabs { display: flex; gap: 6px; padding: 10px 12px; overflow-x: auto; scrollbar-width: none; }
+.bbs-tabs button { flex-shrink: 0; border: none; background: rgba(255,255,255,.08); color: #eef; font-size: 12px; padding: 5px 12px; border-radius: 14px; cursor: pointer; }
+.bbs-tabs button.on { background: #0a84ff; color: #fff; }
+.bbs-new { margin: 0 12px 8px; width: calc(100% - 24px); border: none; background: #0a84ff; color: #fff; border-radius: 12px; padding: 10px 0; font-size: 13px; cursor: pointer; }
+.bbs-post { background: rgba(255,255,255,.05); border-radius: 14px; padding: 12px 14px; margin: 0 12px 10px; }
+.bbs-post .bp-t { font-size: 14px; font-weight: 600; }
+.bbs-post .bp-tag { font-size: 10px; background: rgba(255,255,255,.12); padding: 1px 8px; border-radius: 8px; margin-right: 6px; vertical-align: 1px; }
+.bbs-post .bp-c { font-size: 12.5px; color: #c8cdd9; margin-top: 5px; line-height: 1.5; }
+.bbs-post .bp-meta { display: flex; align-items: center; gap: 12px; margin-top: 8px; font-size: 11px; color: #8f96ab; }
+.bbs-post .bp-act { border: none; background: rgba(255,255,255,.1); color: #eef; font-size: 11px; padding: 4px 10px; border-radius: 10px; cursor: pointer; }
+.bbs-post .bp-act.on { background: rgba(255,59,48,.4); }
+.bbs-post .bp-replies { margin-top: 8px; }
+.bbs-reply { background: rgba(255,255,255,.04); border-radius: 10px; padding: 8px 10px; margin-top: 6px; font-size: 12px; color: #b9bfcc; }
+.bbs-reply .br-a { color: #8f96ab; font-size: 10.5px; margin-right: 6px; }
+/* 漂流瓶 */
+.bt-sea { height: 130px; border-radius: 16px; margin: 12px; background: linear-gradient(180deg, #0e2f5e, #1b6fb0 60%, #2fa8e0); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 44px; }
+.bt-sea .bt-wave { position: absolute; bottom: -14px; left: -20%; width: 140%; height: 40px; background: rgba(255,255,255,.14); border-radius: 50%; animation: btWave 3s ease-in-out infinite; }
+@keyframes btWave { 0%,100% { transform: translateX(0); } 50% { transform: translateX(24px); } }
+.bt-btns { display: flex; gap: 10px; padding: 0 12px; }
+.bt-btns button { flex: 1; border: none; border-radius: 14px; padding: 12px 0; font-size: 14px; cursor: pointer; }
+.bt-throw { background: #0a84ff; color: #fff; }
+.bt-catch { background: #ff9f0a; color: #fff; }
+.bt-list { padding: 10px 12px; }
+.bt-item { background: rgba(255,255,255,.05); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; font-size: 12.5px; }
+.bt-item .bt-from { font-size: 11px; color: #8f96ab; margin-top: 4px; display: flex; justify-content: space-between; align-items: center; }
+.bt-item .bt-act { border: none; background: rgba(255,255,255,.1); color: #eef; font-size: 10.5px; padding: 3px 9px; border-radius: 9px; cursor: pointer; }
+/* 番茄钟 */
+.tm-wrap { display: flex; flex-direction: column; align-items: center; padding: 24px 0; gap: 14px; }
+.tm-ring { width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(#ff6b6b 0%, rgba(255,255,255,.08) 0); display: flex; align-items: center; justify-content: center; }
+.tm-ring .tm-time { font-size: 42px; font-weight: 300; letter-spacing: 2px; }
+.tm-ctls { display: flex; gap: 12px; }
+.tm-ctls button { border: none; border-radius: 16px; padding: 10px 22px; font-size: 14px; cursor: pointer; }
+.tm-start { background: #ff6b6b; color: #fff; }
+.tm-pause { background: rgba(255,255,255,.12); color: #fff; }
+.tm-reset { background: rgba(255,255,255,.08); color: #fff; }
+.tm-info { font-size: 13px; color: #8f96ab; text-align: center; line-height: 1.7; padding: 0 20px; }
+/* 一起阅读卡片 */
+.bub-read { background: linear-gradient(135deg, #8e6bff, #5e5ce6) !important; color: #fff !important; min-width: 200px; cursor: pointer; }
+.rd-box { display: flex; align-items: center; gap: 10px; }
+.rd-ico { font-size: 30px; }
+.rd-info .rd-t { font-size: 14px; font-weight: 600; }
+.rd-info .rd-a { font-size: 11px; opacity: .8; margin-top: 2px; }
+.rd-info .rd-p { font-size: 11px; color: #ffe066; margin-top: 4px; }
+[data-theme="chill"] .bbs-tabs button, [data-theme="chill"] .bt-item, [data-theme="chill"] .bbs-post { background: rgba(0,0,0,.05); color: #3a3a44; }
+[data-theme="chill"] .bbs-post .bp-c, [data-theme="chill"] .bbs-reply { color: #5a5a66; }
+[data-theme="chill"] .bbs-post .bp-meta, [data-theme="chill"] .bt-item .bt-from { color: #8a8f9a; }
 /* 外卖/购物菜单 */
 .menu-shop { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.06); }
 .menu-shop .ms-ico { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
@@ -1748,6 +1795,12 @@ html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !import
 /* ============================================================
    核心状态
    ============================================================ */
+// v10 批次2：论坛种子帖（state 初始化引用，故定义在前）
+const BBS_SEED_DEF = [
+    { id: 'b1', tag: '分享', title: '今天和 TA 聊到凌晨三点 🌙', content: '从喜欢的电影聊到小时候的糗事，感觉时间过得特别快。你们和 TA 最长聊过多久？', author: '匿名柠檬', time: '昨天 23:12', likes: 24, liked: false, replies: [{ author: '柠檬小鹿', text: '三个小时！聊到手机没电 😂', time: '昨天 23:40' }] },
+    { id: 'b2', tag: '攻略', title: '攻略难度「困难」到底有多难？', content: '开了困难模式之后 TA 经常已读不回，回复变慢了好多。有人挑战成功过吗？', author: '挑战者一号', time: '昨天 18:05', likes: 15, liked: false, replies: [] },
+    { id: 'b3', tag: '闲聊', title: '你们会给 TA 起什么备注？', content: '我先来：我家那位叫「满崽」🐱 叫顺口了改不回来。', author: '起名困难户', time: '前天 20:33', likes: 31, liked: false, replies: [{ author: '锦书用户', text: '我备注「大佬」，因为他真的高冷', time: '前天 21:00' }, { author: '起名困难户', text: '哈哈哈哈哈大佬好', time: '前天 21:02' }] },
+];
 const state = {
     locked: true,
     app: null,            // 当前打开的应用 id
@@ -1820,6 +1873,13 @@ const state = {
     groupView: 'list',      // 群聊视图 'list' | 'chat'
     currentGroup: null,     // 当前群聊 id
     meTab: 'home',          // 我的页 tab
+    // v10 批次2
+    bbsPosts: BBS_SEED_DEF, // 论坛帖子（种子在下方定义）
+    bbsTag: '全部',          // 论坛当前分类
+    bottles: [],            // 扔进海里的漂流瓶
+    inbox: [],              // 捞到的瓶子
+    btEmoji: '🍾',          // 漂流瓶 emoji 选择
+    tomato: { running: false, left: 25 * 60, total: 0, rounds: 0, deadline: 0 },  // 番茄钟
 };
 
 const WALLPAPERS = {
@@ -1943,6 +2003,11 @@ function loadPersist() {
     state.capsules = lsGet('simphone_capsules', []);
     state.diaries = lsGet('simphone_diaries', []);
     state.achievements = lsGet('simphone_ach', []);
+    state.bbsPosts = lsGet('simphone_bbs', null) || BBS_SEED_DEF;
+    state.bottles = lsGet('simphone_bottles', []);
+    state.inbox = lsGet('simphone_inbox', []);
+    const _tm = lsGet('simphone_tomato', null);
+    if (_tm) state.tomato = Object.assign({}, state.tomato, _tm);
     applyFB();
     applyWallpaper();
     applyIconStyle();
@@ -2262,6 +2327,9 @@ const GRID_APPS = [
     ['moments', '朋友圈', '📸', 'linear-gradient(135deg,#34c759,#7ddc4f)'],
     ['group', '群聊', '👥', 'linear-gradient(135deg,#5e5ce6,#9b59b6)'],
     ['me', '我的', '🙋', 'linear-gradient(135deg,#ff9f0a,#ff6482)'],
+    ['bbs', '论坛', '🗣️', 'linear-gradient(135deg,#34c759,#2e8b57)'],
+    ['bottle', '漂流瓶', '🍾', 'linear-gradient(135deg,#2fa8e0,#1b6fb0)'],
+    ['tomato', '番茄钟', '🍅', 'linear-gradient(135deg,#ff6b6b,#e05555)'],
 ];
 const DOCK_APPS = ['phone', 'messages', 'browser', 'music'];
 const PER_PAGE = 12; // 主屏每页图标数（4 列 × 3 行）
@@ -4078,6 +4146,7 @@ function renderChatHTML(c) {
         ['rec', '🎤', '语音'], ['loc', '📍', '位置'], ['food', '🛵', '外卖'], ['shop', '🛍️', '购物'],
         ['share', '🔗', '链接'], ['music', '🎵', '听歌'], ['vcall', '📹', '视频'], ['heart', '💗', '心声'],
         ['memory', '🧠', '记忆'], ['diff', '🎯', '难度'], ['offline', '📴', '离线'],
+        ['trans', '🔤', '翻译'], ['read', '📖', '阅读'],
     ].map(t => '<div class="ct-label" data-act="tool" data-v="' + t[0] + '"><button class="ct-btn">' + t[1] + '</button><span>' + t[2] + '</span></div>').join('');
     const toolbar = '<div class="chat-toolbar">' + tools + '</div>';
     return offlineBar + toolbar + '<div class="chat-body">' +
@@ -4214,7 +4283,7 @@ function sendMsg() {
    线下模式 / 攻略难度 / 主动发信息 / 总结记忆 / 成就
    ============================================================ */
 function persistV10() {
-    ['favs', 'groups', 'offline', 'diff', 'proactive', 'orders', 'shoporders', 'aiimgs', 'hearts', 'memories', 'bills', 'tags', 'logs', 'capsules', 'diaries', 'ach'].forEach(k => {
+    ['favs', 'groups', 'offline', 'diff', 'proactive', 'orders', 'shoporders', 'aiimgs', 'hearts', 'memories', 'bills', 'tags', 'logs', 'capsules', 'diaries', 'ach', 'bbs', 'bottles', 'inbox', 'tomato'].forEach(k => {
         lsSet('simphone_' + k, state[({ favs: 'favorites', diff: 'difficulty', shoporders: 'shopOrders', aiimgs: 'aiImgs' }[k] || k)]);
     });
 }
@@ -4294,6 +4363,12 @@ function bubbleHTML(m) {
     }
     if (t === 'vcall') {
         return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-vcall">📹 ' + (m.from === 'in' ? '对方发起了' : '你发起了') + '视频通话 · ' + m.dur + time + '</div>';
+    }
+    if (t === 'read') {
+        return '<div class="chat-bubble ' + (m.from === 'in' ? 'in' : 'out') + ' bub-read bub-card" data-act="read-go" data-v="' + m._i + '">' +
+            '<div class="rd-box"><div class="rd-ico">' + m.emoji + '</div><div class="rd-info"><div class="rd-t">' + esc(m.book) + '</div>' +
+            '<div class="rd-a">' + esc(m.author) + ' · ' + m.chapter + '</div>' +
+            '<div class="rd-p">📖 已读 ' + m.progress + '% · 点击继续共读</div></div></div>' + time + '</div>';
     }
     if (t === 'sys') {
         return '<div class="chat-day">' + esc(m.text) + '</div>';
@@ -5348,7 +5423,11 @@ HANDLERS.messages = {
         else if (t === 'memory') summaryMemory();
         else if (t === 'diff') showDifficulty();
         else if (t === 'offline') toggleOffline();
+        else if (t === 'trans') autoTranslate();
+        else if (t === 'read') sendRead();
     },
+    'read-pick': (b) => doSendRead(+b.dataset.v),
+    'read-go': (b) => readMore(+b.dataset.v),
     'rp-send': doSendRedpack,
     'open-rp': (b) => {
         const cid = state.currentChat;
@@ -5484,6 +5563,322 @@ HANDLERS.me = {
     },
     'diary-comment': (b) => diaryComment(+b.dataset.v),
 };
+/* ============================================================
+   v10 批次2：论坛 / 漂流瓶 / 番茄钟 / 自动翻译 / 一起阅读
+   ============================================================ */
+/* ---------- 论坛 ---------- */
+const BBS_TAGS = ['全部', '求助', '分享', '闲聊', '攻略'];
+const BBS_SEED = [
+    { id: 'b1', tag: '分享', title: '今天和阿澈聊到凌晨三点 🌙', content: '从喜欢的电影聊到小时候的糗事，感觉时间过得特别快。你们和 TA 最长聊过多久？', author: '匿名柠檬', time: '昨天 23:12', likes: 24, replies: [{ author: '柠檬小鹿', text: '三个小时！聊到手机没电 😂', time: '昨天 23:40' }] },
+    { id: 'b2', tag: '攻略', title: '攻略难度「困难」到底有多难？', content: '开了困难模式之后 TA 经常已读不回，回复变慢了好多。有人挑战成功过吗？', author: '挑战者一号', time: '昨天 18:05', likes: 15, replies: [] },
+    { id: 'b3', tag: '闲聊', title: '你们会给 TA 起什么备注？', content: '我先来：我家那位叫「满崽」🐱 叫顺口了改不回来。', author: '起名困难户', time: '前天 20:33', likes: 31, replies: [{ author: '锦书用户', text: '我备注「大佬」，因为他真的高冷', time: '前天 21:00' }, { author: '起名困难户', text: '哈哈哈哈哈大佬好', time: '前天 21:02' }] },
+];
+function bbsHTML() {
+    const tag = state.bbsTag || '全部';
+    const posts = state.bbsPosts.filter(p => tag === '全部' || p.tag === tag);
+    return '<div class="bbs-tabs">' + BBS_TAGS.map(t =>
+        '<button data-act="bbs-tag" data-v="' + t + '" class="' + (t === tag ? 'on' : '') + '">' + t + '</button>'
+    ).join('') + '</div>' +
+        '<button class="bbs-new" data-act="bbs-new">✏️ 发帖</button>' +
+        (posts.length ? posts.map((p, i) =>
+            '<div class="bbs-post"><div class="bp-t"><span class="bp-tag">' + p.tag + '</span>' + esc(p.title) + '</div>' +
+            '<div class="bp-c">' + esc(p.content) + '</div>' +
+            '<div class="bp-meta"><span>' + esc(p.author) + ' · ' + p.time + '</span>' +
+            '<button class="bp-act ' + (p.liked ? 'on' : '') + '" data-act="bbs-like" data-v="' + i + '">❤️ ' + p.likes + '</button>' +
+            '<button class="bp-act" data-act="bbs-reply" data-v="' + i + '">💬 ' + p.replies.length + '</button></div>' +
+            (p.replies.length ? '<div class="bp-replies">' + p.replies.map(r =>
+                '<div class="bbs-reply"><span class="br-a">' + esc(r.author) + '：</span>' + esc(r.text) + '<span style="float:right;color:#6d7488">' + r.time + '</span></div>'
+            ).join('') + '</div>' : '') + '</div>'
+        ).join('') : '<div class="chat-day">这个分类还没有帖子</div>');
+}
+function bbsPostNew() {
+    showSheet('发帖', '<select class="me-input" id="bbs-tag"><option>分享</option><option>求助</option><option>闲聊</option><option>攻略</option></select>' +
+        '<input class="me-input" id="bbs-title" placeholder="标题"/><textarea class="me-input" id="bbs-body" rows="3" placeholder="说点什么…"></textarea>' +
+        '<button class="me-btn" data-act="bbs-post">发布 📢</button>');
+}
+function bbsPost() {
+    const title = ($('bbs-title') ? $('bbs-title').value : '').trim();
+    const body = ($('bbs-body') ? $('bbs-body').value : '').trim();
+    if (!title || !body) { toast('标题和内容都要填'); return; }
+    state.bbsPosts.unshift({ id: 'b' + Date.now(), tag: ($('bbs-tag') ? $('bbs-tag').value : '闲聊'), title, content: body, author: '我', time: fmtTime(new Date()) + ' ' + fmtDate(new Date()), likes: 0, liked: false, replies: [] });
+    persistV10();
+    closeSheet();
+    openApp('bbs');
+}
+function bbsLike(i) {
+    const p = state.bbsPosts[i];
+    if (!p) return;
+    p.liked = !p.liked;
+    p.likes += p.liked ? 1 : -1;
+    persistV10();
+    openApp('bbs');
+}
+function bbsReply(i) {
+    const p = state.bbsPosts[i];
+    if (!p) return;
+    showSheet('回复「' + p.title.slice(0, 12) + '」', '<textarea class="me-input" id="bbs-reply-text" rows="3" placeholder="友善发言哦…"></textarea>' +
+        '<button class="me-btn" data-act="bbs-reply-send" data-v="' + i + '">发送 💬</button>');
+}
+function bbsReplySend(i) {
+    const v = ($('bbs-reply-text') ? $('bbs-reply-text').value : '').trim();
+    if (!v) { toast('写点内容吧'); return; }
+    const p = state.bbsPosts[i];
+    if (!p) return;
+    p.replies.push({ author: '我', text: v, time: fmtTime(new Date()) });
+    persistV10();
+    closeSheet();
+    openApp('bbs');
+}
+APPS.bbs = { name: '论坛', render() { $('app-title').textContent = '论坛'; return bbsHTML(); } };
+HANDLERS.bbs = {
+    'bbs-tag': (b) => { state.bbsTag = b.dataset.v; openApp('bbs'); },
+    'bbs-new': bbsPostNew,
+    'bbs-post': bbsPost,
+    'bbs-like': (b) => bbsLike(+b.dataset.v),
+    'bbs-reply': (b) => bbsReply(+b.dataset.v),
+    'bbs-reply-send': (b) => bbsReplySend(+b.dataset.v),
+};
+/* ---------- 漂流瓶 ---------- */
+const BOTTLE_SEED = [
+    { id: 's1', emoji: '🍾', text: '陌生人你好呀，今天的晚霞特别好看，你看到了吗？', from: '海边散步的人', time: '昨天 19:20' },
+    { id: 's2', emoji: '💌', text: '我暗恋一个人三年了，今天终于鼓起勇气约 TA 吃饭，TA 答应了。祝我好运！', from: '勇敢的胆小鬼', time: '昨天 22:41' },
+    { id: 's3', emoji: '🎈', text: '丢个瓶子试试，能不能遇到有缘人～', from: '路过的旅人', time: '前天 12:08' },
+    { id: 's4', emoji: '🫧', text: '考研倒计时 60 天，把焦虑丢进海里，继续加油！', from: '夜读人', time: '前天 23:55' },
+    { id: 's5', emoji: '🌊', text: '如果你捡到这个瓶子，记得今天要开心。', from: '无名氏', time: '3 天前' },
+];
+function bottleHTML() {
+    return '<div class="bt-sea">🌊<span class="bt-wave"></span></div>' +
+        '<div class="bt-btns"><button class="bt-throw" data-act="bt-throw">🍾 扔一个瓶子</button>' +
+        '<button class="bt-catch" data-act="bt-catch">🎣 捞一个瓶子</button></div>' +
+        '<div class="bt-list">' + (state.inbox.length ? state.inbox.map((b, i) =>
+            '<div class="bt-item">' + b.emoji + ' ' + esc(b.text) +
+            '<div class="bt-from"><span>' + esc(b.from) + ' · ' + b.time + '</span>' +
+            (b.mine ? '' : '<span><button class="bt-act" data-act="bt-reply" data-v="' + i + '">回信 💌</button>' +
+                (getContactByName(b.from) ? '<button class="bt-act" data-act="bt-dm" data-v="' + i + '">私信 📩</button>' : '') + '</span>') +
+            '</div></div>'
+        ).join('') : '<div class="chat-day">海面空空的，去捞一个吧</div>') + '</div>';
+}
+function getContactByName(n) { return state.contacts.find(c => (c.myNote || c.name) === n); }
+function btThrow() {
+    showSheet('扔一个漂流瓶', '<textarea class="me-input" id="bt-text" rows="3" placeholder="写下你想对陌生人说的话…"></textarea>' +
+        '<div style="display:flex;gap:8px;margin:6px 0">' + ['🍾', '💌', '🎈', '🫧', '📜'].map(e =>
+            '<button class="me-btn" style="flex:1;background:rgba(255,255,255,.1)" data-act="bt-emoji" data-v="' + e + '">' + e + '</button>').join('') + '</div>' +
+        '<button class="me-btn" data-act="bt-throw-ok">丢进海里 🌊</button>');
+}
+function btThrowOk() {
+    const text = ($('bt-text') ? $('bt-text').value : '').trim();
+    if (!text) { toast('写点什么再丢吧'); return; }
+    const emoji = state.btEmoji || '🍾';
+    state.bottles.unshift({ id: 'b' + Date.now(), emoji, text, from: '匿名柠檬', time: fmtTime(new Date()) + ' ' + fmtDate(new Date()), mine: true });
+    persistV10();
+    closeSheet();
+    toast('瓶子已丢进海里 🌊');
+    openApp('bottle');
+}
+function btCatch() {
+    const pool = state.bottles.filter(b => !b.mine).concat(BOTTLE_SEED);
+    if (!pool.length) { toast('海里还没有瓶子，扔一个吧'); return; }
+    const b = pool[Math.floor(Math.random() * pool.length)];
+    state.inbox.unshift({ id: 'c' + Date.now(), emoji: b.emoji, text: b.text, from: b.from, time: b.time, mine: false, seed: !!BOTTLE_SEED.find(s => s.id === b.id) });
+    persistV10();
+    toast('🎣 捞到一个瓶子！');
+    openApp('bottle');
+}
+function btReply(i) {
+    const b = state.inbox[i];
+    if (!b) return;
+    showSheet('回信给「' + b.from + '」', '<textarea class="me-input" id="bt-reply-text" rows="3" placeholder="写封回信丢回海里…"></textarea>' +
+        '<button class="me-btn" data-act="bt-reply-ok" data-v="' + i + '">丢回海里 🌊</button>');
+}
+function btReplyOk(i) {
+    const v = ($('bt-reply-text') ? $('bt-reply-text').value : '').trim();
+    if (!v) { toast('写点内容吧'); return; }
+    state.bottles.unshift({ id: 'b' + Date.now(), emoji: '💌', text: v, from: '匿名柠檬', time: fmtTime(new Date()) + ' ' + fmtDate(new Date()), mine: true });
+    persistV10();
+    closeSheet();
+    toast('回信已丢进海里 🌊');
+    openApp('bottle');
+}
+function btDm(i) {
+    const b = state.inbox[i];
+    if (!b) return;
+    const c = getContactByName(b.from);
+    if (!c) { toast('找不到 TA 的联系方式'); return; }
+    state.currentChat = c.id;
+    state.msgView = 'chat';
+    openApp('messages');
+    toast('正在给 ' + (c.myNote || c.name) + ' 发私信…');
+}
+APPS.bottle = { name: '漂流瓶', render() { $('app-title').textContent = '漂流瓶'; return bottleHTML(); } };
+HANDLERS.bottle = {
+    'bt-throw': btThrow,
+    'bt-emoji': (b) => { state.btEmoji = b.dataset.v; toast('选择了 ' + b.dataset.v); },
+    'bt-throw-ok': btThrowOk,
+    'bt-catch': btCatch,
+    'bt-reply': (b) => btReply(+b.dataset.v),
+    'bt-reply-ok': (b) => btReplyOk(+b.dataset.v),
+    'bt-dm': (b) => btDm(+b.dataset.v),
+};
+/* ---------- 番茄钟 ---------- */
+const TOMATO_WORDS = ['🍅 专注 25 分钟，番茄宝宝陪你', '🌱 每完成一个番茄，就离目标近一步', '💪 坚持住，休息马上就来', '🎧 戴上耳机，世界只剩你和任务', '✨ 番茄虽小，积少成多', '☕ 做完这轮，奖励自己一杯咖啡'];
+let tomatoTimer = null;
+function tomatoHTML() {
+    const t = state.tomato;
+    const total = t.left;
+    const pct = Math.round((1 - total / (25 * 60)) * 100);
+    const mm = String(Math.floor(total / 60)).padStart(2, '0'), ss = String(total % 60).padStart(2, '0');
+    return '<div class="tm-wrap"><div class="tm-ring" style="background:conic-gradient(#ff6b6b ' + pct + '%, rgba(255,255,255,.08) ' + pct + '%)">' +
+        '<div class="tm-time" id="tm-time">' + mm + ':' + ss + '</div></div>' +
+        '<div class="tm-ctls">' +
+        (t.running ? '<button class="tm-pause" data-act="tm-pause">⏸ 暂停</button>' : '<button class="tm-start" data-act="tm-start">▶ 开始</button>') +
+        '<button class="tm-reset" data-act="tm-reset">↺ 重置</button></div>' +
+        '<div class="tm-info">🍅 今日已专注 <b>' + t.rounds + '</b> 个番茄 · 累计 ' + Math.round(t.total / 60) + ' 分钟<br>' +
+        TOMATO_WORDS[t.rounds % TOMATO_WORDS.length] + '</div></div>';
+}
+function tomatoStart() {
+    const t = state.tomato;
+    if (t.running) return;
+    if (t.left <= 0) t.left = 25 * 60;
+    t.running = true;
+    t.deadline = Date.now() + t.left * 1000;
+    persistV10();
+    clearInterval(tomatoTimer);
+    tomatoTimer = setInterval(tomatoTick, 1000);
+    openApp('tomato');
+}
+function tomatoTick() {
+    const t = state.tomato;
+    if (!t.running) return;
+    t.left = Math.max(0, Math.round((t.deadline - Date.now()) / 1000));
+    if (state.app === 'tomato') {
+        const el = $('tm-time');
+        if (el) el.textContent = String(Math.floor(t.left / 60)).padStart(2, '0') + ':' + String(t.left % 60).padStart(2, '0');
+    }
+    if (t.left <= 0) {
+        t.running = false;
+        t.rounds++;
+        t.total += 25 * 60;
+        clearInterval(tomatoTimer);
+        persistV10();
+        toast('🍅 完成一个番茄！休息 5 分钟吧');
+        if (state.app === 'tomato') openApp('tomato');
+    }
+}
+function tomatoPause() {
+    const t = state.tomato;
+    if (!t.running) return;
+    t.running = false;
+    clearInterval(tomatoTimer);
+    persistV10();
+    openApp('tomato');
+}
+function tomatoReset() {
+    const t = state.tomato;
+    t.running = false;
+    t.left = 25 * 60;
+    clearInterval(tomatoTimer);
+    persistV10();
+    openApp('tomato');
+}
+APPS.tomato = { name: '番茄钟', render() { $('app-title').textContent = '番茄钟'; return tomatoHTML(); }, init() { if (state.tomato.running) { clearInterval(tomatoTimer); tomatoTimer = setInterval(tomatoTick, 1000); } } };
+HANDLERS.tomato = {
+    'tm-start': tomatoStart,
+    'tm-pause': tomatoPause,
+    'tm-reset': tomatoReset,
+};
+/* ---------- 自动翻译 ---------- */
+const TRANS_DICT = {
+    'hello': '你好', 'hi': '嗨', 'good morning': '早上好', 'good night': '晚安', 'thank you': '谢谢你',
+    'love you': '爱你', 'miss you': '想你', 'see you': '再见', 'how are you': '你好吗', 'fine': '我很好',
+    'nice to meet you': '很高兴认识你', 'yes': '是的', 'no': '不是', 'ok': '好的', 'great': '太棒了',
+    'goodbye': '再见', 'sorry': '对不起', 'happy': '开心', 'sad': '难过', 'beautiful': '漂亮',
+};
+const TRANS_CN = {
+    '你': 'you', '好': 'hello', '晚安': 'good night', '早安': 'good morning', '想你了': 'miss you',
+    '爱你': 'love you', '谢谢': 'thank you', '对不起': 'sorry', '再见': 'goodbye', '开心': 'happy',
+    '难过': 'sad', '漂亮': 'beautiful', '厉害': 'awesome', '加油': 'keep going',
+};
+function autoTranslate() {
+    const cid = state.currentChat;
+    const msgs = state.chats[cid] || [];
+    const last = msgs.slice().reverse().find(m => m.from === 'in' && m.type === 'text');
+    if (!last) { toast('TA 还没有发过文字消息'); return; }
+    const src = last.text;
+    let trans = '';
+    const low = src.toLowerCase();
+    if (/[a-zA-Z]/.test(src)) {
+        trans = Object.keys(TRANS_DICT).find(k => low.includes(k));
+        trans = trans ? TRANS_DICT[trans] : '（英文消息，本地词典未收录，配 API 后可完整翻译）';
+        if (trans === '（英文消息，本地词典未收录，配 API 后可完整翻译）' && hasApiConfig()) {
+            callApiRaw(getContact(cid), '把这段英文翻译成中文，只输出译文：' + src).then(r => { if (r) { trans = r; showTrans(cid, src, trans); } });
+            return;
+        }
+    } else {
+        const hit = Object.keys(TRANS_CN).find(k => src.includes(k));
+        trans = hit ? TRANS_CN[hit] : '（中文消息，配 API 后可完整翻译）';
+        if (trans === '（中文消息，配 API 后可完整翻译）' && hasApiConfig()) {
+            callApiRaw(getContact(cid), '把这段中文翻译成英文，只输出译文：' + src).then(r => { if (r) { trans = r; showTrans(cid, src, trans); } });
+            return;
+        }
+    }
+    showTrans(cid, src, trans);
+}
+function showTrans(cid, src, trans) {
+    state.chats[cid].push({ from: 'out', type: 'sys', text: '🔤 翻译：' + trans, time: fmtTime(new Date()) });
+    persistContacts();
+    renderChat(cid);
+}
+/* ---------- 一起阅读 ---------- */
+const READ_BOOKS = [
+    { name: '小王子', emoji: '🌟', author: '圣埃克苏佩里' },
+    { name: '三体', emoji: '🌌', author: '刘慈欣' },
+    { name: '解忧杂货店', emoji: '📮', author: '东野圭吾' },
+    { name: '活着', emoji: '🌾', author: '余华' },
+    { name: '月亮与六便士', emoji: '🌙', author: '毛姆' },
+];
+const READ_REPLIES = ['读到这里好有感触，' , '这段写得真好，' , '我猜到了结局！' , '明天一起读到第 3 章吧～' , '哈哈这段太有意思了，' , '和你一起读，书都变好看了'];
+function sendRead() {
+    showSheet('一起阅读', READ_BOOKS.map((b, i) =>
+        '<div class="menu-shop" data-act="read-pick" data-v="' + i + '" style="cursor:pointer"><div class="ms-ico" style="background:rgba(255,255,255,.1)">' + b.emoji + '</div>' +
+        '<div class="ms-info"><div class="ms-n">' + b.name + '</div><div class="ms-d">' + b.author + '</div></div><button class="ms-add">共读</button></div>'
+    ).join(''));
+}
+function doSendRead(i) {
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const b = READ_BOOKS[i];
+    const prog = 10;
+    const arr = state.chats[c.id];
+    arr.push({ from: 'out', type: 'read', book: b.name, emoji: b.emoji, author: b.author, progress: prog, chapter: '第 1 章', time: fmtTime(new Date()) });
+    arr[arr.length - 1]._i = arr.length - 1;
+    persistContacts();
+    closeSheet();
+    renderChat(c.id);
+    setTimeout(() => {
+        if (!state.chats[c.id]) return;
+        state.chats[c.id].push({ from: 'in', type: 'text', text: '📖 ' + b.name + ' 开始共读啦，' + READ_REPLIES[Math.floor(Math.random() * READ_REPLIES.length)] + '你看到哪了？', time: fmtTime(new Date()) });
+        persistContacts();
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) renderChat(c.id);
+    }, 2500 + Math.random() * 1500);
+}
+function readMore(i) {
+    const cid = state.currentChat;
+    const msgs = state.chats[cid] || [];
+    const m = msgs[i];
+    if (!m || m.type !== 'read') return;
+    const c = getContact(cid);
+    if (!c) return;
+    m.progress = Math.min(100, m.progress + 20);
+    m.chapter = m.progress >= 100 ? '读完了 🎉' : '第 ' + Math.ceil(m.progress / 20) + ' 章';
+    persistContacts();
+    renderChat(cid);
+    setTimeout(() => {
+        if (!state.chats[cid]) return;
+        state.chats[cid].push({ from: 'in', type: 'text', text: m.progress >= 100 ? '🎉 读完啦！' + m.book + ' 的结局你满意吗？' : READ_REPLIES[Math.floor(Math.random() * READ_REPLIES.length)] + '我追上你的进度了', time: fmtTime(new Date()) });
+        persistContacts();
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === cid) renderChat(cid);
+    }, 2000 + Math.random() * 1500);
+}
 // 返回列表（信息应用：聊天 / 表单 → 列表）
 const _origGoHome = goHome;
 goHome = function () {
