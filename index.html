@@ -953,6 +953,33 @@ body[data-icon="plain"] .app-icon .ico {
 [data-theme="chill"] .pp-item:hover { background: #f2f2f5; }
 .pp-close { width: 100%; margin-top: 12px; padding: 12px; border-radius: 14px; border: none; background: rgba(255,255,255,.08); color: #9aa0b0; font-size: 14px; cursor: pointer; }
 [data-theme="chill"] .pp-close { background: rgba(0,0,0,.05); color: #6d7280; }
+/* ===== v10.1 微信风格聊天页 ===== */
+.app-topbar.wx-bar { background: #ededed !important; color: #111 !important; }
+.app-topbar.wx-bar .app-title { color: #111 !important; }
+.app-topbar.wx-bar .app-back { color: #07c160 !important; }
+.app-body.wx-chat { background: #ededed !important; padding: 0 0 70px !important; }
+.app-body.wx-chat .chat-toolbar { background: #fff !important; margin: 0 !important; padding: 8px 10px 4px !important; }
+.app-body.wx-chat .ct-btn { background: #f0f0f0 !important; color: #333 !important; }
+.app-body.wx-chat .ct-label { color: #666 !important; }
+.app-body.wx-chat .chat-body { min-height: 100% !important; padding: 10px 8px !important; }
+.app-body.wx-chat .chat-bubble { box-shadow: 0 1px 2px rgba(0,0,0,.08) !important; }
+.app-body.wx-chat .chat-bubble.in { background: #fff !important; color: #111 !important; border-bottom-left-radius: 6px !important; }
+.app-body.wx-chat .chat-bubble.out { background: #95ec69 !important; color: #111 !important; border-bottom-right-radius: 6px !important; }
+.app-body.wx-chat .chat-bubble.in::after { content: ''; position: absolute; left: -7px; bottom: 8px; width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid #fff !important; }
+.app-body.wx-chat .chat-bubble.out::after { content: ''; position: absolute; right: -7px; bottom: 8px; width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 8px solid #95ec69 !important; }
+.app-body.wx-chat .chat-bubble.bub-redpack::after, .app-body.wx-chat .chat-bubble.bub-transfer::after, .app-body.wx-chat .chat-bubble.bub-loc::after, .app-body.wx-chat .chat-bubble.bub-music::after, .app-body.wx-chat .chat-bubble.bub-order::after, .app-body.wx-chat .chat-bubble.bub-read::after, .app-body.wx-chat .chat-bubble.bub-fanfic::after, .app-body.wx-chat .chat-bubble.bub-vcall::after, .app-body.wx-chat .chat-bubble.bub-heart::after, .app-body.wx-chat .chat-bubble.bub-share::after { display: none !important; }
+.app-body.wx-chat .chat-bubble.bub-share { box-shadow: 0 2px 10px rgba(0,0,0,.12) !important; }
+.app-body.wx-chat .chat-bubble.bub-voice { color: #111 !important; }
+.app-body.wx-chat .bub-img .img-desc { color: #666 !important; }
+.app-body.wx-chat .chat-time { color: #b0b0b0 !important; font-size: 10px !important; margin-top: 3px !important; text-align: right !important; }
+.app-body.wx-chat .chat-day { color: #b2b2b2 !important; }
+.app-body.wx-chat .chat-sign { background: #fff !important; color: #576b95 !important; border-radius: 8px !important; padding: 9px 12px !important; margin: 2px 4px !important; box-shadow: 0 1px 2px rgba(0,0,0,.06) !important; }
+.app-body.wx-chat .offline-bar { background: rgba(255,255,255,.92) !important; color: #e64340 !important; }
+.app-body.wx-chat .chat-input-row { background: #f7f7f7 !important; padding-top: 8px !important; }
+.app-body.wx-chat .chat-input { background: #ededed !important; border-color: transparent !important; color: #111 !important; }
+.app-body.wx-chat .chat-input::placeholder { color: #b0b0b0 !important; }
+.app-body.wx-chat .chat-plus { background: #fff !important; border-color: transparent !important; color: #111 !important; }
+.app-body.wx-chat .chat-send { background: #07c160 !important; }
 
 /* ============================================================
    电话
@@ -1961,6 +1988,11 @@ const MONTHS = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', 
    工具函数
    ============================================================ */
 const $ = (id) => document.getElementById(id);
+// 微信风格聊天页开关（app-topbar 无 id，用 querySelector）
+function setWxChat(on) {
+    const tb = document.querySelector('.app-topbar'); if (tb) tb.classList.toggle('wx-bar', on);
+    const ab = $('app-body'); if (ab) ab.classList.toggle('wx-chat', on);
+}
 function pad2(n) { return n < 10 ? '0' + n : '' + n; }
 function fmtTime(d) { return pad2(d.getHours()) + ':' + pad2(d.getMinutes()); }
 function fmtDate(d) { return (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + WEEK[d.getDay()]; }
@@ -2315,12 +2347,14 @@ function unlockScreen() {
 function goHome() {
     state.app = null;
     closeOverlays();
+    setWxChat(false);
     showView('home');
 }
 
 function openApp(id) {
     if (!APPS[id]) return;
     stopCam();  // 切换应用时释放摄像头
+    setWxChat(false);
     state.app = id;
     $('app-title').textContent = APPS[id].name;
     $('app-body').innerHTML = APPS[id].render();
@@ -4184,6 +4218,7 @@ function renderChat(id) {
     if (!c) { state.msgView = 'list'; openApp('messages'); return; }
     state.msgView = 'chat';
     state.currentChat = id;
+    setWxChat(true);
     $('app-title').textContent = c.myNote || c.name;
     $('app-body').innerHTML = renderChatHTML(c);
     const inp = $('chat-input');
@@ -6350,6 +6385,7 @@ goHome = function () {
     if (state.app === 'messages' && state.msgView !== 'list') {
         state.msgView = 'list';
         state.currentChat = null;
+        setWxChat(false);
         $('app-title').textContent = '信息';
         $('app-body').innerHTML = renderMsgList();
         return;
@@ -6367,6 +6403,7 @@ $('app-back').addEventListener('click', () => {
     if (state.app === 'messages' && state.msgView !== 'list') {
         state.msgView = 'list';
         state.currentChat = null;
+        setWxChat(false);
         $('app-title').textContent = '信息';
         $('app-body').innerHTML = renderMsgList();
     } else if (state.app === 'group' && state.groupView !== 'list') {
