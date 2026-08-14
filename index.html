@@ -385,6 +385,128 @@ body[data-icon="plain"] .app-icon .ico {
     box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 8px 30px rgba(0,0,0,.3);
 }
 .dock .app-icon .ico { width: 52px; height: 52px; font-size: 24px; border-radius: 13px; }
+/* ===== v10.2 主屏美化 & 生活软件 ===== */
+.view-home { background: radial-gradient(120% 70% at 50% -10%, rgba(64,88,180,.38) 0%, transparent 55%), radial-gradient(90% 50% at 85% 15%, rgba(180,80,200,.18) 0%, transparent 60%), linear-gradient(180deg, #0d1220 0%, #10131f 100%) !important; }
+[data-theme="chill"] .view-home { background: linear-gradient(180deg, #f5f5f7 0%, #ececf0 100%) !important; }
+.w-card.w-weather { flex-direction: column; align-items: stretch; gap: 2px; }
+.w-card.w-weather .w-top { display: flex; align-items: center; justify-content: space-between; }
+.w-fore { display: flex; gap: 8px; margin-top: 10px; }
+.w-fore .wf-d { flex: 1; text-align: center; background: rgba(255,255,255,.08); border-radius: 12px; padding: 7px 4px 6px; }
+.w-fore .wf-e { font-size: 18px; }
+.w-fore .wf-t { font-size: 12px; color: rgba(255,255,255,.85); margin-top: 3px; }
+.w-fore .wf-l { font-size: 9.5px; color: rgba(255,255,255,.5); margin-top: 2px; letter-spacing: .06em; }
+[data-theme="chill"] .w-fore .wf-t { color: #3a3a44; }
+[data-theme="chill"] .w-fore .wf-l { color: #7c8290; }
+[data-theme="chill"] .w-fore .wf-d { background: rgba(0,0,0,.05); }
+/* 机票 */
+.fl-head { background: rgba(255,255,255,.07); border-radius: 14px; padding: 12px; margin-bottom: 10px; }
+.fl-air { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.fl-air .fa-code { font-size: 20px; font-weight: 700; color: #fff; }
+.fl-air .fa-name { font-size: 11px; color: #8f96ab; margin-top: 2px; }
+.fl-air .fa-arrow { color: #0a84ff; font-size: 18px; }
+.fl-air .fa-swap { border: none; background: rgba(255,255,255,.1); color: #fff; border-radius: 10px; padding: 8px 12px; font-size: 13px; cursor: pointer; }
+.fl-meta { display: flex; gap: 10px; font-size: 11px; color: #8f96ab; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.08); }
+.fl-chip { display: inline-block; padding: 3px 10px; border-radius: 12px; background: rgba(255,255,255,.08); color: #cfd3e0; font-size: 11px; margin: 8px 6px 4px 0; cursor: pointer; }
+.fl-chip.on { background: #0a84ff; color: #fff; }
+.fl-item { background: rgba(255,255,255,.06); border-radius: 14px; padding: 12px; margin-bottom: 10px; cursor: pointer; }
+.fl-item:active { transform: scale(.98); }
+.fl-item .fi-top { display: flex; align-items: center; justify-content: space-between; }
+.fl-item .fi-airline { font-size: 12px; color: #9aa1b5; }
+.fl-item .fi-no { font-size: 11px; color: #6d7488; margin-left: 6px; }
+.fl-item .fi-time { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.fl-item .fi-t { font-size: 19px; font-weight: 600; color: #fff; }
+.fl-item .fi-line { flex: 1; height: 1px; background: rgba(255,255,255,.18); }
+.fl-item .fi-dur { font-size: 10px; color: #8f96ab; text-align: center; }
+.fl-item .fi-price { font-size: 17px; font-weight: 700; color: #ff9f0a; }
+.fl-item .fi-tag { font-size: 10px; color: #34c759; background: rgba(52,199,89,.15); padding: 2px 8px; border-radius: 10px; }
+/* 演出 */
+.sh-chips { display: flex; gap: 8px; margin-bottom: 12px; }
+.sh-chip { border: none; border-radius: 14px; padding: 8px 16px; font-size: 12px; background: rgba(255,255,255,.08); color: #cfd3e0; cursor: pointer; }
+.sh-chip.on { background: #ff2d55; color: #fff; }
+.sh-item { background: rgba(255,255,255,.06); border-radius: 14px; padding: 13px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+.sh-item:active { transform: scale(.98); }
+.sh-avatar { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: linear-gradient(135deg,#ff6b6b,#ff2d55); flex-shrink: 0; }
+.sh-info { flex: 1; min-width: 0; }
+.sh-name { font-size: 15px; font-weight: 600; color: #fff; }
+.sh-meta { font-size: 11px; color: #8f96ab; margin-top: 4px; }
+.sh-price { font-size: 14px; font-weight: 700; color: #ff9f0a; margin-top: 4px; }
+/* 奢品 */
+.lx-brand-row { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+.lx-brand-row::-webkit-scrollbar { display: none; }
+.lx-brand { border: none; border-radius: 12px; padding: 8px 14px; font-size: 12px; background: rgba(255,255,255,.08); color: #cfd3e0; cursor: pointer; white-space: nowrap; }
+.lx-brand.on { background: linear-gradient(135deg,#d4af37,#b8860b); color: #fff; }
+.lx-card { background: rgba(255,255,255,.06); border-radius: 14px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.lx-card:active { transform: scale(.98); }
+.lx-ico { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; background: rgba(255,255,255,.1); flex-shrink: 0; }
+.lx-info { flex: 1; min-width: 0; }
+.lx-n { font-size: 14px; color: #fff; }
+.lx-c { font-size: 11px; color: #8f96ab; margin-top: 3px; }
+.lx-p { font-size: 15px; font-weight: 700; color: #d4af37; margin-top: 4px; }
+.lx-hint { font-size: 10px; color: #8f96ab; text-align: center; margin-top: 12px; }
+/* 宠物 */
+.pet-hero { text-align: center; padding: 20px 0 14px; }
+.pet-emoji { font-size: 74px; display: block; animation: petFloat 3s ease-in-out infinite; }
+@keyframes petFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.pet-name { font-size: 18px; font-weight: 600; color: #fff; margin-top: 6px; }
+.pet-sub { font-size: 11px; color: #8f96ab; margin-top: 3px; }
+.pet-bar { margin: 12px 0; }
+.pet-bar .pb-label { display: flex; justify-content: space-between; font-size: 11px; color: #8f96ab; margin-bottom: 5px; }
+.pet-bar .pb-track { height: 8px; border-radius: 4px; background: rgba(255,255,255,.1); overflow: hidden; }
+.pet-bar .pb-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg,#34c759,#7ddc4f); transition: width .3s; }
+.pet-btns { display: flex; gap: 8px; margin-top: 16px; }
+.pet-btn { flex: 1; border: none; border-radius: 14px; padding: 12px 6px; font-size: 12px; cursor: pointer; background: rgba(255,255,255,.1); color: #fff; }
+.pet-btn:active { transform: scale(.95); }
+.pet-log { margin-top: 16px; }
+.pet-log .pl-t { font-size: 12px; color: #8f96ab; margin-bottom: 6px; }
+.pet-log .pl-i { font-size: 12px; color: #cfd3e0; padding: 7px 10px; background: rgba(255,255,255,.05); border-radius: 10px; margin-bottom: 6px; }
+/* 快递 */
+.ex-item { background: rgba(255,255,255,.06); border-radius: 14px; padding: 13px; margin-bottom: 10px; cursor: pointer; }
+.ex-item:active { transform: scale(.98); }
+.ex-top { display: flex; align-items: center; justify-content: space-between; }
+.ex-id { font-size: 12px; color: #9aa1b5; font-family: monospace; }
+.ex-st { font-size: 11px; padding: 3px 10px; border-radius: 10px; }
+.ex-st.s0 { background: rgba(255,255,255,.12); color: #cfd3e0; }
+.ex-st.s1 { background: rgba(10,132,255,.18); color: #5ac8fa; }
+.ex-st.s2 { background: rgba(255,159,10,.18); color: #ffd60a; }
+.ex-st.s3 { background: rgba(52,199,89,.18); color: #34c759; }
+.ex-item-name { font-size: 14px; color: #fff; margin-top: 8px; }
+.ex-item-meta { font-size: 11px; color: #8f96ab; margin-top: 4px; }
+.ex-track { display: flex; gap: 4px; margin-top: 10px; }
+.ex-track i { flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.1); }
+.ex-track i.done { background: #34c759; }
+.ex-search { display: flex; gap: 8px; margin-bottom: 12px; }
+.ex-search input { flex: 1; height: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); color: #fff; padding: 0 16px; font-size: 13px; outline: none; }
+.ex-search button { border: none; border-radius: 20px; background: #0a84ff; color: #fff; padding: 0 18px; font-size: 13px; cursor: pointer; }
+.ex-trace { padding: 4px 2px; }
+.ex-trace .et-i { display: flex; gap: 10px; padding: 8px 0; }
+.ex-trace .et-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.2); margin-top: 3px; flex-shrink: 0; }
+.ex-trace .et-i.done .et-dot { background: #34c759; }
+.ex-trace .et-s { font-size: 13px; color: #e8eaf2; }
+.ex-trace .et-t { font-size: 10px; color: #8f96ab; margin-top: 2px; }
+/* 摇一摇 */
+.shake-box { display: flex; flex-direction: column; align-items: center; padding: 30px 0 10px; }
+.shake-btn { width: 150px; height: 150px; border-radius: 50%; border: none; background: radial-gradient(circle at 30% 25%, #7d6bff, #4f46e5 60%, #3b2f8f); color: #fff; font-size: 52px; cursor: pointer; box-shadow: 0 12px 40px rgba(90,70,255,.45), inset 0 2px 0 rgba(255,255,255,.4); }
+.shake-btn:active { transform: scale(.93); }
+.shake-btn.shaking { animation: shakeAnim .6s; }
+@keyframes shakeAnim { 0%,100% { transform: rotate(0); } 20% { transform: rotate(-14deg) scale(.96); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-9deg); } 80% { transform: rotate(7deg); } }
+.shake-hint { font-size: 11px; color: #8f96ab; margin-top: 14px; }
+.shake-res { margin-top: 20px; background: rgba(255,255,255,.07); border-radius: 16px; padding: 16px; width: 100%; text-align: center; min-height: 70px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; line-height: 1.6; }
+.shake-score { margin-top: 14px; font-size: 12px; color: #8f96ab; }
+.shake-hist { width: 100%; margin-top: 16px; }
+.shake-hist .sh-t { font-size: 12px; color: #8f96ab; margin-bottom: 6px; }
+.shake-hist .sh-i { font-size: 12px; color: #cfd3e0; padding: 7px 10px; background: rgba(255,255,255,.05); border-radius: 10px; margin-bottom: 6px; }
+/* ABOUT ME 空间页头 */
+.me-about { background: linear-gradient(160deg, rgba(90,80,220,.28), rgba(180,60,160,.18)), rgba(255,255,255,.05); border-radius: 18px; padding: 18px 16px 14px; margin-bottom: 12px; text-align: center; border: 1px solid rgba(255,255,255,.1); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.ma-avatar { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 8px; background: linear-gradient(135deg, #7c6bff, #ff6b9d); display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 8px 22px rgba(120,90,255,.4); }
+.ma-name { font-size: 17px; font-weight: 600; color: #fff; }
+.ma-sign { font-size: 11.5px; color: #aab0c4; margin-top: 5px; letter-spacing: .02em; }
+.ma-stats { display: flex; margin-top: 12px; border-top: 1px solid rgba(255,255,255,.1); padding-top: 10px; }
+.ma-s { flex: 1; }
+.ma-s b { display: block; font-size: 15px; color: #fff; font-family: var(--font-sans); }
+.ma-s span { font-size: 10px; color: #8f96ab; }
+[data-theme="chill"] .ma-name, [data-theme="chill"] .ma-s b { color: #1a1a1a; }
+[data-theme="chill"] .ma-sign, [data-theme="chill"] .ma-s span { color: #6b7280; }
+[data-theme="chill"] .me-about { background: rgba(255,255,255,.85); border-color: rgba(0,0,0,.08); }
 
 /* ============================================================
    应用通用
@@ -2438,6 +2560,12 @@ const GRID_APPS = [
     ['paratime', '时空', '🌀', 'linear-gradient(135deg,#3a7bd5,#5c2e91)'],
     ['games', '游戏', '🎮', 'linear-gradient(135deg,#ff9f0a,#ff6b6b)'],
     ['lover', '情侣', '💞', 'linear-gradient(135deg,#ff6b9d,#ff9f0a)'],
+    ['flights', '机票', '✈️', 'linear-gradient(135deg,#0a84ff,#5e5ce6)'],
+    ['shows', '演出', '🎤', 'linear-gradient(135deg,#ff6b6b,#ff2d55)'],
+    ['luxury', '奢品', '💎', 'linear-gradient(135deg,#d4af37,#8a6d1f)'],
+    ['pet', '宠物', '🐱', 'linear-gradient(135deg,#ff9f0a,#ff6482)'],
+    ['express', '快递', '📦', 'linear-gradient(135deg,#34c759,#2e8b57)'],
+    ['shake', '摇一摇', '🔮', 'linear-gradient(135deg,#5e5ce6,#9b59b6)'],
 ];
 const DOCK_APPS = ['phone', 'messages', 'browser', 'music'];
 const PER_PAGE = 12; // 主屏每页图标数（4 列 × 3 行）
@@ -2470,7 +2598,7 @@ function renderWidgets() {
     const html = state.widgets.map((w, i) => {
         let inner = '';
         if (w === 'clock') inner = '<div class="w-time">--:--</div><div class="w-date">--</div>';
-        else if (w === 'weather') inner = '<div class="w-main"><span class="w-emoji">⛅</span><span class="w-temp">--°</span></div><div class="w-loc">…</div>';
+        else if (w === 'weather') inner = '<div class="w-top"><div class="w-main"><span class="w-emoji">⛅</span><span class="w-temp">--°</span></div><div class="w-loc">…</div></div><div class="w-fore"></div>';
         else if (w === 'anniv') inner = annivWidgetHTML();
         else if (w === 'notes') inner = notesWidgetHTML();
         const TAG = { clock: 'CLOCK', weather: 'WEATHER', anniv: 'ANNIV', notes: 'NOTES' };
@@ -3816,12 +3944,12 @@ HANDLERS.anniv = {
    ⑥ 天气
    ============================================================ */
 const CITIES = {
-    beijing: { name: '北京', temp: 28, desc: '多云', emoji: '⛅', hi: 31, lo: 21, hum: 45, wind: '东南风 3级', aqi: 62, rain: '10%' },
-    shanghai: { name: '上海', temp: 31, desc: '晴', emoji: '☀️', hi: 34, lo: 26, hum: 68, wind: '东风 4级', aqi: 48, rain: '5%' },
-    shenzhen: { name: '深圳', temp: 33, desc: '雷阵雨', emoji: '⛈️', hi: 35, lo: 27, hum: 82, wind: '南风 5级', aqi: 35, rain: '85%' },
-    chengdu: { name: '成都', temp: 26, desc: '小雨', emoji: '🌧️', hi: 28, lo: 21, hum: 75, wind: '北风 2级', aqi: 71, rain: '70%' },
-    guangzhou: { name: '广州', temp: 32, desc: '晴间多云', emoji: '🌤️', hi: 35, lo: 26, hum: 70, wind: '东南风 3级', aqi: 42, rain: '20%' },
-    hangzhou: { name: '杭州', temp: 29, desc: '阴', emoji: '☁️', hi: 31, lo: 24, hum: 72, wind: '东风 3级', aqi: 55, rain: '30%' },
+    beijing: { name: '北京', temp: 28, desc: '多云', emoji: '⛅', hi: 31, lo: 21, hum: 45, wind: '东南风 3级', aqi: 62, rain: '10%', fore: [['🌤️', 27, '周六'], ['☁️', 26, '周日'], ['🌧️', 24, '周一']] },
+    shanghai: { name: '上海', temp: 31, desc: '晴', emoji: '☀️', hi: 34, lo: 26, hum: 68, wind: '东风 4级', aqi: 48, rain: '5%', fore: [['☀️', 32, '周六'], ['⛅', 30, '周日'], ['🌦️', 28, '周一']] },
+    shenzhen: { name: '深圳', temp: 33, desc: '雷阵雨', emoji: '⛈️', hi: 35, lo: 27, hum: 82, wind: '南风 5级', aqi: 35, rain: '85%', fore: [['⛈️', 32, '周六'], ['🌧️', 30, '周日'], ['☀️', 33, '周一']] },
+    chengdu: { name: '成都', temp: 26, desc: '小雨', emoji: '🌧️', hi: 28, lo: 21, hum: 75, wind: '北风 2级', aqi: 71, rain: '70%', fore: [['🌧️', 25, '周六'], ['☁️', 27, '周日'], ['⛅', 28, '周一']] },
+    guangzhou: { name: '广州', temp: 32, desc: '晴间多云', emoji: '🌤️', hi: 35, lo: 26, hum: 70, wind: '东南风 3级', aqi: 42, rain: '20%', fore: [['🌤️', 33, '周六'], ['☀️', 34, '周日'], ['⛈️', 31, '周一']] },
+    hangzhou: { name: '杭州', temp: 29, desc: '阴', emoji: '☁️', hi: 31, lo: 24, hum: 72, wind: '东风 3级', aqi: 55, rain: '30%', fore: [['☁️', 30, '周六'], ['🌧️', 27, '周日'], ['⛅', 26, '周一']] },
 };
 state.weatherCity = 'beijing';
 
@@ -3830,6 +3958,9 @@ function weatherWidget() {
     document.querySelectorAll('.w-emoji').forEach(el => el.textContent = c.emoji);
     document.querySelectorAll('.w-temp').forEach(el => el.textContent = c.temp + '°');
     document.querySelectorAll('.w-loc').forEach(el => el.textContent = c.name + ' · ' + c.desc);
+    document.querySelectorAll('.w-fore').forEach(el => el.innerHTML = (c.fore || []).map(f =>
+        '<div class="wf-d"><div class="wf-e">' + f[0] + '</div><div class="wf-t">' + f[1] + '°</div><div class="wf-l">' + f[2] + '</div></div>'
+    ).join(''));
 }
 renderWidgets(); // CITIES 就绪后刷新主屏小组件天气数据
 APPS.weather = {
@@ -4397,7 +4528,7 @@ function sendMsg() {
    线下模式 / 攻略难度 / 主动发信息 / 总结记忆 / 成就
    ============================================================ */
 function persistV10() {
-    ['favs', 'groups', 'offline', 'diff', 'proactive', 'orders', 'shoporders', 'aiimgs', 'hearts', 'memories', 'bills', 'tags', 'logs', 'capsules', 'diaries', 'ach', 'bbs', 'bottles', 'inbox', 'tomato', 'para', 'reverse'].forEach(k => {
+    ['favs', 'groups', 'offline', 'diff', 'proactive', 'orders', 'shoporders', 'aiimgs', 'hearts', 'memories', 'bills', 'tags', 'logs', 'capsules', 'diaries', 'ach', 'bbs', 'bottles', 'inbox', 'tomato', 'para', 'reverse', 'pet'].forEach(k => {
         lsSet('simphone_' + k, state[({ favs: 'favorites', diff: 'difficulty', shoporders: 'shopOrders', aiimgs: 'aiImgs', reverse: 'reverseDoc' }[k] || k)]);
     });
     lsSet('simphone_games', { view: state.gameView, guess: state.guess, rps: state.rps, quiz: state.quiz });
@@ -5412,7 +5543,18 @@ function meBody() {
             ).join('') : '<div class="hint-note" style="text-align:center;padding:30px 0">日记是空的，写下第一篇吧</div>') + '</div></div>';
     }
     // home
-    return '<div class="me-grid">' +
+    const dynCnt = state.diaries.length + state.logs.length;
+    return '<div class="me-about">' +
+        '<div class="ma-avatar">🦋</div>' +
+        '<div class="ma-name">' + esc(state.nickname || '沈知意') + '</div>' +
+        '<div class="ma-sign">在星河的尽头，写着关于时光的诗与歌。</div>' +
+        '<div class="ma-stats">' +
+        '<div class="ma-s"><b>0</b><span>关注</span></div>' +
+        '<div class="ma-s"><b>0</b><span>粉丝</span></div>' +
+        '<div class="ma-s"><b>' + dynCnt + '</b><span>动态</span></div>' +
+        '<div class="ma-s"><b>' + state.achievements.length + '/' + ACHIEVEMENTS.length + '</b><span>成就</span></div>' +
+        '</div></div>' +
+        '<div class="me-grid">' +
         [['tags', '🏷️', '个性标签', state.tags.length + ' 个'], ['logs', '📜', '空间日志', state.logs.length + ' 篇'],
             ['bills', '🧾', '账单', state.bills.length + ' 笔'], ['capsules', '⏳', '时光胶囊', state.capsules.length + ' 颗'],
             ['ach', '🏆', '成就墙', state.achievements.length + '/' + ACHIEVEMENTS.length],
@@ -6363,6 +6505,183 @@ HANDLERS.lover = {
     },
     'lv-home': () => { state.loverView = 'home'; openApp('lover'); },
     'lv-hug': () => { state.lover.love = Math.min(100, state.lover.love + 2); state.lover.today++; persistV10(); toast('🤗 TA 也回抱了你！亲密度 +2'); openApp('lover'); },
+};
+/* ============================================================
+   v10.2 生活软件：机票 / 演出 / 奢品 / 宠物 / 快递 / 摇一摇
+   ============================================================ */
+const FL_AIRPORTS = { PEK: '北京首都', PVG: '上海浦东', CAN: '广州白云', SZX: '深圳宝安', CTU: '成都天府', HGH: '杭州萧山' };
+const FL_AIRLINES = [['国航', 'CA'], ['东航', 'MU'], ['南航', 'CZ'], ['海航', 'HU'], ['川航', '3U']];
+const FL_BASE = [
+    ['07:25', '12:10', '2小时10分', '¥998'], ['09:40', '14:35', '2小时30分', '¥1,158'], ['14:35', '21:05', '3小时25分', '¥1,380'],
+    ['08:15', '10:45', '1小时55分', '¥780'], ['18:45', '23:25', '4小时40分', '¥2,160'], ['12:20', '15:05', '2小时45分', '¥1,020'],
+];
+state.flDep = 'PEK'; state.flArr = 'PVG'; state.flOrders = 0;
+function flightsHTML() {
+    const dep = FL_AIRPORTS[state.flDep], arr = FL_AIRPORTS[state.flArr];
+    const chips = Object.keys(FL_AIRPORTS).map(k => '<span class="fl-chip' + (k === state.flDep ? ' on' : '') + '" data-act="fl-dep" data-v="' + k + '">' + k + '</span>').join('');
+    const items = FL_BASE.map((f, i) => {
+        const al = FL_AIRLINES[i % FL_AIRLINES.length];
+        return '<div class="fl-item" data-act="fl-buy" data-v="' + i + '">' +
+            '<div class="fi-top"><span class="fi-airline">' + al[0] + '航空 <span class="fi-no">' + al[1] + (1000 + i * 137) + '</span></span><span class="fi-tag">直飞</span></div>' +
+            '<div class="fi-time"><span class="fi-t">' + f[0] + '</span><div class="fi-dur" style="flex:1">' + dep + ' → ' + arr + '<br>' + f[2] + '</div><span class="fi-t">' + f[1] + '</span></div>' +
+            '<div class="fi-top" style="margin-top:6px"><span class="fi-price">' + f[3] + '</span><span class="fi-tag" style="background:rgba(10,132,255,.15);color:#5ac8fa">经济舱</span></div></div>';
+    }).join('');
+    return '<div class="fl-head"><div class="fl-air">' +
+        '<div><div class="fa-code">' + state.flDep + '</div><div class="fa-name">' + dep + '</div></div>' +
+        '<span class="fa-arrow">✈️ →</span>' +
+        '<div><div class="fa-code">' + state.flArr + '</div><div class="fa-name">' + arr + '</div></div>' +
+        '<button class="fa-swap" data-act="fl-swap">⇄ 换</button></div>' +
+        '<div class="fl-meta"><span>📅 2026年8月14日</span><span>👤 乘机人 1人</span><span>🛋️ 经济舱</span></div>' +
+        '<div>' + chips + '</div></div>' + items +
+        '<div class="lx-hint">已购 ' + state.flOrders + ' 张机票 · 模拟演示</div>';
+}
+APPS.flights = { name: '机票', render() { $('app-title').textContent = '机票'; return flightsHTML(); }, init() {} };
+HANDLERS.flights = {
+    'fl-dep': (b) => { state.flDep = b.dataset.v; if (state.flDep === state.flArr) state.flArr = (state.flDep === 'PEK' ? 'PVG' : 'PEK'); openApp('flights'); },
+    'fl-swap': () => { const t = state.flDep; state.flDep = state.flArr; state.flArr = t; openApp('flights'); },
+    'fl-buy': (b) => { const f = FL_BASE[+b.dataset.v]; const al = FL_AIRLINES[+b.dataset.v % FL_AIRLINES.length]; state.flOrders++; toast('✅ 已购 ' + al[0] + '航空 ' + state.flDep + '→' + state.flArr + ' ' + f[3]); },
+};
+const SHOWS = [
+    { name: '周杰伦「嘉年华」世界巡回演唱会', city: '杭州', date: '2026-09-26', price: '¥880起', emoji: '🎤', tag: '演唱会', meta: '3场在售 · 奥体中心' },
+    { name: '林俊杰 JJ20 巡回演唱会', city: '广州', date: '2026-10-03', price: '¥780起', emoji: '🎤', tag: '演唱会', meta: '3场在售 · 天河体育场' },
+    { name: '陈奕迅 FEAR AND DREAMS', city: '深圳', date: '2026-10-10', price: '¥680起', emoji: '🎤', tag: '演唱会', meta: '3场在售 · 大运中心' },
+    { name: '那英「那世界」巡演', city: '沈阳', date: '2026-09-19', price: '¥580起', emoji: '🎶', tag: '演唱会', meta: '3场在售 · 奥体中心' },
+    { name: 'MDSK 音乐节·上海站', city: '上海', date: '2026-09-12', price: '¥480起', emoji: '🎧', tag: '音乐节', meta: '2天 · 滴水湖' },
+    { name: '草莓音乐节·北京站', city: '北京', date: '2026-10-05', price: '¥520起', emoji: '🍓', tag: '音乐节', meta: '3天 · 世园公园' },
+    { name: '孟京辉《恋爱的犀牛》', city: '成都', date: '2026-10-18', price: '¥280起', emoji: '🎭', tag: '话剧', meta: '4场 · 四川大剧院' },
+    { name: '开心麻花《乌龙山伯爵》', city: '上海', date: '2026-11-06', price: '¥180起', emoji: '😄', tag: '话剧', meta: '6场 · 虹桥艺术中心' },
+];
+state.showTag = '全部'; state.showOrders = 0;
+function showsHTML() {
+    const chips = ['全部', '演唱会', '音乐节', '话剧'].map(t => '<button class="sh-chip' + (t === state.showTag ? ' on' : '') + '" data-act="sh-tag" data-v="' + t + '">' + t + '</button>').join('');
+    const list = SHOWS.filter(s => state.showTag === '全部' || s.tag === state.showTag).map((s, i) =>
+        '<div class="sh-item" data-act="sh-buy" data-v="' + i + '">' +
+        '<div class="sh-avatar">' + s.emoji + '</div>' +
+        '<div class="sh-info"><div class="sh-name">' + s.name + '</div>' +
+        '<div class="sh-meta">' + s.city + ' · ' + s.date + ' · ' + s.meta + '</div>' +
+        '<div class="sh-price">' + s.price + '</div></div></div>'
+    ).join('');
+    return '<div class="sh-chips">' + chips + '</div>' + list +
+        '<div class="lx-hint">已购 ' + state.showOrders + ' 张演出票 · 和 TA 一起去看吧</div>';
+}
+APPS.shows = { name: '演出', render() { $('app-title').textContent = '演出票务'; return showsHTML(); }, init() {} };
+HANDLERS.shows = {
+    'sh-tag': (b) => { state.showTag = b.dataset.v; openApp('shows'); },
+    'sh-buy': (b) => { const s = SHOWS[+b.dataset.v]; state.showOrders++; toast('🎟️ 已购「' + s.name.slice(0, 8) + '…」' + s.price + '，约 TA 一起？'); },
+};
+const BRANDS = [
+    { name: 'Versace', cn: '范思哲 · 意大利', emoji: '👑', items: [['巴洛克印花真丝衬衫', '¥12,800', '衣服·线下专柜'], ['美杜莎金属乐福鞋', '¥8,900', '鞋子·线下专柜'], ['金色腕表', '¥18,600', '配饰·线下专柜']] },
+    { name: 'CHANEL', cn: '香奈儿 · 法国', emoji: '🖤', items: [['经典菱格链条包', '¥56,800', '包袋·线下专柜'], ['山茶花淡香水', '¥1,350', '香水·线下专柜'], ['珍珠耳环', '¥4,600', '配饰·线下专柜']] },
+    { name: 'Givenchy', cn: '纪梵希 · 法国', emoji: '💜', items: [['4G 小牛皮手袋', '¥21,500', '包袋·线下专柜'], ['禁忌之吻口红', '¥380', '彩妆·线下专柜'], ['星钻香水', '¥1,080', '香水·线下专柜']] },
+    { name: 'GUCCI', cn: '古驰 · 意大利', emoji: '🐍', items: [['Ophidia 腰包', '¥13,900', '包袋·线下专柜'], ['GG 印花围巾', '¥4,200', '配饰·线下专柜'], ['小白鞋', '¥6,800', '鞋子·线下专柜']] },
+    { name: 'DIOR', cn: '迪奥 · 法国', emoji: '🌸', items: [['Lady Dior 小号', '¥48,000', '包袋·线下专柜'], ['Miss Dior 香水', '¥1,150', '香水·线下专柜'], ['马鞍包', '¥36,500', '包袋·线下专柜']] },
+];
+state.lxBrand = 0; state.lxCart = 0;
+function luxuryHTML() {
+    const row = BRANDS.map((b, i) => '<button class="lx-brand' + (i === state.lxBrand ? ' on' : '') + '" data-act="lx-brand" data-v="' + i + '">' + b.emoji + ' ' + b.name + '</button>').join('');
+    const b = BRANDS[state.lxBrand];
+    const items = b.items.map(it => '<div class="lx-card" data-act="lx-buy"><div class="lx-ico">' + b.emoji + '</div><div class="lx-info"><div class="lx-n">' + it[0] + '</div><div class="lx-c">' + it[2] + '</div><div class="lx-p">' + it[1] + '</div></div></div>').join('');
+    return '<div class="lx-brand-row">' + row + '</div>' +
+        '<div class="fl-meta" style="border-top:none;padding-top:0;margin-bottom:10px"><span>💎 ' + b.cn + '</span><span>' + b.items.length + ' 件在售</span></div>' +
+        items + '<div class="lx-hint">🛍️ 已加购 ' + state.lxCart + ' 件 · 线下专柜直发，门店自提</div>';
+}
+APPS.luxury = { name: '奢品', render() { $('app-title').textContent = '奢品百货'; return luxuryHTML(); }, init() {} };
+HANDLERS.luxury = {
+    'lx-brand': (b) => { state.lxBrand = +b.dataset.v; openApp('luxury'); },
+    'lx-buy': () => { state.lxCart++; toast('🛍️ 已加入购物袋（专柜预留）'); },
+};
+state.pet = JSON.parse(lsGet('simphone_pet', null)) || { name: '团子', type: '🐱', hp: 80, mood: 70, clean: 60, log: [] };
+const PET_TALK = ['喵~ 团子蹭了蹭你的手', '汪！今天也很开心', '团子翻了个身，露出肚皮', '咕噜咕噜…团子睡着了', '团子叼来一片树叶送给你'];
+function petHTML() {
+    const p = state.pet;
+    const bar = (k, label, v) => '<div class="pet-bar"><div class="pb-label"><span>' + label + '</span><span>' + v + '%</span></div>' +
+        '<div class="pb-track"><div class="pb-fill" style="width:' + v + '%"></div></div></div>';
+    const logs = p.log.slice(0, 3).map(l => '<div class="pl-i">' + l + '</div>').join('');
+    return '<div class="pet-hero"><span class="pet-emoji">' + p.type + '</span>' +
+        '<div class="pet-name">' + p.name + '</div><div class="pet-sub">你和 TA 的小宠物 · 互动会反馈到 TA 的心情</div></div>' +
+        bar('hp', '🍖 饱腹', p.hp) + bar('mood', '🎾 心情', p.mood) + bar('clean', '🛁 清洁', p.clean) +
+        '<div class="pet-btns">' +
+        '<button class="pet-btn" data-act="pet-feed">🍖 喂食</button>' +
+        '<button class="pet-btn" data-act="pet-play">🎾 玩耍</button>' +
+        '<button class="pet-btn" data-act="pet-wash">🛁 洗澡</button></div>' +
+        '<div class="pet-log"><div class="pl-t">🐾 最近互动</div>' + (logs || '<div class="pl-i">还没有互动，去陪陪它吧</div>') + '</div>';
+}
+APPS.pet = { name: '宠物', render() { $('app-title').textContent = '宠物'; return petHTML(); }, init() {} };
+function petAct(key, add, text) {
+    const p = state.pet;
+    p[key] = Math.min(100, p[key] + add);
+    p.log.unshift(text + ' · ' + rnd(PET_TALK));
+    p.log = p.log.slice(0, 5);
+    persistV10();
+    toast(text);
+    openApp('pet');
+}
+HANDLERS.pet = {
+    'pet-feed': () => petAct('hp', 20, '🍖 你喂了 ' + state.pet.name + ' 一顿，它吃得超香'),
+    'pet-play': () => petAct('mood', 20, '🎾 你和 ' + state.pet.name + ' 玩了一会儿，它开心得打滚'),
+    'pet-wash': () => petAct('clean', 25, '🛁 你帮 ' + state.pet.name + ' 洗了澡，毛毛蓬松'),
+};
+const EXPRESS = [
+    { id: 'SF1092837465', item: 'TA 寄给你的手写信', from: '杭州', to: '上海', status: '派送中', step: 3, st: 's2', trace: [['已到达【上海转运中心】', '今天 08:40'], ['运输中 · 杭州→上海', '昨天 21:15'], ['已揽收 · 杭州余杭', '昨天 18:02']] },
+    { id: 'YT5526178903', item: '你买的相机镜头', from: '北京', to: '上海', status: '运输中', step: 2, st: 's1', trace: [['已到达【华北分拨中心】', '今天 06:30'], ['已揽收 · 北京海淀', '昨天 16:20']] },
+    { id: 'ZT6677889900', item: 'TA 准备的生日礼物 🎁', from: '广州', to: '上海', status: '已签收', step: 4, st: 's3', trace: [['已签收 · 代收点自取', '前天 14:05'], ['派送中', '前天 09:40'], ['已到达【上海浦东网点】', '前天 06:12'], ['已揽收 · 广州天河', '大前天 20:18']] },
+    { id: 'JD4477112233', item: '两本书 + 一盒巧克力', from: '成都', to: '上海', status: '已揽收', step: 1, st: 's0', trace: [['已揽收 · 成都双流', '今天 09:10']] },
+];
+function expressHTML() {
+    const list = EXPRESS.map((e, i) =>
+        '<div class="ex-item" data-act="ex-open" data-v="' + i + '">' +
+        '<div class="ex-top"><span class="ex-id">' + e.id + '</span><span class="ex-st ' + e.st + '">' + e.status + '</span></div>' +
+        '<div class="ex-item-name">📦 ' + e.item + '</div>' +
+        '<div class="ex-item-meta">' + e.from + ' → ' + e.to + ' · 共 ' + e.trace.length + ' 条轨迹</div>' +
+        '<div class="ex-track">' + [0, 1, 2, 3].map(k => '<i class="' + (k < e.step ? 'done' : '') + '"></i>').join('') + '</div></div>'
+    ).join('');
+    return '<div class="ex-search"><input id="ex-input" placeholder="输入快递单号查询"><button data-act="ex-search">查询</button></div>' + list;
+}
+APPS.express = { name: '快递', render() { $('app-title').textContent = '快递物流'; return expressHTML(); }, init() {} };
+HANDLERS.express = {
+    'ex-open': (b) => {
+        const e = EXPRESS[+b.dataset.v];
+        showSheet('📦 ' + e.item, '<div class="ex-item-meta" style="margin-bottom:8px">' + e.id + ' · ' + e.from + ' → ' + e.to + '</div>' +
+            '<div class="ex-trace">' + e.trace.map((t, i) => '<div class="et-i' + (i === 0 ? ' done' : '') + '"><div class="et-dot"></div><div><div class="et-s">' + t[0] + '</div><div class="et-t">' + t[1] + '</div></div></div>').join('') + '</div>');
+    },
+    'ex-search': () => {
+        const v = ($('ex-input') ? $('ex-input').value.trim() : '');
+        if (!v) { toast('输入单号'); return; }
+        const hit = EXPRESS.find(e => e.id === v);
+        if (hit) toast('🔎 找到包裹：' + hit.item);
+        else toast('未找到该单号（模拟演示）');
+    },
+};
+const SHAKE_POOL = [
+    '摇到了 TA 的心声：「今天也在想你」💌', '缘分值 +8，和 TA 的默契又近了一步', '摇出 TA 的一张照片（想象中）📸',
+    '今日运势：宜撒娇，忌冷战 🌤️', '摇到了陌生人的漂流瓶：「祝你今天也开心」🍾', 'TA 正在输入中…也许在等你的消息 ✍️',
+    '摇到一条 TA 的语音：啾咪～ 🎧', '缘分值 +5，窗外天气刚刚好', '摇一摇命中「爱的抱抱」🤗',
+];
+state.shakeScore = 0; state.shakeHist = [];
+function shakeHTML() {
+    const res = state.shakeHist[0] ? state.shakeHist[0] : '点击按钮，摇一摇缘分';
+    return '<div class="shake-box">' +
+        '<button class="shake-btn" id="shake-btn" data-act="shake-do">🔮</button>' +
+        '<div class="shake-hint">摇一摇 · 摇出今天的缘分</div>' +
+        '<div class="shake-res" id="shake-res">' + res + '</div>' +
+        '<div class="shake-score">✨ 累计缘分值 ' + state.shakeScore + '</div>' +
+        '<div class="shake-hist"><div class="sh-t">📜 最近记录</div>' +
+        (state.shakeHist.slice(1, 4).map(h => '<div class="sh-i">' + h + '</div>').join('') || '<div class="sh-i">还没有记录</div>') + '</div></div>';
+}
+APPS.shake = { name: '摇一摇', render() { $('app-title').textContent = '摇一摇'; return shakeHTML(); }, init() {} };
+HANDLERS.shake = {
+    'shake-do': () => {
+        const btn = $('shake-btn');
+        if (btn) { btn.classList.remove('shaking'); void btn.offsetWidth; btn.classList.add('shaking'); }
+        setTimeout(() => {
+            const txt = rnd(SHAKE_POOL);
+            state.shakeHist.unshift(txt);
+            state.shakeScore += 3 + Math.floor(Math.random() * 8);
+            const res = $('shake-res');
+            if (res) res.textContent = txt;
+            openApp('shake');
+        }, 650);
+    },
 };
 // 返回列表（信息应用：聊天 / 表单 → 列表）
 const _origGoHome = goHome;
