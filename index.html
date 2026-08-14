@@ -1858,6 +1858,41 @@ html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !import
 .music-cover { box-shadow: 0 24px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08); }
 /* 时钟/电话分段控件 */
 .clock-tab, .phone-tab { border-radius: 10px; }
+/* ===== v10.4 iOS 通知卡片 & 毛玻璃强化 ===== */
+.overlay { background: rgba(10, 12, 20, .38) !important; backdrop-filter: blur(46px) saturate(190%); -webkit-backdrop-filter: blur(46px) saturate(190%); }
+.notif-card { background: rgba(255,255,255,.13); border: .5px solid rgba(255,255,255,.14); border-radius: 22px; padding: 14px 16px; box-shadow: 0 10px 34px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.18); }
+.notif-card .nc-ico { width: 40px; height: 40px; border-radius: 11px; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.2); }
+.notif-card .nc-app { color: rgba(255,255,255,.6); }
+.notif-card .nc-title { font-size: 15px; margin: 3px 0; }
+.notif-card .nc-body { color: rgba(255,255,255,.88); }
+.cc-btn { background: rgba(255,255,255,.13) !important; border: .5px solid rgba(255,255,255,.14) !important; box-shadow: 0 8px 24px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.18) !important; }
+.cc-slider-row { background: rgba(255,255,255,.13); border-radius: 16px; padding: 10px 14px; border: .5px solid rgba(255,255,255,.14); }
+/* ===== v10.4 和宝宝在一起 大组件 ===== */
+.w-anniv { background: linear-gradient(150deg, rgba(255,80,130,.26), rgba(255,140,60,.14)), rgba(26,28,36,.45) !important; border-color: rgba(255,120,160,.25) !important; }
+.w-anniv .w-love { font-size: 54px; font-weight: 700; background: linear-gradient(180deg, #ff9dbb, #ff4d8d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; line-height: 1.12; font-variant-numeric: tabular-nums; letter-spacing: -1px; }
+.w-anniv .w-love-d { font-size: 19px; font-weight: 600; margin-left: 5px; }
+.w-anniv .w-k { color: #ffc2d4; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; }
+.w-anniv .w-sub { color: rgba(255,255,255,.75); font-size: 12px; margin-top: 6px; }
+[data-theme="chill"] .w-anniv { background: linear-gradient(150deg, rgba(255,120,160,.22), rgba(255,200,180,.18)), rgba(255,255,255,.85) !important; border-color: rgba(255,120,160,.3) !important; }
+[data-theme="chill"] .w-anniv .w-k { color: #e05a8a; }
+[data-theme="chill"] .w-anniv .w-sub { color: #7a5262; }
+/* ===== v10.4 浅色 App 体系（设置/相册/我的） ===== */
+.view-app.light-app { background: #f2f2f7 !important; }
+.view-app.light-app .app-topbar { background: rgba(250,250,252,.78); color: #111 !important; border-bottom: .5px solid rgba(0,0,0,.1); }
+.view-app.light-app .app-title { color: #111 !important; }
+.view-app.light-app .app-back { color: #007aff !important; background: transparent !important; font-size: 26px !important; }
+.app-body.light-app { background: #f2f2f7 !important; }
+.app-body.light-app .app-page-title { color: #111 !important; }
+.app-body.light-app .setting-group { background: #fff !important; border: .5px solid rgba(0,0,0,.08) !important; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+.app-body.light-app .setting-group-title { color: #6d7280 !important; }
+.app-body.light-app .setting-row { color: #1a1a1a !important; border-bottom: .5px solid rgba(0,0,0,.06) !important; }
+.app-body.light-app .setting-row .sr-sub, .app-body.light-app .setting-row .sr-emoji { color: #8a8f9a !important; }
+.app-body.light-app .me-about { background: #fff !important; border: .5px solid rgba(0,0,0,.08) !important; box-shadow: 0 6px 18px rgba(0,0,0,.07) !important; }
+.app-body.light-app .ma-name, .app-body.light-app .ma-s b { color: #111 !important; }
+.app-body.light-app .ma-sign, .app-body.light-app .ma-s span { color: #8a8f9a !important; }
+.app-body.light-app .me-cell { background: #fff !important; color: #111 !important; border: .5px solid rgba(0,0,0,.08) !important; box-shadow: 0 2px 10px rgba(0,0,0,.04) !important; }
+.app-body.light-app .me-cell .mc-t { color: #1a1a1a !important; }
+.app-body.light-app .me-cell .mc-d { color: #8a8f9a !important; }
 </style>
     <style id="user-css"></style>
 </head>
@@ -2288,9 +2323,16 @@ function loadPersist() {
     state.cssPreset = lsGet('simphone_cssPreset', 0);
     state.fontPreset = lsGet('simphone_fontPreset', 0);
     state.iconStyle = lsGet('simphone_iconStyle', 'color');
-    state.widgets = lsGet('simphone_widgets', ['clock', 'weather']);
+    state.widgets = lsGet('simphone_widgets', ['clock', 'weather', 'anniv']);
     state.moments = lsGet('simphone_moments', []);
     state.annivs = lsGet('simphone_annivs', []);
+    // 首次使用：默认种一颗「在一起」纪念日（可删），主屏直接显示和宝宝在一起 N 天
+    if (!state.annivs.length && !lsGet('simphone_anniv_seeded', false)) {
+        const d0 = new Date(); d0.setFullYear(d0.getFullYear() - 1);
+        state.annivs.push({ name: '在一起', date: d0.getFullYear() + '-' + String(d0.getMonth() + 1).padStart(2, '0') + '-' + String(d0.getDate()).padStart(2, '0') });
+        lsSet('simphone_annivs', state.annivs);
+        lsSet('simphone_anniv_seeded', true);
+    }
     state.nickname = lsGet('simphone_nickname', '');
     // v10
     state.favorites = lsGet('simphone_favs', []);
@@ -2564,6 +2606,7 @@ function openApp(id) {
     if (!APPS[id]) return;
     stopCam();  // 切换应用时释放摄像头
     clearWxModes();
+    $('view-app').classList.toggle('light-app', !!APPS[id].light);
     state.app = id;
     $('app-title').textContent = APPS[id].name;
     $('app-body').innerHTML = APPS[id].render();
@@ -2671,9 +2714,13 @@ function annivWidgetHTML() {
     const sorted = state.annivs.slice().sort((x, y) =>
         Math.abs(new Date(x.date) - Date.now()) - Math.abs(new Date(y.date) - Date.now()));
     const a = sorted[0];
-    if (!a) return '<div class="w-k">🎂 纪念日</div><div class="w-big">还没有纪念日</div><div class="w-sub">去「纪念日」App 添加</div>';
+    if (!a) return '<div class="w-k">❤️ 和宝宝在一起</div><div class="w-love">--<span class="w-love-d">天</span></div><div class="w-sub">去「纪念日」App 添加</div>';
     const days = Math.ceil((new Date(a.date) - Date.now()) / 86400000);
-    return '<div class="w-k">🎂 纪念日</div><div class="w-big">' + esc(a.name) + '</div><div class="w-sub">' + (days >= 0 ? '还有 ' : '已过 ') + Math.abs(days) + ' 天</div>';
+    if (days < 0) {
+        const together = Math.abs(days);
+        return '<div class="w-k">❤️ 和宝宝在一起</div><div class="w-love">' + together + '<span class="w-love-d">天</span></div><div class="w-sub">' + esc(a.name) + ' · 每一天都值得纪念</div>';
+    }
+    return '<div class="w-k">❤️ ' + esc(a.name) + '</div><div class="w-love">' + days + '<span class="w-love-d">天后</span></div><div class="w-sub">倒数中，期待那一天</div>';
 }
 function notesWidgetHTML() {
     const txt = (loadNotes() || '').trim();
@@ -3210,6 +3257,7 @@ genPresetPhotos();
 let pvIndex = 0;
 APPS.photos = {
     name: '相册',
+    light: true,
     render() {
         const grid = state.photos.map((p, i) =>
             '<div class="photo" data-act="view" data-i="' + i + '" style="background-image:url(' + p + ')"></div>'
@@ -3432,6 +3480,7 @@ HANDLERS.music = {
     ============================================================ */
 APPS.settings = {
     name: '设置',
+    light: true,
     render() {
         const backRow = '<div class="setting-row" data-act="settings-back" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">‹</span><div>返回设置</div></div><span style="color:#0a84ff;font-size:15px">‹</span></div>';
         // —— 玩法提示子页面 ——
@@ -5891,6 +5940,7 @@ HANDLERS.group = {
    ============================================================ */
 APPS.me = {
     name: '我的',
+    light: true,
     render() {
         $('app-title').textContent = '我的';
         return meHome();
