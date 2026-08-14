@@ -944,6 +944,15 @@ body[data-icon="plain"] .app-icon .ico {
 .chat-input-row { position: absolute; bottom: 0; left: 0; right: 0; display: flex; gap: 8px; padding: 10px 14px 26px; background: linear-gradient(180deg, transparent, #10131f 40%); }
 .chat-input { flex: 1; height: 38px; border-radius: 19px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); color: #fff; font-size: 14px; padding: 0 16px; outline: none; font-family: inherit; }
 .chat-send { width: 38px; height: 38px; border-radius: 50%; border: none; background: #0a84ff; color: #fff; font-size: 15px; cursor: pointer; flex-shrink: 0; }
+.chat-plus { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.08); color: #fff; font-size: 20px; cursor: pointer; flex-shrink: 0; line-height: 1; }
+[data-theme="chill"] .chat-plus { background: #ffffff !important; border-color: rgba(0,0,0,.12) !important; color: #1a1a1a !important; }
+.pp-grid { display: flex; flex-direction: column; gap: 10px; padding: 4px 0; }
+.pp-item { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06); color: #fff; font-size: 14px; cursor: pointer; text-align: left; }
+.pp-item:hover { background: rgba(255,255,255,.12); }
+[data-theme="chill"] .pp-item { background: #fff; border-color: rgba(0,0,0,.1); color: #1a1a1a; }
+[data-theme="chill"] .pp-item:hover { background: #f2f2f5; }
+.pp-close { width: 100%; margin-top: 12px; padding: 12px; border-radius: 14px; border: none; background: rgba(255,255,255,.08); color: #9aa0b0; font-size: 14px; cursor: pointer; }
+[data-theme="chill"] .pp-close { background: rgba(0,0,0,.05); color: #6d7280; }
 
 /* ============================================================
    电话
@@ -4221,7 +4230,7 @@ function renderChatHTML(c) {
             '<div class="chat-bubble-wrap" data-i="' + msgs.indexOf(m) + '">' + bubbleHTML(m) + '</div>'
         ).join('') : '<div class="chat-day">👋 打个招呼吧</div>') +
         '</div>' +
-        '<div class="chat-input-row"><input class="chat-input" id="chat-input" placeholder="发消息…">' +
+        '<div class="chat-input-row"><button class="chat-plus" data-act="plus">＋</button><input class="chat-input" id="chat-input" placeholder="发消息…">' +
         '<button class="chat-send" data-act="send">➤</button></div>';
 }
 // 联系人资料卡（自由发挥：点聊天页签名条弹出）
@@ -5548,6 +5557,28 @@ HANDLERS.messages = {
     'vc-hang': endVCall,
     'vc-mute': () => toast('🔇 已静音'),
     'vc-cam': () => toast('📷 切换摄像头'),
+    // ===== 输入框左侧 ＋ 面板 =====
+    plus: () => {
+        const c = getContact(state.currentChat);
+        if (!c) { toast('先进入一个聊天'); return; }
+        showSheet('＋ 聊天工具', '<div class="pp-grid">' +
+            '<button class="pp-item" data-act="ph-open">📱 查TA手机</button>' +
+            '<button class="pp-item" data-act="rev-open">🪞 反向查TA</button>' +
+            '<button class="pp-item" data-act="clear-chat">🧹 清空聊天记录</button>' +
+            '</div>' +
+            '<button class="pp-close" data-act="sheet-close">关闭</button>');
+    },
+    'ph-open': () => chatPhone(),
+    'rev-open': () => reverseTA(),
+    'clear-chat': () => {
+        const c = getContact(state.currentChat);
+        if (!c) return;
+        state.chats[c.id] = [];
+        persistContacts();
+        closeSheet();
+        if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === c.id) renderChat(c.id);
+        toast('聊天记录已清空 🧹');
+    },
 };
 /* ============================================================
    v10 群聊 App
