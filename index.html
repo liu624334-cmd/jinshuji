@@ -1910,6 +1910,63 @@ html, body { background: #EDEAE4 !important; }
 .island-menu .fbm-ico { color: #6E7D6B; background: rgba(110,125,107,.1); }
 .island-menu .fbm-title, .island-menu .fbm-desc, .island-menu .fbm-nick { color: var(--fb-color); }
 .island-menu .fbm-desc { opacity: .55; }
+/* ===== v11 世界书 / API 多配置 / 响应按钮 / 功能栏 / 表情包 ===== */
+.app-plus-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(0,0,0,.05); color: #111; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.app-topbar.wx-bar .app-plus-btn { color: #111 !important; }
+.wb-head { padding: 6px 4px 14px; }
+.wb-title { font-size: 24px; font-weight: 700; color: #1a1a1a; letter-spacing: .02em; }
+.wb-sub { font-size: 12px; color: #8a8f98; margin-top: 4px; }
+.wb-item { display: flex; align-items: center; gap: 12px; padding: 12px 4px; border-bottom: .5px solid rgba(0,0,0,.06); cursor: pointer; }
+.wb-item:active { background: rgba(0,0,0,.03); }
+.wb-ico { width: 38px; height: 38px; border-radius: 12px; background: rgba(110,125,107,.12); color: #6E7D6B; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.wb-info { flex: 1; min-width: 0; }
+.wb-name { font-size: 14px; font-weight: 600; color: #1a1a1a; display: flex; align-items: center; gap: 6px; }
+.wb-global { font-size: 10px; color: #fff; background: #6E7D6B; border-radius: 999px; padding: 1px 7px; font-weight: 500; }
+.wb-prev { font-size: 12px; color: #8a8f98; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wb-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.wb-del { border: 1px solid rgba(0,0,0,.1); background: transparent; color: #6d7280; border-radius: 999px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-family: inherit; }
+.wb-del:active { background: rgba(0,0,0,.06); }
+.wb-add { margin-top: 6px; }
+.wb-view { padding: 4px 0; }
+.wb-view-group { font-size: 11px; color: #6E7D6B; margin-bottom: 10px; }
+.wb-view-content { font-size: 14px; line-height: 1.8; color: #1a1a1a; white-space: pre-wrap; }
+.wb-bind-list { display: flex; flex-direction: column; gap: 8px; }
+.wb-bind { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,.04); border-radius: 12px; padding: 10px 12px; }
+.wb-bind-name { font-size: 13px; color: #1a1a1a; display: flex; align-items: center; gap: 6px; }
+.wb-bind-name em { font-style: normal; font-size: 10px; color: #8a8f98; border: 1px solid rgba(0,0,0,.1); border-radius: 999px; padding: 1px 6px; }
+.wb-bind-st { font-size: 11px; color: #6E7D6B; }
+.wb-bind-cb { width: 24px; height: 24px; border-radius: 8px; border: 1.5px solid rgba(0,0,0,.18); color: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.wb-bind-cb.on { background: #6E7D6B; border-color: #6E7D6B; color: #fff; }
+.api-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.api-item { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,.04); border-radius: 14px; padding: 10px 12px; border: 1px solid transparent; }
+.api-item.active { background: rgba(110,125,107,.1); border-color: rgba(110,125,107,.4); }
+.api-ico { width: 34px; height: 34px; border-radius: 10px; background: rgba(110,125,107,.14); color: #6E7D6B; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.api-info { flex: 1; min-width: 0; }
+.api-name { font-size: 13px; font-weight: 600; color: #1a1a1a; display: flex; align-items: center; gap: 6px; }
+.api-active-tag { font-size: 10px; color: #fff; background: #6E7D6B; border-radius: 999px; padding: 1px 7px; }
+.api-base { font-size: 11px; color: #8a8f98; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.api-ops { display: flex; gap: 6px; flex-shrink: 0; }
+.api-model-box { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.api-model-title { width: 100%; font-size: 11px; color: #8a8f98; }
+.api-model-chip.sel { background: #6E7D6B !important; border-color: #6E7D6B !important; color: #fff !important; }
+.chat-reply-btn { display: flex; align-items: center; gap: 3px; height: 38px; border-radius: 19px; border: none; background: #07c160; color: #fff; font-size: 12px; font-weight: 600; padding: 0 12px; cursor: pointer; flex-shrink: 0; font-family: inherit; }
+.chat-reply-btn:active { transform: scale(.94); }
+.chat-reply-btn svg { color: #fff; }
+.plus-bar { position: absolute; left: 0; right: 0; bottom: 84px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 8px 12px 6px; background: #f7f7f7; border-top: .5px solid rgba(0,0,0,.06); z-index: 6; }
+.plus-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 0; border-radius: 12px; cursor: pointer; }
+.plus-item:active { background: rgba(0,0,0,.05); }
+.plus-ico { width: 46px; height: 46px; border-radius: 14px; background: rgba(0,0,0,.05); color: #3a3a44; display: flex; align-items: center; justify-content: center; }
+.plus-t { font-size: 11px; color: #6d7280; }
+.sticker-panel { position: absolute; left: 0; right: 0; bottom: 84px; background: #f7f7f7; padding: 10px 12px; border-top: .5px solid rgba(0,0,0,.06); z-index: 6; max-height: 220px; overflow-y: auto; }
+.sticker-panel .st-item { display: inline-flex; flex-direction: column; align-items: center; width: 76px; margin: 4px; padding: 6px; border-radius: 10px; cursor: pointer; }
+.sticker-panel .st-item:active { background: rgba(0,0,0,.06); }
+.sticker-panel .st-item img { width: 56px; height: 56px; object-fit: contain; }
+.sticker-panel .st-name { font-size: 10px; color: #8a8f98; margin-top: 3px; max-width: 70px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.st-empty { text-align: center; color: #8a8f98; font-size: 12px; padding: 18px 0; line-height: 1.7; }
+.st-import { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 8px auto 2px; color: #07c160; font-size: 12px; font-weight: 600; cursor: pointer; padding: 8px; border-radius: 10px; background: rgba(7,193,96,.08); }
+.vw-trans { font-size: 11px; color: #8a8f98; padding: 4px 2px 0; max-width: 180px; line-height: 1.5; }
+.sr-emoji.sr-svg { color: #6E7D6B; }
+.sr-emoji.sr-svg svg { display: block; }
 </style>
     <style id="user-css"></style>
 </head>
@@ -2039,7 +2096,7 @@ html, body { background: #EDEAE4 !important; }
             <div class="app-topbar">
                 <button class="app-back" id="app-back">‹</button>
                 <span class="app-title" id="app-title">应用</span>
-                <span class="app-top-space"></span>
+                <span class="app-top-space"><button class="app-plus-btn" id="wx-plus-btn" data-act="contact-new" style="display:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></span>
             </div>
             <div class="app-body" id="app-body"></div>
             <div class="home-bar"></div>
@@ -2145,7 +2202,7 @@ const state = {
     currentChat: null,      // 信息：当前聊天联系人 id
     chatBusy: false,
     msgView: 'list',        // 信息：'list' | 'chat' | 'form'
-    contactForm: { avatar: '😀', bg: '#5e5ce6', autoReply: true, myNote: '', taNote: '', sign: '', gender: '保密', persona: '', personaDoc: '' },
+    contactForm: { avatar: '😀', bg: '#5e5ce6', autoReply: false, myNote: '', taNote: '', sign: '', gender: '保密', persona: '', personaDoc: '', wbIds: [] },
     passcode: '',           // 锁屏密码（4-10位数字，空 = 未开启）
     passTry: '',            // 正在输入的密码
     fb: { show: true, img: '', size: 56, opacity: 90, color: '#ffffff' },  // 悬浮球（v10.6 已迁移至灵动岛，保留兼容）
@@ -2171,6 +2228,12 @@ const state = {
     contacts: [],           // 玩家自建联系人 [{id,name,avatar,bg,autoReply}]
     chats: {},              // {contactId: [{from,text,time}]}
     apiConfig: { base: '', key: '', model: '' },
+    apiList: [],            // v11 API 多配置 [{id,name,base,key,model}]
+    apiActive: '',          // v11 当前生效的 API id
+    worldBooks: [],         // v11 世界书 [{id,name,group,content,global}]
+    stickers: [],           // v11 表情包 [{id,name,data}]（缩略 base64）
+    plusOpen: false,        // v11 聊天「+」功能栏
+    stickerPanel: false,    // v11 表情包面板
     customCss: '',
     customWallpaper: '',    // dataURL
     customTracks: [],       // [{name,url}] 玩家上传的真实音频
@@ -2328,6 +2391,15 @@ function loadPersist() {
     state.contacts = lsGet('simphone_contacts', []);
     state.chats = lsGet('simphone_chats', {});
     state.apiConfig = lsGet('simphone_api', { base: '', key: '', model: '' });
+    state.apiList = lsGet('simphone_apiList', []);
+    state.apiActive = lsGet('simphone_apiActive', '');
+    state.worldBooks = lsGet('simphone_worldBooks', []);
+    state.stickers = lsGet('simphone_stickers', []);
+    // v10.6 → v11 迁移：旧单配置自动转为首个 API
+    if (!state.apiList.length && state.apiConfig && state.apiConfig.base) {
+        state.apiList = [{ id: 'a1', name: '默认', base: state.apiConfig.base, key: state.apiConfig.key, model: state.apiConfig.model }];
+        state.apiActive = 'a1';
+    }
     state.customCss = lsGet('simphone_css', '');
     state.customWallpaper = lsGet('simphone_wallpaper', '');
     state.passcode = lsGet('simphone_passcode', '');
@@ -2601,6 +2673,12 @@ function openApp(id) {
     $('app-body').innerHTML = APPS[id].render();
     showView('app');
     if (APPS[id].init) APPS[id].init();
+    // v11：微信列表页右上角显示「＋」创建人设
+    const wp = $('wx-plus-btn');
+    if (wp) {
+        wp.style.display = (id === 'messages' && state.msgView === 'list') ? 'flex' : 'none';
+        wp.onclick = () => { state.msgView = 'form'; openApp('messages'); };
+    }
 }
 
 /* ============================================================
@@ -2669,6 +2747,7 @@ const GRID_APPS = [
     ['notes', '备忘录', '📝', 'linear-gradient(135deg,#ffd60a,#f0b400)'],
     ['anniv', '纪念日', '🎂', 'linear-gradient(135deg,#ff9f0a,#ff6482)'],
     ['settings', '设置', '⚙️', 'linear-gradient(135deg,#8e8e93,#636366)'],
+    ['worldbook', '世界书', '📖', 'linear-gradient(135deg,#6E7D6B,#9aa88f)'],
     ['music', '音乐', '🎵', 'linear-gradient(135deg,#fc3c44,#ff2d55)'],
     ['moments', '朋友圈', '📸', 'linear-gradient(135deg,#34c759,#7ddc4f)'],
     ['group', '群聊', '👥', 'linear-gradient(135deg,#5e5ce6,#9b59b6)'],
@@ -2740,6 +2819,32 @@ const ICONS = {
     credit: '<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
     star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
     gift: '<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+    database: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
+    image: '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+    sparkles: '<path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3z"/>',
+    gift2: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+    yen: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+    mic: '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>',
+    map: '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',
+    bike: '<circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/>',
+    bag: '<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+    link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+    music2: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+    video: '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>',
+    heart2: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+    brain: '<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.04z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.04z"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    wifi: '<path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>',
+    lang: '<path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>',
+    book2: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    pen: '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
+    headphones: '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>',
+    refresh: '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+    send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
+    smile: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',
+    grid: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+    userplus: '<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>',
 };
 function ico(name, size) {
     const p = ICONS[name];
@@ -3073,6 +3178,8 @@ $('app-body').addEventListener('change', (e) => {
             toast('CSS 已导入并生效 📄');
         };
         r.readAsText(f);
+    } else if (t.id === 'sticker-file') {
+        importStickers(files);
     } else if (t.id === 'cf-import-file') {
         const r = new FileReader();
         r.onload = () => {
@@ -3541,21 +3648,33 @@ APPS.settings = {
                 tips.map(t => '<div class="setting-row" style="align-items:flex-start"><div class="sr-left"><span class="sr-emoji">' + t[0] + '</span><div style="line-height:1.6;font-size:13.5px">' + t[1] + '</div></div></div>').join('') +
                 '</div>';
         }
-        // —— API 配置子页面 ——
+        // —— API 配置子页面（v11：多 API 管理 + 拉取模型）——
         if (state.settingsPage === 'api') {
             const apiSel = API_PRESETS.findIndex(p => p.base === state.apiConfig.base && p.model === state.apiConfig.model);
             const apiChips = API_PRESETS.map((t, i) => '<button class="preset-chip' + (apiSel === i ? ' sel' : '') + '" data-act="preset-api" data-v="' + i + '">' + esc(t.name) + '</button>').join('');
+            const list = state.apiList.length ? state.apiList.map(a =>
+                '<div class="api-item' + (a.id === state.apiActive ? ' active' : '') + '">' +
+                '<div class="api-ico">' + ico('database', 20) + '</div>' +
+                '<div class="api-info"><div class="api-name">' + esc(a.name || '未命名') + (a.id === state.apiActive ? '<span class="api-active-tag">使用中</span>' : '') + '</div>' +
+                '<div class="api-base">' + esc(a.base) + ' · ' + esc(a.model || '未选模型') + '</div></div>' +
+                '<div class="api-ops">' +
+                (a.id !== state.apiActive ? '<button class="wb-del" data-act="api-use" data-v="' + a.id + '">启用</button>' : '') +
+                '<button class="wb-del" data-act="api-del" data-v="' + a.id + '">删除</button></div></div>'
+            ).join('') : '<div class="hint-note">还没有保存的 API：填好下方配置 → 拉取模型 → 选择 → 保存，聊天回复就靠它了</div>';
             return '<div class="setting-group"><div class="setting-group-title">🔌 API 配置</div>' +
                 backRow +
-                '<div class="preset-group"><div class="preset-label">预设模板（点击应用地址与模型）</div><div class="preset-row">' + apiChips + '</div></div>' +
+                (state.apiList.length ? '<div class="api-list">' + list + '</div>' : '<div class="hint-note" style="margin:2px 0 10px">还没有保存的 API：填好下方配置 → 拉取模型 → 选择 → 保存，聊天回复就靠它了</div>') +
+                '<div class="preset-group"><div class="preset-label">预设模板（点击填入地址与模型）</div><div class="preset-row">' + apiChips + '</div></div>' +
                 '<div class="form-row"><label class="form-label">Base URL（接口地址）</label>' +
                 '<input class="form-input api-key-input" id="api-base" placeholder="https://api.example.com/v1" value="' + esc(state.apiConfig.base) + '"></div>' +
                 '<div class="form-row"><label class="form-label">API Key（密钥）</label>' +
                 '<input class="form-input api-key-input" id="api-key" type="password" placeholder="sk-..." value="' + esc(state.apiConfig.key) + '"></div>' +
-                '<div class="form-row"><label class="form-label">模型名称（Model）</label>' +
-                '<input class="form-input" id="api-model" placeholder="gpt-4o / deepseek-chat / qwen-max…" value="' + esc(state.apiConfig.model) + '"></div>' +
-                '<button class="form-save" data-act="api-save">保存配置</button>' +
-                '<div class="hint-note">💡 点预设模板可一键填入地址与模型，密钥需自行填写；配置仅保存在本机浏览器 localStorage。</div></div>';
+                '<div class="form-row"><label class="form-label">模型名称（点下方「拉取模型」可自动获取）</label>' +
+                '<input class="form-input" id="api-model" placeholder="gpt-4o / deepseek-chat / qwen-max…" value="' + esc(state.apiConfig.model) + '">' +
+                '<button class="import-btn" data-act="api-pull" style="margin-top:8px">' + ico('refresh', 15) + ' 拉取模型列表</button>' +
+                '<div class="api-model-box" id="api-model-box"></div></div>' +
+                '<button class="form-save" data-act="api-save">保存为聊天 API（可保存多个）</button>' +
+                '<div class="hint-note">💡 保存后可保存多个 API，点「启用」切换聊天使用的那个；小手机的聊天响应靠「使用中」的 API。</div></div>';
         }
         // —— 自定义美化子页面 ——
         if (state.settingsPage === 'beauty') {
@@ -3651,42 +3770,44 @@ APPS.settings = {
                 '<button class="form-save" data-act="nick-save">保存称呼</button>' +
                 '<div class="hint-note">💡 保存后悬浮球菜单顶部将显示该称呼，让锦书机更像「TA」专属。</div></div>';
         }
-        // —— 主页面 ——
+        // —— 主页面（v11：全部图标换简约线条）——
+        const SI = { help: 'book2', api: 'database', wifi: 'wifi', bt: 'bluetooth', plane: 'plane', beauty: 'sparkles', cloud: 'cloud', preset: 'settings', music: 'music2', chat: 'messages', launch: 'grid', nick: 'heart2', lock: 'lock', bright: 'brightness', wall: 'image', phone: 'phone', sys: 'settings', storage: 'database', battery: 'target' };
+        const si = (k, s) => '<span class="sr-emoji sr-svg">' + (ico(SI[k], s || 19) || '·') + '</span>';
         return '' +
             '<div class="setting-group"><div class="setting-group-title">帮助</div>' +
-            '<div class="setting-row" data-act="help" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎮</span><div>玩法提示</div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="help" style="cursor:pointer"><div class="sr-left">' + si('help') + '<div>玩法提示</div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">连接</div>' +
-            '<div class="setting-row" data-act="api" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🔌</span><div>API 配置<div class="sr-sub">' + (state.apiConfig.base ? '已配置' : '未配置') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="api" style="cursor:pointer"><div class="sr-left">' + si('api') + '<div>API 配置<div class="sr-sub">' + (activeApi() ? '已配置 ' + esc(activeApi().name) : '未配置') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">网络</div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">📶</span><div>Wi-Fi<div class="sr-sub">' + (state.wifi ? '已连接：锦书_5G' : '未连接') + '</div></div></div><div class="switch ' + (state.wifi ? 'on' : '') + '" data-act="sw-wifi"></div></div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔵</span><div>蓝牙<div class="sr-sub">' + (state.bt ? '已开启' : '已关闭') + '</div></div></div><div class="switch ' + (state.bt ? 'on' : '') + '" data-act="sw-bt"></div></div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">✈️</span><div>飞行模式</div></div><div class="switch ' + (state.airplane ? 'on' : '') + '" data-act="sw-air"></div></div>' +
+            '<div class="setting-row"><div class="sr-left">' + si('wifi') + '<div>Wi-Fi<div class="sr-sub">' + (state.wifi ? '已连接：锦书_5G' : '未连接') + '</div></div></div><div class="switch ' + (state.wifi ? 'on' : '') + '" data-act="sw-wifi"></div></div>' +
+            '<div class="setting-row"><div class="sr-left">' + si('bt') + '<div>蓝牙<div class="sr-sub">' + (state.bt ? '已开启' : '已关闭') + '</div></div></div><div class="switch ' + (state.bt ? 'on' : '') + '" data-act="sw-bt"></div></div>' +
+            '<div class="setting-row"><div class="sr-left">' + si('plane') + '<div>飞行模式</div></div><div class="switch ' + (state.airplane ? 'on' : '') + '" data-act="sw-air"></div></div>' +
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">个性化</div>' +
-            '<div class="setting-row" data-act="beauty" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎨</span><div>自定义美化<div class="sr-sub">' + (state.customCss || state.customWallpaper ? '已启用自定义外观' : '壁纸 / CSS') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
-            '<div class="setting-row" data-act="chill-toggle" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">☁️</span><div>浅色主题<div class="sr-sub">极简浅色 · 一键切换</div></div></div><div class="switch' + (chillTheme ? ' on' : '') + '" data-act="chill-toggle"></div></div>' +
-            '<div class="setting-row" data-act="preset" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎛️</span><div>预设切换<div class="sr-sub">CSS 主题 / 字体 / API</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
-            '<div class="setting-row" data-act="music-mgr" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🎵</span><div>音乐管理<div class="sr-sub">' + state.customTracks.length + ' 首本地歌曲</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
-            '<div class="setting-row" data-act="chat-jump" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">💬</span><div>跳转聊天<div class="sr-sub">快速进入与 TA 的对话</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
-            '<div class="setting-row" data-act="app-launch" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🚀</span><div>快捷启动<div class="sr-sub">直接打开任意应用</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
-            '<div class="setting-row" data-act="nickname" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">💌</span><div>称呼设置<div class="sr-sub">' + (state.nickname ? 'TA 叫你：' + esc(state.nickname) : 'TA 对你的称呼') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="beauty" style="cursor:pointer"><div class="sr-left">' + si('beauty') + '<div>自定义美化<div class="sr-sub">' + (state.customCss || state.customWallpaper ? '已启用自定义外观' : '壁纸 / CSS') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="chill-toggle" style="cursor:pointer"><div class="sr-left">' + si('cloud') + '<div>浅色主题<div class="sr-sub">极简浅色 · 一键切换</div></div></div><div class="switch' + (chillTheme ? ' on' : '') + '" data-act="chill-toggle"></div></div>' +
+            '<div class="setting-row" data-act="preset" style="cursor:pointer"><div class="sr-left">' + si('preset') + '<div>预设切换<div class="sr-sub">CSS 主题 / 字体 / API</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="music-mgr" style="cursor:pointer"><div class="sr-left">' + si('music') + '<div>音乐管理<div class="sr-sub">' + state.customTracks.length + ' 首本地歌曲</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="chat-jump" style="cursor:pointer"><div class="sr-left">' + si('chat') + '<div>跳转聊天<div class="sr-sub">快速进入与 TA 的对话</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="app-launch" style="cursor:pointer"><div class="sr-left">' + si('launch') + '<div>快捷启动<div class="sr-sub">直接打开任意应用</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="nickname" style="cursor:pointer"><div class="sr-left">' + si('nick') + '<div>称呼设置<div class="sr-sub">' + (state.nickname ? 'TA 叫你：' + esc(state.nickname) : 'TA 对你的称呼') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">安全</div>' +
-            '<div class="setting-row" data-act="passcode" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🔒</span><div>锁屏密码<div class="sr-sub">' + (state.passcode ? '已开启' : '未开启') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
+            '<div class="setting-row" data-act="passcode" style="cursor:pointer"><div class="sr-left">' + si('lock') + '<div>锁屏密码<div class="sr-sub">' + (state.passcode ? '已开启' : '未开启') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">显示与亮度</div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔆</span><div>亮度</div></div><input type="range" id="set-brightness" min="20" max="100" value="' + state.brightness + '" style="width:130px;accent-color:#fff"></div>' +
-            '<div class="setting-row" style="flex-direction:column;align-items:stretch"><div class="sr-left" style="margin-bottom:10px"><span class="sr-emoji">🖼️</span><div>壁纸</div></div><div class="wallpaper-row">' +
+            '<div class="setting-row"><div class="sr-left">' + si('bright') + '<div>亮度</div></div><input type="range" id="set-brightness" min="20" max="100" value="' + state.brightness + '" style="width:130px;accent-color:#fff"></div>' +
+            '<div class="setting-row" style="flex-direction:column;align-items:stretch"><div class="sr-left" style="margin-bottom:10px">' + si('wall') + '<div>壁纸</div></div><div class="wallpaper-row">' +
             ['t1', 't2', 't3', 't4'].map(t => '<div class="wp-thumb ' + t + (state.wallpaper === t ? ' sel' : '') + '" data-act="wp" data-v="' + t + '"></div>').join('') +
             '</div></div>' +
             '</div>' +
             '<div class="setting-group"><div class="setting-group-title">关于本机</div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">📱</span><div>型号</div></div><span style="font-size:13px">锦书 Phone Pro</span></div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">⚙️</span><div>系统版本</div></div><span style="font-size:13px">锦书OS 1.0</span></div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">💾</span><div>存储空间</div></div><span style="font-size:13px">128 / 256 GB</span></div>' +
-            '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔋</span><div>电池健康</div></div><span id="set-battery" style="font-size:13px">100% · 巅峰性能</span></div>' +
+            '<div class="setting-row"><div class="sr-left">' + si('phone') + '<div>型号</div></div><span style="font-size:13px">锦书 Phone Pro</span></div>' +
+            '<div class="setting-row"><div class="sr-left">' + si('sys') + '<div>系统版本</div></div><span style="font-size:13px">锦书OS 1.0</span></div>' +
+            '<div class="setting-row"><div class="sr-left">' + si('storage') + '<div>存储空间</div></div><span style="font-size:13px">128 / 256 GB</span></div>' +
+            '<div class="setting-row"><div class="sr-left">' + si('battery') + '<div>电池健康</div></div><span id="set-battery" style="font-size:13px">100% · 巅峰性能</span></div>' +
             '</div>';
     },
     init() {
@@ -3732,13 +3853,72 @@ HANDLERS.settings = {
     },
     'api-save': () => {
         const b = $('api-base'), k = $('api-key'), m = $('api-model');
-        state.apiConfig = {
-            base: (b ? b.value : '').trim(),
-            key: (k ? k.value : '').trim(),
-            model: (m ? m.value : '').trim(),
-        };
-        lsSet('simphone_api', state.apiConfig);
-        toast('API 配置已保存 ✓');
+        const base = (b ? b.value : '').trim(), key = (k ? k.value : '').trim(), model = (m ? m.value : '').trim();
+        if (!base || !key) { toast('请填写 Base URL 和 API Key'); return; }
+        if (!model) { toast('请先拉取模型并选择一个，或手动填写模型名'); return; }
+        // 已存在同 base+model 则更新，否则新增
+        const exist = state.apiList.find(a => a.base === base && a.model === model);
+        const cfg = { base, key, model };
+        state.apiConfig = cfg;
+        if (exist) {
+            exist.key = key;
+            state.apiActive = exist.id;
+        } else {
+            const id = 'a' + Date.now();
+            let host = '';
+            try { host = new URL(base).hostname.replace(/^www\./, '') || ''; } catch (e) {}
+            state.apiList.push({ id, name: host || model, ...cfg });
+            if (!state.apiActive || !state.apiList.find(a => a.id === state.apiActive)) state.apiActive = id;
+        }
+        persistV11();
+        lsSet('simphone_api', cfg);
+        toast('API 已保存并启用 ✓');
+        openApp('settings');
+    },
+    // v11：拉取模型列表（GET {base}/models）
+    'api-pull': async (b) => {
+        const base = ($('api-base') ? $('api-base').value : '').trim().replace(/\/+$/, '');
+        const key = ($('api-key') ? $('api-key').value : '').trim();
+        if (!base || !key) { toast('请先填写 Base URL 和 API Key'); return; }
+        const box = $('api-model-box');
+        if (box) box.innerHTML = '<div class="hint-note">拉取中…</div>';
+        try {
+            const res = await fetch(base + '/models', { headers: { 'Authorization': 'Bearer ' + key } });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            const ids = (data.data || []).map(x => x.id).filter(Boolean);
+            if (!ids.length) { if (box) box.innerHTML = '<div class="hint-note">接口没有返回模型列表，请手动填写模型名</div>'; return; }
+            if (box) box.innerHTML = '<div class="api-model-title">' + ids.length + ' 个模型，点击选择：</div>' +
+                ids.map(id => '<button class="preset-chip api-model-chip" data-act="api-pick-model" data-v="' + esc(id) + '">' + esc(id) + '</button>').join('');
+        } catch (e) {
+            if (box) box.innerHTML = '<div class="hint-note">拉取失败（' + esc(String(e && e.message || e)) + '）：可手动填写模型名</div>';
+        }
+    },
+    'api-pick-model': (b) => {
+        const m = $('api-model');
+        if (m) m.value = b.dataset.v;
+        document.querySelectorAll('.api-model-chip').forEach(c => c.classList.toggle('sel', c === b));
+        toast('已选择模型：' + b.dataset.v);
+    },
+    'api-use': (b) => {
+        state.apiActive = b.dataset.v;
+        const a = state.apiList.find(x => x.id === state.apiActive);
+        if (a) { state.apiConfig = { base: a.base, key: a.key, model: a.model }; lsSet('simphone_api', state.apiConfig); }
+        persistV11();
+        openApp('settings');
+        toast('已启用该 API ✓');
+    },
+    'api-del': (b) => {
+        const id = b.dataset.v;
+        state.apiList = state.apiList.filter(x => x.id !== id);
+        if (state.apiActive === id) {
+            state.apiActive = state.apiList.length ? state.apiList[0].id : '';
+            const a = state.apiList[0];
+            if (a) { state.apiConfig = { base: a.base, key: a.key, model: a.model }; lsSet('simphone_api', state.apiConfig); }
+        }
+        persistV11();
+        openApp('settings');
+        toast('已删除该 API');
     },
     'wp-choose': () => { const f = $('wp-file'); if (f) f.click(); },
     'wp-clear': () => {
@@ -4332,8 +4512,8 @@ const CONTACT_COLORS = ['#5e5ce6', '#ff9f0a', '#34c759', '#ff375f', '#0a84ff', '
    未配置 API（base/key/model 任一为空）→ 对方回复不了，静默不回复
    ============================================================ */
 function hasApiConfig() {
-    const c = state.apiConfig;
-    return !!(c && c.base && c.key && c.model);
+    const a = activeApi();
+    return !!(a && a.base && a.key && a.model);
 }
 function buildReplySystemPrompt(c) {
     const who = (c.myNote || c.name) || '我';
@@ -4342,11 +4522,13 @@ function buildReplySystemPrompt(c) {
     if (c.sign) p.push('你的个性签名是：“' + c.sign + '”。');
     if (c.persona) p.push('你的性格设定：' + c.persona + '，回复要贴合这个性格。');
     if (c.personaDoc) p.push('以下是你平时说话的素材，尽量模仿这个语气与用词习惯：' + String(c.personaDoc).trim().slice(0, 600));
+    const wbp = worldbookPrompt(c);
+    if (wbp) p.push(wbp);
     return p.join('\n');
 }
 async function callApiReply(c, userText) {
     if (!hasApiConfig()) return null;
-    const cfg = state.apiConfig;
+    const cfg = activeApi();
     const url = cfg.base.replace(/\/+$/, '') + '/chat/completions';
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 20000);
@@ -4457,10 +4639,22 @@ function renderContactForm() {
         '<input type="file" id="cf-import-file" accept=".txt,.doc,.docx" style="display:none">' +
         '<button class="import-btn" data-act="cf-import">📄 导入 txt/docx</button>' +
         '<div class="import-status" id="cf-import-status"></div></div>' +
-        '<div class="form-row" style="display:flex;align-items:center"><label class="form-label" style="margin:0">自动回复（对方会回你消息）</label>' +
+        // v11：世界书绑定
+        '<div class="form-row"><label class="form-label">世界书绑定（TA 回复必须遵守的守则）</label>' +
+        (state.worldBooks.length
+            ? '<div class="wb-bind-list">' + state.worldBooks.map(w =>
+                '<div class="wb-bind ' + (w.global ? 'glob' : '') + '"><span class="wb-bind-name">' + esc(w.name) + (w.group ? '<em>' + esc(w.group) + '</em>' : '') + '</span>' +
+                (w.global
+                    ? '<span class="wb-bind-st">全局自动生效</span>'
+                    : '<span class="wb-bind-cb ' + ((state.contactForm.wbIds || []).indexOf(w.id) >= 0 ? 'on' : '') + '" data-act="cf-wb" data-v="' + w.id + '"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>') +
+                '</div>'
+            ).join('') + '</div>'
+            : '<div class="hint-note">还没有世界书：去「世界书」App 添加守则，再回来给 TA 勾选</div>') +
+        '</div>' +
+        '<div class="form-row" style="display:flex;align-items:center"><label class="form-label" style="margin:0">自动回复（开启后 TA 会自动回你；关闭则点「响应」按钮手动回复）</label>' +
         '<div class="switch ' + (state.contactForm.autoReply ? 'on' : '') + '" data-act="cf-reply"></div></div>' +
         '<button class="form-save" data-act="contact-save">保存联系人</button>' +
-        '<div class="hint-note">💡 开启自动回复后，对方会像真人一样回你消息；导入素材后 TA 会引用素材内容回你</div></div>';
+        '<div class="hint-note">💡 关闭自动回复时：发完消息点输入框左边的「响应」，TA 才会开始回复你</div></div>';
 }
 function renderChat(id) {
     const c = getContact(id);
@@ -4498,15 +4692,25 @@ function renderChatHTML(c) {
     const signBar = '<div class="chat-sign" data-act="cc-open" data-v="' + c.id + '">' +
         (c.sign ? '“' + esc(c.sign) + '” · ' : '') + gemo + ' 查看资料 ›</div>';
     const offlineBar = state.offline ? '<div class="offline-bar">📴 线下模式：消息无法收发，去设置关闭</div>' : '';
-    // v10 聊天工具栏
+    // v10 聊天工具栏（v11：全部换为简约线条图标）
+    const TOOL_ICONS = { 'pick-image': 'image', 'ai-gen-img': 'sparkles', 'rp': 'gift2', 'tr': 'yen', 'rec': 'mic', 'loc': 'map', 'food': 'bike', 'shop': 'bag', 'share': 'link', 'music': 'music2', 'vcall': 'video', 'heart': 'heart2', 'memory': 'brain', 'diff': 'target', 'offline': 'wifi', 'trans': 'lang', 'read': 'book2', 'fanfic': 'pen' };
     const tools = [
-        ['pick-image', '📷', '图片'], ['ai-gen-img', '✨', 'AI生图'], ['rp', '🧧', '红包'], ['tr', '💰', '转账'],
-        ['rec', '🎤', '语音'], ['loc', '📍', '位置'], ['food', '🛵', '外卖'], ['shop', '🛍️', '购物'],
-        ['share', '🔗', '链接'], ['music', '🎵', '听歌'], ['vcall', '📹', '视频'], ['heart', '💗', '心声'],
-        ['memory', '🧠', '记忆'], ['diff', '🎯', '难度'], ['offline', '📴', '离线'],
-        ['trans', '🔤', '翻译'], ['read', '📖', '阅读'], ['fanfic', '📝', '同人'],
-    ].map(t => '<div class="ct-label" data-act="tool" data-v="' + t[0] + '"><button class="ct-btn">' + t[1] + '</button><span>' + t[2] + '</span></div>').join('');
+        ['pick-image', '图片'], ['ai-gen-img', 'AI生图'], ['rp', '红包'], ['tr', '转账'],
+        ['rec', '语音'], ['loc', '位置'], ['food', '外卖'], ['shop', '购物'],
+        ['share', '链接'], ['music', '听歌'], ['vcall', '视频'], ['heart', '心声'],
+        ['memory', '记忆'], ['diff', '难度'], ['offline', '离线'],
+        ['trans', '翻译'], ['read', '阅读'], ['fanfic', '同人'],
+    ].map(t => '<div class="ct-label" data-act="tool" data-v="' + t[0] + '"><button class="ct-btn">' + (ico(TOOL_ICONS[t[0]], 18) || '·') + '</button><span>' + t[1] + '</span></div>').join('');
     const toolbar = '<div class="chat-toolbar">' + tools + '</div>';
+    // v11：「+」功能栏（发语音 / 表情包 / 查TA手机 / 反向查TA / 清空记录）
+    const plusBar = '<div class="plus-bar" id="plus-bar" style="display:none">' +
+        '<div class="plus-item" data-act="voice-send"><span class="plus-ico">' + ico('mic', 22) + '</span><span class="plus-t">发语音</span></div>' +
+        '<div class="plus-item" data-act="sticker-open"><span class="plus-ico">' + ico('smile', 22) + '</span><span class="plus-t">表情包</span></div>' +
+        '<div class="plus-item" data-act="ph-open"><span class="plus-ico">' + ico('phone', 22) + '</span><span class="plus-t">查TA手机</span></div>' +
+        '<div class="plus-item" data-act="rev-open"><span class="plus-ico">' + ico('refresh', 22) + '</span><span class="plus-t">反向查TA</span></div>' +
+        '<div class="plus-item" data-act="clear-chat"><span class="plus-ico">' + ico('trash', 22) + '</span><span class="plus-t">清空记录</span></div>' +
+        '</div>';
+    const stickerPanel = '<div class="sticker-panel" id="sticker-panel" style="display:none"></div>';
     return offlineBar + toolbar + '<div class="chat-body">' +
         signBar +
         '<div class="chat-day">' + fmtDate(new Date()) + '</div>' +
@@ -4514,8 +4718,11 @@ function renderChatHTML(c) {
             '<div class="chat-bubble-wrap" data-i="' + msgs.indexOf(m) + '">' + bubbleHTML(m) + '</div>'
         ).join('') : '<div class="chat-day">👋 打个招呼吧</div>') +
         '</div>' +
-        '<div class="chat-input-row"><button class="chat-plus" data-act="plus">＋</button><input class="chat-input" id="chat-input" placeholder="发消息…">' +
-        '<button class="chat-send" data-act="send">➤</button></div>';
+        plusBar + stickerPanel +
+        '<div class="chat-input-row"><button class="chat-plus" data-act="plus-toggle">' + ico('grid', 18) + '</button>' +
+        '<button class="chat-reply-btn" data-act="reply-now">' + ico('send', 13) + '<span>响应</span></button>' +
+        '<input class="chat-input" id="chat-input" placeholder="发消息…">' +
+        '<button class="chat-send" data-act="send">' + ico('send', 16) + '</button></div>';
 }
 // 联系人资料卡（自由发挥：点聊天页签名条弹出）
 function showContactCard(c) {
@@ -4591,6 +4798,197 @@ function showFavs(cid) {
         '<div class="me-list-item"><span class="mli-t">' + esc(f.text) + '</span><span class="mli-s">' + f.time + '</span></div>'
     ).join(''));
 }
+/* ============================================================
+   v11 三大核心：世界书 / API 多配置 / 手动响应 + 功能栏
+   ============================================================ */
+function persistV11() {
+    lsSet('simphone_apiList', state.apiList);
+    lsSet('simphone_apiActive', state.apiActive);
+    lsSet('simphone_worldBooks', state.worldBooks);
+    lsSet('simphone_stickers', state.stickers);
+}
+function activeApi() {
+    return state.apiList.find(a => a.id === state.apiActive) || state.apiList[0] || null;
+}
+// ---------- 世界书 ----------
+// 拼接该角色必须遵守的世界书守则（全局 + 局部勾选）
+function worldbookPrompt(c) {
+    const glob = state.worldBooks.filter(w => w.global);
+    const sel = (c && c.wbIds || []).map(id => state.worldBooks.find(w => w.id === id)).filter(Boolean);
+    const all = glob.concat(sel);
+    if (!all.length) return '';
+    return '【世界书 · 你必须严格遵守的世界守则】\n' + all.map(w =>
+        '《' + w.name + '》' + (w.group ? '(' + w.group + ')' : '') + '：' + String(w.content).trim()
+    ).join('\n') + '\n【以上每条守则都必须在回复中体现与遵守，不得违背。】';
+}
+function renderWorldbook() {
+    const wbs = state.worldBooks;
+    const groups = {};
+    wbs.forEach(w => { const g = w.group || '未分组'; (groups[g] = groups[g] || []).push(w); });
+    let html = '<div class="wb-head"><div class="wb-title">世界书</div>' +
+        '<div class="wb-sub">' + (wbs.length ? wbs.length + ' 本 · 全局 ' + wbs.filter(w => w.global).length + ' 本' : '创建你的世界，让 TA 记住一切') + '</div></div>';
+    if (!wbs.length) {
+        html += '<div class="empty-state"><div class="es-emoji">📖</div><div class="es-title">还没有世界书</div>' +
+            '<div class="es-sub">世界书是角色回复必须遵守的守则<br>添加一本，让 TA 的世界更完整</div></div>';
+    }
+    Object.keys(groups).forEach(g => {
+        html += '<div class="setting-group"><div class="setting-group-title">' + esc(g) + '</div>';
+        groups[g].forEach(w => {
+            html += '<div class="wb-item" data-act="wb-view" data-v="' + w.id + '">' +
+                '<div class="wb-ico">' + ico('book', 20) + '</div>' +
+                '<div class="wb-info"><div class="wb-name">' + esc(w.name) + (w.global ? '<span class="wb-global">全局</span>' : '') + '</div>' +
+                '<div class="wb-prev">' + esc(String(w.content).slice(0, 44)) + '</div></div>' +
+                '<div class="wb-actions">' +
+                (w.global
+                    ? '<button class="wb-del" data-act="wb-unglobal" data-v="' + w.id + '">取消全局</button>'
+                    : '<button class="wb-del" data-act="wb-global" data-v="' + w.id + '">设为全局</button>') +
+                '<button class="wb-del" data-act="wb-del" data-v="' + w.id + '">删除</button></div></div>';
+        });
+        html += '</div>';
+    });
+    html += '<div class="wb-add">' +
+        '<div class="form-row"><label class="form-label">世界书名称</label>' +
+        '<input class="form-input" id="wb-name" placeholder="如：异世界大陆设定" maxlength="20"></div>' +
+        '<div class="form-row"><label class="form-label">分组（可留空）</label>' +
+        '<input class="form-input" id="wb-group" placeholder="如：世界观 / 角色 / 规则" maxlength="10"></div>' +
+        '<div class="form-row"><label class="form-label">守则内容（TA 必须遵守）</label>' +
+        '<textarea class="form-input" id="wb-content" rows="4" placeholder="例如：这个世界禁止魔法，所有魔法物品都已失传…"></textarea></div>' +
+        '<div class="form-row" style="display:flex;align-items:center"><label class="form-label" style="margin:0">全局默认生效（所有角色都必须遵守）</label>' +
+        '<div class="switch" id="wb-global-switch"></div></div>' +
+        '<button class="form-save" data-act="wb-save">添加世界书</button>' +
+        '<div class="hint-note">💡 全局世界书对所有角色生效；非全局世界书可在「微信 → 右上角＋ → 创建人设」里给 TA 手动勾选。角色回复时会自动带上已勾选与全局的世界书守则。</div></div>';
+    return html;
+}
+function wbView(id) {
+    const w = state.worldBooks.find(x => x.id === id);
+    if (!w) return;
+    showSheet('《' + w.name + '》', '<div class="wb-view"><div class="wb-view-group">' + esc(w.group || '未分组') + (w.global ? ' · 全局生效' : ' · 局部勾选') + '</div><div class="wb-view-content">' + esc(w.content) + '</div></div>');
+}
+// ---------- 手动响应（点「响应」按钮角色才回复） ----------
+function replyNow() {
+    if (!state.currentChat || state.chatBusy) return;
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const msgs = contactMsgs(state.currentChat);
+    const lastUser = [...msgs].reverse().find(m => m.from === 'out');
+    if (!lastUser) { toast('还没有需要回应的消息'); return; }
+    if (!hasApiConfig()) { toast('未配置 API：去「设置 → API 配置」添加并启用一个聊天 API'); return; }
+    state.chatBusy = true;
+    showTyping();
+    setTimeout(async () => {
+        const reply = await callApiReply(c, lastUser.text);
+        hideTyping();
+        const cid = state.currentChat;
+        if (reply && cid && state.chats[cid]) {
+            state.chats[cid].push({ from: 'in', text: reply, time: fmtTime(new Date()) });
+            persistContacts();
+            if (state.app === 'messages' && state.msgView === 'chat' && state.currentChat === cid) {
+                renderChat(cid);
+                toast('TA 回复了你 💬');
+            }
+        } else {
+            toast('对方没有回复（API 调用失败）📡');
+        }
+        state.chatBusy = false;
+    }, 700 + Math.random() * 900);
+}
+// ---------- 语音（模拟发语音，点击气泡展开文字内容） ----------
+function sendVoice() {
+    if (!state.currentChat || state.chatBusy) return;
+    const c = getContact(state.currentChat);
+    if (!c) return;
+    const pool = ['嗯嗯，我在听。', '哈哈，然后呢？', '说的有道理～', '我懂你意思。', '这个嘛…让我想想。', '真的假的？'];
+    const text = pool[Math.floor(Math.random() * pool.length)];
+    const dur = (3 + Math.floor(Math.random() * 8)) + '″';
+    if (!state.chats[state.currentChat]) state.chats[state.currentChat] = [];
+    state.chats[state.currentChat].push({ from: 'out', type: 'voice', text, dur, time: fmtTime(new Date()) });
+    persistContacts();
+    state.plusOpen = false;
+    renderChat(state.currentChat);
+    toast('已发送语音 🎤');
+}
+// 语音气泡：点击展开文字内容（模拟转文字）
+function playVoice(btn) {
+    const wrap = btn.closest('.chat-bubble-wrap');
+    if (!wrap) return;
+    const exist = wrap.querySelector('.vw-trans');
+    if (exist) { exist.remove(); return; }
+    const mi = +wrap.dataset.i;
+    const m = contactMsgs(state.currentChat)[mi];
+    if (!m || !m.text) return;
+    const t = document.createElement('div');
+    t.className = 'vw-trans';
+    t.textContent = '▸ 语音转文字：' + m.text;
+    btn.appendChild(t);
+}
+// ---------- 表情包 ----------
+// 压缩图片为小尺寸缩略图（localStorage 友好）
+function shrinkSticker(file, cb) {
+    const r = new FileReader();
+    r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+            const max = 120;
+            let w = img.width, h = img.height;
+            if (w > max || h > max) { const s = Math.min(max / w, max / h); w = Math.round(w * s); h = Math.round(h * s); }
+            const cv = document.createElement('canvas');
+            cv.width = w; cv.height = h;
+            cv.getContext('2d').drawImage(img, 0, 0, w, h);
+            cb(cv.toDataURL('image/png'));
+        };
+        img.onerror = () => cb(null);
+        img.src = r.result;
+    };
+    r.readAsDataURL(file);
+}
+function importStickers(files) {
+    const arr = Array.from(files || []).filter(f => /image\//.test(f.type));
+    if (!arr.length) { toast('请选择图片文件（支持 PNG/JPG/GIF/WebP）'); return; }
+    let done = 0, ok = 0;
+    arr.forEach(f => {
+        shrinkSticker(f, (data) => {
+            done++; ok += data ? 1 : 0;
+            if (data) {
+                const name = (f.name || '表情').replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').slice(0, 16);
+                state.stickers.push({ id: 'st' + Date.now() + Math.random().toString(36).slice(2, 6), name, data });
+            }
+            if (done === arr.length) {
+                persistV11();
+                toast('已导入 ' + ok + ' 个表情包 🎉');
+                renderStickerPanel();
+            }
+        });
+    });
+}
+function renderStickerPanel() {
+    const box = $('sticker-panel');
+    if (!box) return;
+    box.innerHTML = state.stickers.length
+        ? state.stickers.map(s =>
+            '<div class="st-item" data-act="st-send" data-v="' + s.id + '" title="' + esc(s.name) + '">' +
+            '<img src="' + s.data + '" alt=""><span class="st-name">' + esc(s.name) + '</span></div>'
+        ).join('')
+        : '<div class="st-empty">还没有表情包<br>点击下方「导入表情包」批量添加</div>';
+    box.innerHTML += '<label class="st-import"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>导入表情包（可多选）<input type="file" id="sticker-file" accept="image/*" multiple style="display:none"></label>';
+}
+function hidePlusBar() {
+    state.plusOpen = false;
+    state.stickerPanel = false;
+    const bar = $('plus-bar'), sp = $('sticker-panel');
+    if (bar) bar.style.display = 'none';
+    if (sp) sp.style.display = 'none';
+}
+function sendSticker(id) {
+    if (!state.currentChat) return;
+    const s = state.stickers.find(x => x.id === id);
+    if (!s) return;
+    if (!state.chats[state.currentChat]) state.chats[state.currentChat] = [];
+    state.chats[state.currentChat].push({ from: 'out', type: 'image', url: s.data, desc: s.name, time: fmtTime(new Date()) });
+    persistContacts();
+    state.stickerPanel = false; state.plusOpen = false;
+    renderChat(state.currentChat);
+}
+
 function sendMsg() {
     const inp = $('chat-input');
     if (!inp) return;
@@ -4608,6 +5006,11 @@ function sendMsg() {
     persistContacts();
     inp.value = '';
     renderChat(state.currentChat);
+    if (!c.autoReply) {
+        // v11：手动响应模式——点「响应」按钮 TA 才会回复
+        toast('已发送 ✓ 点「响应」让 TA 回复');
+        return;
+    }
     if (c.autoReply) {
         // v9.1：自动回复 = 调用真实大模型 API；未配置 API → 对方回复不了（静默不回复）
         if (!hasApiConfig()) return;
@@ -5730,6 +6133,57 @@ APPS.messages = {
     },
     init() {},
 };
+APPS.worldbook = {
+    name: '世界书',
+    light: true,
+    render: renderWorldbook,
+    init() {
+        const sw = $('wb-global-switch');
+        if (sw) {
+            const wbGlob = { _v: false };
+            sw.addEventListener('click', () => { wbGlob._v = !wbGlob._v; sw.classList.toggle('on', wbGlob._v); });
+        }
+        const box = $('wb-group');
+        if (box) box.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const b = document.querySelector('[data-act="wb-save"]'); if (b) b.click(); } });
+    },
+};
+HANDLERS.worldbook = {
+    'wb-save': () => {
+        const name = ($('wb-name') ? $('wb-name').value : '').trim();
+        const content = ($('wb-content') ? $('wb-content').value : '').trim();
+        if (!name || !content) { toast('请填写世界书名称和守则内容'); return; }
+        const group = ($('wb-group') ? $('wb-group').value : '').trim();
+        const sw = $('wb-global-switch');
+        state.worldBooks.push({
+            id: 'wb' + Date.now(),
+            name,
+            group,
+            content,
+            global: !!(sw && sw.classList.contains('on'))
+        });
+        persistV11();
+        openApp('worldbook');
+        toast('已添加世界书 📖');
+    },
+    'wb-view': (b) => wbView(b.dataset.v),
+    'wb-global': (b) => {
+        const w = state.worldBooks.find(x => x.id === b.dataset.v);
+        if (w) { w.global = true; persistV11(); openApp('worldbook'); toast('已设为全局默认生效 🌍'); }
+    },
+    'wb-unglobal': (b) => {
+        const w = state.worldBooks.find(x => x.id === b.dataset.v);
+        if (w) { w.global = false; persistV11(); openApp('worldbook'); toast('已改为局部勾选（可在角色编辑里选择）'); }
+    },
+    'wb-del': (b) => {
+        const id = b.dataset.v;
+        state.worldBooks = state.worldBooks.filter(x => x.id !== id);
+        state.contacts.forEach(c => { if (c.wbIds) c.wbIds = c.wbIds.filter(x => x !== id); });
+        persistV11();
+        persistContacts();
+        openApp('worldbook');
+        toast('世界书已删除');
+    },
+};
 HANDLERS.messages = {
     'open-chat': (b) => renderChat(b.dataset.v),
     'contact-new': () => { state.msgView = 'form'; openApp('messages'); },
@@ -5775,15 +6229,43 @@ HANDLERS.messages = {
         state.contacts.push({
             id, name, avatar: state.contactForm.avatar, bg: state.contactForm.bg,
             autoReply: state.contactForm.autoReply, myNote: note, taNote, sign,
-            gender: state.contactForm.gender, persona, personaDoc: state.contactForm.personaDoc || ''
+            gender: state.contactForm.gender, persona, personaDoc: state.contactForm.personaDoc || '',
+            wbIds: (state.contactForm.wbIds || []).slice()
         });
         state.chats[id] = [];
         persistContacts();
-        state.contactForm = { avatar: '😀', bg: '#5e5ce6', autoReply: true, myNote: '', taNote: '', sign: '', gender: '保密', persona: '', personaDoc: '' };
+        state.contactForm = { avatar: '😀', bg: '#5e5ce6', autoReply: false, myNote: '', taNote: '', sign: '', gender: '保密', persona: '', personaDoc: '', wbIds: [] };
         state.msgView = 'list';
         openApp('messages');
         toast('已添加联系人 ✓');
     },
+    // v11：世界书绑定勾选
+    'cf-wb': (b) => {
+        const id = b.dataset.v;
+        const arr = state.contactForm.wbIds = state.contactForm.wbIds || [];
+        const i = arr.indexOf(id);
+        if (i >= 0) arr.splice(i, 1); else arr.push(id);
+        b.classList.toggle('on', arr.indexOf(id) >= 0);
+    },
+    // v11：手动响应 / 功能栏 / 语音 / 表情包
+    'reply-now': replyNow,
+    'plus-toggle': (b) => {
+        const bar = $('plus-bar'), sp = $('sticker-panel');
+        const showing = bar && bar.style.display !== 'none';
+        state.plusOpen = !showing;
+        if (bar) bar.style.display = state.plusOpen ? 'grid' : 'none';
+        if (sp) sp.style.display = 'none';
+        state.stickerPanel = false;
+    },
+    'voice-send': sendVoice,
+    'sticker-open': () => {
+        const sp = $('sticker-panel');
+        if (!sp) return;
+        state.stickerPanel = !state.stickerPanel;
+        sp.style.display = state.stickerPanel ? 'block' : 'none';
+        if (state.stickerPanel) renderStickerPanel();
+    },
+    'st-send': (b) => sendSticker(b.dataset.v),
     'cc-open': (b) => { const c = getContact(b.dataset.v); if (c) showContactCard(c); },
     send: sendMsg,
     // ===== v10 聊天增强 =====
@@ -5829,7 +6311,7 @@ HANDLERS.messages = {
     'tr-send': doSendTransfer,
     'ai-gen': doAiGen,
     'rec-stop': stopRec,
-    'play-voice': () => toast('🎧 播放语音中…'),
+    'play-voice': (b) => playVoice(b),
     'play-music': (b) => {
         const i = +b.dataset.v;
         const m = MUSIC_POOL[i];
@@ -5863,8 +6345,8 @@ HANDLERS.messages = {
             '</div>' +
             '<button class="pp-close" data-act="sheet-close">关闭</button>');
     },
-    'ph-open': () => chatPhone(),
-    'rev-open': () => reverseTA(),
+    'ph-open': () => { hidePlusBar(); chatPhone(); },
+    'rev-open': () => { hidePlusBar(); reverseTA(); },
     'clear-chat': () => {
         const c = getContact(state.currentChat);
         if (!c) return;
