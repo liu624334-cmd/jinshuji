@@ -1,748 +1,608 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-510 lines hidden
-  .empty-tip svg { width: 48px; height: 48px; stroke: var(--border); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 12px; }
- 
-  /* 滚动条 */
-  .app-body::-webkit-scrollbar, .chat-messages::-webkit-scrollbar, .wb-bind-list::-webkit-scrollbar { width: 4px; }
-  .app-body::-webkit-scrollbar-thumb, .chat-messages::-webkit-scrollbar-thumb, .wb-bind-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .app-body::-webkit-scrollbar, .chat-messages::-webkit-scrollbar, .wb-bind-list::-webkit-scrollbar, .wx-scroll::-webkit-scrollbar { width: 4px; }
-  .app-body::-webkit-scrollbar-thumb, .chat-messages::-webkit-scrollbar-thumb, .wb-bind-list::-webkit-scrollbar-thumb, .wx-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
- 
-  /* ========== 微信底栏 Tab ========== */
-  .wx-root { display: flex; flex-direction: column; flex: 1; min-height: 0; }
-  .wx-topbar {
-    background: var(--bg); padding: 8px 12px 10px;
-    border-bottom: 1px solid var(--border); flex-shrink: 0;
-  }
-  .wx-search {
-    background: var(--bg-warm); border-radius: 8px;
-    padding: 6px 10px; display: flex; align-items: center; gap: 6px;
-    font-size: 13px; color: var(--text-soft);
-  }
-  .wx-search svg { width: 16px; height: 16px; stroke: var(--text-soft); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
- 
-  .wx-body { flex: 1; overflow-y: auto; min-height: 0; display: flex; flex-direction: column; }
-  .wx-tabbar {
-    flex-shrink: 0; background: var(--bg);
-    border-top: 1px solid var(--border);
-    padding: 6px 0 8px;
-    display: flex; justify-content: space-around;
-  }
-  .wx-tabbar .tab-item {
-    display: flex; flex-direction: column; align-items: center; gap: 2px;
-    padding: 4px 10px; cursor: pointer;
-    color: var(--text-mute);
-  }
-  .wx-tabbar .tab-item.active { color: var(--primary-deep); }
-  .wx-tabbar .tab-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-  .wx-tabbar .tab-item .tlabel { font-size: 10px; }
- 
-  /* 微信内部子页面（Tab 切换） */
-  .wx-tab-page { display: none; flex: 1; flex-direction: column; min-height: 0; }
-  .wx-tab-page.active { display: flex; }
- 
-  /* ========== 朋友圈 ========== */
-  .moments-page { background: var(--bg); flex: 1; overflow-y: auto; }
-  .moments-header {
-    position: relative; height: 180px;
-    background: linear-gradient(135deg, var(--accent), var(--primary));
-    display: flex; align-items: flex-end; justify-content: flex-end;
-    padding: 0 20px 14px;
-  }
-  .moments-header .profile {
-    display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
-  }
-  .moments-header .profile .my-name { color: white; font-size: 15px; font-weight: 500; }
-  .moments-header .profile .my-avatar {
-    width: 56px; height: 56px; border-radius: 12px; background: white;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; color: var(--primary-deep); font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  .moments-publish-btn {
-    position: absolute; right: 14px; top: 12px;
-    color: white; background: rgba(0,0,0,0.2); border-radius: 8px;
-    padding: 6px 10px; font-size: 12px; display: flex; align-items: center; gap: 4px;
-    cursor: pointer; border: none;
-  }
-  .moments-publish-btn svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
- 
-  .moment-card {
-    background: var(--bg); padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex; gap: 12px;
-  }
-  .moment-card .m-avatar {
-    width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 14px; font-weight: 500;
-  }
-  .moment-card .m-right { flex: 1; min-width: 0; }
-  .moment-card .m-name { font-size: 14px; color: var(--primary-deep); font-weight: 500; margin-bottom: 4px; }
-  .moment-card .m-content { font-size: 14px; color: var(--text); line-height: 1.55; margin-bottom: 8px; white-space: pre-wrap; word-break: break-word; }
-  .moment-card .m-imgs { display: grid; gap: 4px; margin-bottom: 6px; }
-  .moment-card .m-imgs.grid-1 { grid-template-columns: 1fr; max-width: 180px; }
-  .moment-card .m-imgs.grid-3 { grid-template-columns: repeat(3, 1fr); max-width: 240px; }
-  .moment-card .m-imgs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: var(--bg-warm); }
-  .moment-card .m-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-  .moment-card .m-time { font-size: 11px; color: var(--text-mute); }
-  .moment-card .m-actions { display: flex; gap: 4px; }
-  .moment-card .m-act-btn {
-    padding: 4px 8px; font-size: 12px; color: var(--text-soft);
-    background: var(--bg-warm); border-radius: 10px; border: none; cursor: pointer;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .moment-card .m-act-btn:hover { background: #EDE9E2; }
-  .moment-card .m-act-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-  .moment-card .m-act-btn.liked { color: var(--primary-deep); }
- 
-  .moment-card .m-comments {
-    margin-top: 8px; background: var(--bg-warm); border-radius: 6px;
-    padding: 8px 10px;
-  }
-  .moment-card .m-comments .c-item {
-    font-size: 13px; line-height: 1.6;
-    padding: 2px 0;
-  }
-  .moment-card .m-comments .c-item .c-name { color: var(--primary-deep); font-weight: 500; cursor: pointer; }
-  .moment-card .m-comments .c-item .c-reply { color: var(--text-soft); font-size: 12px; margin: 0 4px; }
-  .moment-card .m-comments .c-item .c-text { color: var(--text); }
-  .moment-card .m-comments .c-item.me .c-text { color: var(--text); }
- 
-  .moment-card .c-input-row {
-    display: flex; gap: 6px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border);
-  }
-  .moment-card .c-input-row input {
-    flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
-    padding: 5px 10px; font-size: 13px; outline: none; font-family: inherit;
-  }
-  .moment-card .c-input-row input:focus { border-color: var(--primary); }
-  .moment-card .c-input-row button {
-    background: var(--primary); color: white; border: none; border-radius: 6px;
-    padding: 5px 10px; font-size: 12px; cursor: pointer;
-  }
- 
-  /* ========== 发现页 ========== */
-  .discover-list { background: var(--bg); }
-  .discover-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 16px; border-bottom: 1px solid var(--border);
-    cursor: pointer;
-  }
-  .discover-item:hover { background: var(--bg-warm); }
-  .discover-item .d-icon {
-    width: 28px; height: 28px; border-radius: 6px;
-    background: var(--primary); display: flex; align-items: center; justify-content: center;
-  }
-  .discover-item .d-icon svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-  .discover-item .d-label { flex: 1; font-size: 14px; color: var(--text); }
-  .discover-item .d-arrow svg { width: 14px; height: 14px; stroke: var(--text-mute); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
- 
-  /* ========== 通讯录 ========== */
-  .contact-group-title {
-    padding: 6px 16px; font-size: 12px; color: var(--text-mute); background: var(--bg-warm);
-  }
-  .contact-item {
-    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-    border-bottom: 1px solid var(--border); cursor: pointer;
-  }
-  .contact-item:hover { background: var(--bg-warm); }
- 
-  /* ========== 我的 ========== */
-  .me-page { background: var(--bg); flex: 1; overflow-y: auto; }
-  .me-header {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    padding: 24px 20px 20px;
-    display: flex; gap: 14px; align-items: center;
-  }
-  .me-header .me-avatar {
-    width: 60px; height: 60px; border-radius: 12px;
-    background: white; display: flex; align-items: center; justify-content: center;
-    font-size: 22px; color: var(--primary-deep); font-weight: 500;
-  }
-  .me-header .me-info { color: white; }
-  .me-header .me-info .me-name { font-size: 17px; font-weight: 500; }
-  .me-header .me-info .me-id { font-size: 12px; opacity: 0.85; margin-top: 4px; }
-  .me-list-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 16px; border-bottom: 1px solid var(--border);
-    font-size: 14px; color: var(--text);
-  }
-  .me-list-item .me-left { display: flex; align-items: center; gap: 10px; }
-  .me-list-item .me-left svg { width: 18px; height: 18px; stroke: var(--text-soft); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-  .me-list-item .me-value { font-size: 13px; color: var(--text-mute); }
- 
-  /* 加载动画 */
-  .typing {
-    display: flex; gap: 4px; padding: 10px 14px;
-89 lines hidden
-      </div>
-    </div>
- 
-    <!-- ========== 微信-角色列表 ========== -->
-    <!-- ========== 微信主框架（含底部 Tab） ========== -->
-    <div class="app-page" id="page-wechat-list">
-      <div class="app-header">
-        <div class="back" data-back="home">
-          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        </div>
-        <div class="title">微信</div>
-        <div class="title" id="wxMainTitle">微信</div>
-        <div class="right-btn" id="btnAddChar" title="创建角色">
-          <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-        </div>
-      </div>
-      <div class="app-body" id="wechatListBody">
-        <!-- 动态渲染 -->
- 
-      <div class="wx-root">
-        <!-- 顶部搜索条 -->
-        <div class="wx-topbar">
-          <div class="wx-search">
-            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
-            <span>搜索</span>
-          </div>
-        </div>
- 
-        <div class="wx-body wx-scroll" id="wxMainBody">
- 
-          <!-- Tab: 微信（聊天列表） -->
-          <div class="wx-tab-page active" data-tab="chat">
-            <div id="wechatListBody"></div>
-          </div>
- 
-          <!-- Tab: 通讯录 -->
-          <div class="wx-tab-page" data-tab="contact">
-            <div id="wxContactBody"></div>
-          </div>
- 
-          <!-- Tab: 发现 -->
-          <div class="wx-tab-page" data-tab="discover">
-            <div class="discover-list">
-              <div class="discover-item" onclick="Router.go('wechat-moments')">
-                <div class="d-icon">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M4 17c3-2 5-2 7 0s4 2 9-4"/></svg>
-                </div>
-                <div class="d-label">朋友圈</div>
-                <div class="d-arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-              </div>
-              <div class="discover-item">
-                <div class="d-icon" style="background:var(--accent)">
-                  <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4"/><path d="M16 2v4"/></svg>
-                </div>
-                <div class="d-label">扫一扫</div>
-                <div class="d-arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-              </div>
-              <div class="discover-item">
-                <div class="d-icon" style="background:var(--accent-2)">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                </div>
-                <div class="d-label">看一看</div>
-                <div class="d-arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-              </div>
-              <div class="discover-item">
-                <div class="d-icon" style="background:var(--primary-deep)">
-                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                </div>
-                <div class="d-label">视频号</div>
-                <div class="d-arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-              </div>
-              <div class="discover-item">
-                <div class="d-icon" style="background:var(--danger)">
-                  <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                </div>
-                <div class="d-label">购物</div>
-                <div class="d-arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-              </div>
-              <div class="discover-item">
-                <div class="d-icon" style="background:#8FB5C9">
-                  <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
-                </div>
-                <div class="d-label">小程序</div>
-                <div class="d-arrow"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-              </div>
-            </div>
-          </div>
- 
-          <!-- Tab: 我 -->
-          <div class="wx-tab-page" data-tab="me">
-            <div class="me-page">
-              <div class="me-header">
-                <div class="me-avatar">我</div>
-                <div class="me-info">
-                  <div class="me-name">玩家</div>
-                  <div class="me-id">ID: player_001</div>
-                </div>
-              </div>
-              <div class="me-list-item">
-                <div class="me-left">
-                  <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
-                  服务
-                </div>
-                <div class="me-value">查看 ›</div>
-              </div>
-              <div class="me-list-item">
-                <div class="me-left">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
-                  收藏
-                </div>
-                <div class="me-value">›</div>
-              </div>
-              <div class="me-list-item">
-                <div class="me-left">
-                  <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                  朋友圈
-                </div>
-                <div class="me-value">›</div>
-              </div>
-              <div class="me-list-item">
-                <div class="me-left">
-                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
-                  设置
-                </div>
-                <div class="me-value">›</div>
-              </div>
-            </div>
-          </div>
- 
-        </div>
- 
-        <!-- 底部 Tab 栏 -->
-        <div class="wx-tabbar">
-          <div class="tab-item active" data-tab="chat">
-            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <div class="tlabel">微信</div>
-          </div>
-          <div class="tab-item" data-tab="contact">
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <div class="tlabel">通讯录</div>
-          </div>
-          <div class="tab-item" data-tab="discover">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M14.5 9.5L16 8l-1.5 6.5L8 16l1.5-6.5z"/></svg>
-            <div class="tlabel">发现</div>
-          </div>
-          <div class="tab-item" data-tab="me">
-            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <div class="tlabel">我</div>
-          </div>
-        </div>
-      </div>
-    </div>
- 
-    <!-- ========== 微信-朋友圈 ========== -->
-    <div class="app-page" id="page-wechat-moments">
-      <div class="app-header">
-        <div class="back" data-back="wechat-list">
-          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        </div>
-        <div class="title">朋友圈</div>
-        <div class="right-btn" onclick="MomentsApp.publish()" title="发布">
-          <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-        </div>
-      </div>
-      <div class="moments-page wx-scroll" id="momentsBody"></div>
-    </div>
- 
-    <!-- ========== 微信-聊天 ========== -->
-    <div class="app-page" id="page-wechat-chat">
-      <div class="app-header">
-81 lines hidden
-    wbs: 'phone_wbs',           // [{id,name,group,content,global}]
-    wbGroups: 'phone_wb_groups',// [id1,id2...]
-    chats: 'phone_chats',       // { charId: [msg...] }
-    stickers: 'phone_stickers'  // [{id,name,data}]
-    stickers: 'phone_stickers',  // [{id,name,data}]
-    moments: 'phone_moments'     // [{id, authorId:'me'|charId, content, images:[], ts, likes:[charId], comments:[{fromId, fromName, text, replyToId?}]}]
-  },
-  get(k, def) {
-    try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }
-19 lines hidden
-  },
-  _render() {
-    const cur = this.stack[this.stack.length - 1];
-    const pages = ['home', 'settings', 'wechat-list', 'wechat-chat', 'worldbook'];
-    const pages = ['home', 'settings', 'wechat-list', 'wechat-chat', 'wechat-moments', 'worldbook'];
-    pages.forEach(p => {
-      const el = document.getElementById('page-' + p);
-      if (el) el.classList.toggle('active', p === cur);
-333 lines hidden
-    }).join('');
-  },
- 
-  /* 通讯录 Tab */
-  renderContact() {
-    const chars = Store.get(Store.KEYS.chars, []);
-    const body = document.getElementById('wxContactBody');
-    if (!chars.length) {
-      body.innerHTML = `<div class="empty-tip" style="padding:40px;"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>还没有联系人，去「微信」Tab 点击右上角添加</div>`;
-      return;
-    }
-    // 按首字母排序分组
-    const groups = {};
-    chars.forEach(c => {
-      const key = (c.name || 'A').slice(0, 1).toUpperCase();
-      (groups[key] = groups[key] || []).push(c);
-    });
-    const html = Object.keys(groups).sort().map(g => `
-      <div class="contact-group-title">${g}</div>
-      ${groups[g].map(c => `
-        <div class="contact-item" onclick="WechatApp.openChat('${c.id}')">
-          <div class="avatar" style="width:36px;height:36px;border-radius:8px;font-size:14px;">${(c.name||'A').slice(0,1)}</div>
-          <div style="flex:1;font-size:14px;color:var(--text);">${c.name}${c.note ? `<span style="color:var(--text-mute);font-size:12px;margin-left:6px;">(${c.note})</span>` : ''}</div>
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--text-mute);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;"><path d="M9 6l6 6-6 6"/></svg>
-        </div>
-      `).join('')}
-    `).join('');
-    body.innerHTML = html;
-  },
- 
-  addChar() { this._charModal(null); },
-  editChar(id) { this._charModal(id); },
-  delChar(id) {
-304 lines hidden
-  }
-};
- 
-/* =================== 朋友圈 APP =================== */
-const MomentsApp = {
- 
-  /* 发布入口 */
-  publish() {
-    const html = `
-      <div class="modal-title">发布朋友圈</div>
-      <div class="form-group">
-        <label>说点什么...</label>
-        <textarea id="mp_content" placeholder="分享你的日常" style="min-height:100px;"></textarea>
-      </div>
-      <div class="form-group">
-        <label>添加图片（可选）</label>
-        <input type="file" id="mp_imgs" accept="image/*" multiple style="font-size:13px;"/>
-        <div id="mp_preview" style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;"></div>
-      </div>
-      <button class="btn-primary" id="mp_submit">发布</button>
-    `;
-    openModal(html);
-    const imgArr = [];
-    document.getElementById('mp_imgs').onchange = async (e) => {
-      const files = Array.from(e.target.files || []);
-      const prev = document.getElementById('mp_preview');
-      prev.innerHTML = '';
-      for (const f of files) {
-        const url = await fileToDataUrl(f);
-        imgArr.push(url);
-        prev.innerHTML += `<img src="${url}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;"/>`;
-      }
-    };
-    document.getElementById('mp_submit').onclick = () => {
-      const content = document.getElementById('mp_content').value.trim();
-      if (!content && !imgArr.length) { alert('请写点什么或选几张图'); return; }
-      const moment = {
-        id: Store.uid(),
-        authorId: 'me',
-        authorName: '我',
-        content,
-        images: imgArr,
-        ts: Date.now(),
-        likes: [],
-        comments: []
-      };
-      const all = Store.get(Store.KEYS.moments, []);
-      all.unshift(moment);
-      Store.set(Store.KEYS.moments, all);
-      closeModal();
-      this.render();
-      // 触发 AI 自动评论
-      this.triggerAIComments(moment);
-    };
-  },
- 
-  /* 渲染朋友圈 */
-  render() {
-    const body = document.getElementById('momentsBody');
-    let moments = Store.get(Store.KEYS.moments, []);
-    const chars = Store.get(Store.KEYS.chars, []);
- 
-    // 初始化：如果一个角色都没有、且没有任何朋友圈，给一些初始角色 + 初始动态
-    if (!moments.length && !chars.length) {
-      this._seed();
-      moments = Store.get(Store.KEYS.moments, []);
-    }
- 
-    if (!moments.length) {
-      body.innerHTML = `
-        <div style="padding:30px 20px;text-align:center;color:var(--text-mute);font-size:13px;">
-          还没有动态，点右上角发布第一条吧
-        </div>`;
-      return;
-    }
- 
-    body.innerHTML = moments.map(m => {
-      const isMe = m.authorId === 'me';
-      const authorName = isMe ? '我' : (chars.find(c => c.id === m.authorId)?.name || m.authorName);
-      const imgsHtml = !m.images || !m.images.length ? '' :
-        `<div class="m-imgs ${m.images.length === 1 ? 'grid-1' : 'grid-3'}">
-          ${m.images.slice(0, m.images.length === 1 ? 1 : 9).map(src => `<img src="${src}"/>`).join('')}
-        </div>`;
- 
-      const likedByMe = m.likes.includes('me');
-      const likesHtml = m.likes.length ? `
-        <div style="padding:4px 8px;font-size:12px;color:var(--primary-deep);border-bottom:1px solid var(--border);">
-          ❤ ${m.likes.map(id => id === 'me' ? '我' : (chars.find(c=>c.id===id)?.name || id)).join('、')}
-        </div>` : '';
- 
-      const commentsHtml = !m.comments || !m.comments.length ? '' : `
-        ${likesHtml}
-        ${m.comments.map(c => {
-          const fromName = c.fromId === 'me' ? '我' : (chars.find(x=>x.id===c.fromId)?.name || c.fromName);
-          const isMeC = c.fromId === 'me' ? 'me' : '';
-          if (c.replyToId) {
-            const toName = c.replyToId === 'me' ? '我' : (chars.find(x=>x.id===c.replyToId)?.name || c.replyToName);
-            return `<div class="c-item ${isMeC}"><span class="c-name">${escapeHtml(fromName)}</span><span class="c-reply">回复</span><span class="c-name">${escapeHtml(toName)}</span><span class="c-text">：${escapeHtml(c.text)}</span></div>`;
-          }
-          return `<div class="c-item ${isMeC}"><span class="c-name">${escapeHtml(fromName)}</span><span class="c-text">：${escapeHtml(c.text)}</span></div>`;
-        }).join('')}
-      `;
- 
-      return `
-        <div class="moment-card">
-          <div class="m-avatar">${authorName.slice(0,1)}</div>
-          <div class="m-right">
-            <div class="m-name">${escapeHtml(authorName)}</div>
-            ${m.content ? `<div class="m-content">${escapeHtml(m.content)}</div>` : ''}
-            ${imgsHtml}
-            <div class="m-meta">
-              <div class="m-time">${timeAgo(m.ts)}</div>
-              <div class="m-actions">
-                <button class="m-act-btn ${likedByMe ? 'liked' : ''}" onclick="MomentsApp.toggleLike('${m.id}')">
-                  <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-                  ${likedByMe ? '已赞' : '赞'}
-                </button>
-                <button class="m-act-btn" onclick="MomentsApp.focusComment('${m.id}')">
-                  <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                  评论
-                </button>
-              </div>
-            </div>
-            ${likesHtml || commentsHtml ? `
-              <div class="m-comments">
-                ${commentsHtml}
-                <div class="c-input-row">
-                  <input type="text" id="ci_${m.id}" placeholder="写评论..." onkeydown="if(event.key==='Enter') MomentsApp.sendComment('${m.id}')"/>
-                  <button onclick="MomentsApp.sendComment('${m.id}')">发送</button>
-                </div>
-              </div>
-            ` : ''}
-          </div>
-        </div>
-      `;
-    }).join('');
-  },
- 
-  toggleLike(mid) {
-    const all = Store.get(Store.KEYS.moments, []);
-    const m = all.find(x => x.id === mid);
-    if (!m) return;
-    const i = m.likes.indexOf('me');
-    if (i >= 0) m.likes.splice(i, 1); else m.likes.push('me');
-    Store.set(Store.KEYS.moments, all);
-    this.render();
-  },
- 
-  focusComment(mid) {
-    const input = document.getElementById('ci_' + mid);
-    if (input) input.focus();
-  },
- 
-  sendComment(mid, text) {
-    text = (text || document.getElementById('ci_' + mid)?.value || '').trim();
-    if (!text) return;
-    const all = Store.get(Store.KEYS.moments, []);
-    const m = all.find(x => x.id === mid);
-    if (!m) return;
-    m.comments.push({ fromId: 'me', fromName: '我', text });
-    Store.set(Store.KEYS.moments, all);
-    this.render();
-    // 触发角色 AI 回复（至少让一个角色来评论）
-    this.triggerAIComments(m, 1);
-  },
- 
-  /* 新动态/评论后，让 AI 角色按人设自动评论 */
-  async triggerAIComments(moment, maxCount) {
-    const chars = Store.get(Store.KEYS.chars, []);
-    if (!chars.length) return;
-    const activeApiId = Store.get(Store.KEYS.activeApi, null);
-    const apis = Store.get(Store.KEYS.apis, []);
-    const api = apis.find(a => a.id === activeApiId);
- 
-    // 新动态默认挑 2-3 个角色来评论；普通评论后挑 1 个
-    const count = maxCount || Math.min(3, chars.length);
-    const shuffled = [...chars].sort(() => Math.random() - 0.5).slice(0, count);
- 
-    const allWbs = Store.get(Store.KEYS.wbs, []);
- 
-    for (const c of shuffled) {
-      const globalWbs = allWbs.filter(w => w.global).map(w => w.content);
-      const boundWbs = (c.wbs || []).map(id => allWbs.find(w => w.id === id)).filter(Boolean).map(w => w.content);
-      const rules = [...globalWbs, ...boundWbs];
- 
-      const othersComments = (moment.comments || []).map(x => {
-        const from = x.fromId === 'me' ? '我' : (chars.find(ch => ch.id === x.fromId)?.name || x.fromName);
-        return `${from}: ${x.text}`;
-      }).join('\n');
- 
-      const userPrompt = [
-        `【朋友圈动态】作者: ${moment.authorId === 'me' ? '我(玩家)' : moment.authorName}`,
-        `【内容】${moment.content || '(图片动态)'}`,
-        othersComments ? `【已有评论】\n${othersComments}` : '',
-        `\n请以「${c.name}」的口吻发一条简短朋友圈评论（1-2 句话），要符合你的人设，不要加引号，不要多余解释。`
-      ].filter(Boolean).join('\n');
- 
-      let replyText;
-      if (api) {
-        try {
-          const systemPrompt = [
-            `你是「${c.name}」，一个微信朋友圈里的朋友。`,
-            c.setting,
-            ...(rules.length ? ['必须遵守以下规则：', ...rules] : []),
-            `你的回复必须符合人设，简短自然，像真实的朋友圈评论。`
-          ].filter(Boolean).join('\n');
- 
-          replyText = await callApi(api, [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt }
-          ]);
-          replyText = replyText.replace(/^["「"]|["」""]$/g, '').trim();
-        } catch(e) {
-          replyText = this._mockReply(c.name);
-        }
-      } else {
-        replyText = this._mockReply(c.name);
-      }
- 
-      // 保存
-      const all = Store.get(Store.KEYS.moments, []);
-      const target = all.find(x => x.id === moment.id);
-      if (target) {
-        target.comments.push({ fromId: c.id, fromName: c.name, text: replyText });
-        Store.set(Store.KEYS.moments, all);
-        this.render();
-      }
-      // 间隔一下，避免一下子塞满
-      await new Promise(r => setTimeout(r, 600));
-    }
-  },
- 
-  _mockReply(name) {
-    const pool = [
-      '好棒呀！',
-      '哈哈哈哈哈',
-      '羡慕了',
-      '下次带我一起',
-      '好好看！',
-      '不错不错',
-      '这个可以有',
-      '666',
-      '厉害了老铁',
-      '真的假的',
-      '好想去',
-      '种草了'
-    ];
-    return pool[Math.floor(Math.random() * pool.length)];
-  },
- 
-  /* 首次启动种子数据 */
-  _seed() {
-    // 创建一个默认角色 + 几条动态
-    const chars = Store.get(Store.KEYS.chars, []);
-    if (!chars.length) {
-      chars.push({ id: Store.uid(), name: '小雨', note: '闺蜜', setting: '你是一个活泼开朗的女生，说话可爱，喜欢用表情和语气词，关心朋友', wbs: [] });
-      Store.set(Store.KEYS.chars, chars);
-    }
-    const moments = [
-      { id: Store.uid(), authorId: chars[0].id, authorName: chars[0].name, content: '今天去喝了新开的那家奶茶店，珍珠超级有嚼劲！', images: [], ts: Date.now() - 3600000 * 2, likes: ['me'], comments: [] },
-      { id: Store.uid(), authorId: chars[0].id, authorName: chars[0].name, content: '周末好天气，来公园散步 🌿', images: [], ts: Date.now() - 3600000 * 26, likes: [], comments: [] }
-    ];
-    Store.set(Store.KEYS.moments, moments);
-  }
-};
- 
-function timeAgo(ts) {
-  const diff = Date.now() - ts;
-  if (diff < 60000) return '刚刚';
-  if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
-  if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
-  if (diff < 86400000 * 7) return Math.floor(diff / 86400000) + '天前';
-  return formatTime(ts);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>锦书机 · 从零开始</title>
+<style>
+:root {
+    --bg: #F8F6F1;        /* 米白 */
+    --card: #FFFFFF;
+    --soft: #EDEAE4;      /* 暖灰 */
+    --ink: #26261F;       /* 墨色 */
+    --sub: #8B897F;       /* 次级文字 */
+    --sage: #6E7D6B;      /* 鼠尾草绿 */
+    --sage-soft: rgba(110,125,107,.12);
+    --line: rgba(38,38,31,.08);
+    --green: #07C160;
 }
- 
-function formatTime(ts) {
-  if (!ts) return '';
-  const d = new Date(ts);
-68 lines hidden
-  Router._render();
-  SettingsApp.render();
-  WorldBookApp.render();
- 
-  // 微信 Tab 切换
-  const wxTabs = document.querySelectorAll('.wx-tabbar .tab-item');
-  wxTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      wxTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const name = tab.dataset.tab;
-      document.querySelectorAll('#wxMainBody .wx-tab-page').forEach(p => {
-        p.classList.toggle('active', p.dataset.tab === name);
-      });
-      // Header 标题 + 右上角按钮
-      const titles = { chat: '微信', contact: '通讯录', discover: '发现', me: '我' };
-      document.getElementById('wxMainTitle').textContent = titles[name];
-      const btnAddChar = document.getElementById('btnAddChar');
-      btnAddChar.style.display = name === 'chat' ? 'flex' : 'none';
-      // 通讯录渲染
-      if (name === 'contact') WechatApp.renderContact();
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #2a2a26;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; color: var(--ink);
+}
+/* ===== 手机壳 ===== */
+.phone {
+    width: 380px; height: 800px; background: var(--bg); border-radius: 52px;
+    position: relative; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.45);
+    border: 10px solid #1c1c1a;
+}
+.screen { position: absolute; inset: 0; border-radius: 42px; overflow: hidden; }
+.view { position: absolute; inset: 0; display: none; }
+.view.active { display: flex; flex-direction: column; }
+/* ===== 灵动岛 & 状态栏 ===== */
+.island {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 118px; height: 34px; background: #1c1c1a; border-radius: 20px; z-index: 90;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    color: #fff; font-size: 11px; font-weight: 600;
+}
+.statusbar {
+    height: 54px; flex-shrink: 0; display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 26px 6px; font-size: 12px; font-weight: 600;
+}
+.statusbar .sb-right { display: flex; align-items: center; gap: 6px; }
+/* ===== 锁屏 ===== */
+#view-lock { background: var(--bg); align-items: center; justify-content: flex-end; padding-bottom: 100px; }
+.lock-time { font-size: 74px; font-weight: 200; letter-spacing: .02em; line-height: 1.1; }
+.lock-date { font-size: 15px; color: var(--sub); margin-top: 8px; }
+.lock-hint { position: absolute; bottom: 34px; font-size: 12px; color: var(--sub); animation: hintUp 2.4s ease-in-out infinite; }
+@keyframes hintUp { 0%,100% { transform: translateY(0); opacity: .7; } 50% { transform: translateY(-8px); opacity: .25; } }
+/* ===== 主屏 ===== */
+#view-home { background: var(--bg); }
+.widget {
+    margin: 10px 18px 4px; padding: 16px 18px; border-radius: 22px;
+    background: var(--card); border: 1px solid var(--line);
+    box-shadow: 0 6px 24px rgba(38,38,31,.05);
+}
+.widget .w-date { font-size: 13px; color: var(--sage); font-weight: 600; }
+.widget .w-greet { font-size: 22px; font-weight: 700; margin-top: 4px; letter-spacing: .01em; }
+.widget .w-note { font-size: 12px; color: var(--sub); margin-top: 6px; }
+.grid {
+    flex: 1; display: grid; grid-template-columns: repeat(4, 1fr);
+    align-content: start; gap: 10px; padding: 14px 18px; overflow-y: auto;
+}
+.app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; padding: 8px 0; border-radius: 16px; }
+.app-icon:active { background: var(--sage-soft); }
+.ico {
+    width: 54px; height: 54px; border-radius: 17px;
+    background: var(--card); border: 1px solid var(--line);
+    color: var(--ink); display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(38,38,31,.06);
+}
+.app-icon .lbl { font-size: 11px; color: var(--ink); font-weight: 500; }
+.dock {
+    margin: 0 14px 14px; padding: 10px 16px; border-radius: 28px;
+    background: var(--card); border: 1px solid var(--line);
+    display: flex; justify-content: space-around;
+    box-shadow: 0 4px 18px rgba(38,38,31,.07);
+}
+.dock .app-icon .ico { width: 46px; height: 46px; border-radius: 15px; }
+/* ===== 应用页 ===== */
+#view-app { background: var(--bg); }
+.app-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 60px 16px 10px; flex-shrink: 0;
+}
+.app-back { width: 32px; height: 32px; border: none; background: var(--soft); color: var(--ink); border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.app-title { font-size: 17px; font-weight: 700; }
+.app-space { width: 32px; }
+.app-body { flex: 1; overflow-y: auto; padding: 4px 16px 40px; scrollbar-width: none; }
+.app-body::-webkit-scrollbar { display: none; }
+/* ===== 通用组件 ===== */
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px; margin-bottom: 12px; }
+.btn { border: none; background: var(--sage); color: #fff; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.btn:active { transform: scale(.96); }
+.input { width: 100%; border: 1px solid var(--line); background: var(--card); border-radius: 14px; padding: 11px 14px; font-size: 14px; color: var(--ink); outline: none; font-family: inherit; }
+.input:focus { border-color: var(--sage); }
+.row { display: flex; align-items: center; gap: 10px; }
+.row + .row { margin-top: 10px; }
+/* 开关 */
+.switch { width: 46px; height: 28px; border-radius: 999px; background: var(--soft); position: relative; cursor: pointer; transition: .2s; flex-shrink: 0; }
+.switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.15); transition: .2s; }
+.switch.on { background: var(--green); }
+.switch.on::after { left: 21px; }
+/* 弹窗 */
+.toast {
+    position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: rgba(38,38,31,.9); color: #fff; padding: 10px 20px; border-radius: 999px;
+    font-size: 13px; opacity: 0; pointer-events: none; transition: .3s; z-index: 99; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* ===== 电话 ===== */
+.dialpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 10px; }
+.dkey { height: 62px; border: none; background: var(--card); border-radius: 20px; font-size: 22px; font-weight: 600; color: var(--ink); cursor: pointer; font-family: inherit; box-shadow: 0 2px 8px rgba(38,38,31,.04); }
+.dkey small { display: block; font-size: 10px; font-weight: 400; color: var(--sub); }
+.dkey:active { background: var(--sage-soft); }
+.dial-num { font-size: 26px; letter-spacing: .14em; text-align: center; padding: 10px 0 6px; min-height: 44px; }
+.dial-ops { display: flex; justify-content: center; gap: 30px; padding: 10px 0 4px; }
+.dial-call { width: 60px; height: 60px; border-radius: 50%; border: none; background: var(--green); color: #fff; font-size: 24px; cursor: pointer; }
+.dial-del { width: 44px; height: 44px; border: none; background: transparent; color: var(--sub); font-size: 20px; cursor: pointer; }
+.calling {
+    position: absolute; inset: 0; background: var(--bg); z-index: 50;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+}
+.calling .c-name { font-size: 26px; font-weight: 700; }
+.calling .c-state { font-size: 14px; color: var(--sub); }
+.calling .c-avatar { width: 88px; height: 88px; border-radius: 50%; background: var(--sage); color: #fff; font-size: 36px; display: flex; align-items: center; justify-content: center; }
+.calling .c-hang { width: 64px; height: 64px; border-radius: 50%; background: #FF3B30; border: none; color: #fff; font-size: 26px; cursor: pointer; margin-top: 30px; }
+/* ===== 信息 ===== */
+.msg-session { display: flex; align-items: center; gap: 12px; padding: 12px 4px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.msg-session:active { background: var(--sage-soft); border-radius: 12px; }
+.m-avatar { width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; flex-shrink: 0; }
+.m-name { font-size: 15px; font-weight: 600; }
+.m-prev { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.chat-body { flex: 1; overflow-y: auto; padding: 10px 14px; scrollbar-width: none; }
+.chat-bubble { max-width: 72%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.55; margin: 6px 0; word-break: break-word; }
+.chat-bubble.in { background: var(--card); border: 1px solid var(--line); align-self: flex-start; border-bottom-left-radius: 6px; }
+.chat-bubble.out { background: var(--green); color: #fff; align-self: flex-end; border-bottom-right-radius: 6px; }
+.chat-day { text-align: center; font-size: 11px; color: var(--sub); padding: 8px 0; }
+.chat-input-row { display: flex; gap: 8px; padding: 8px 14px 14px; background: var(--bg); }
+.chat-input { flex: 1; height: 42px; border-radius: 21px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font-size: 14px; padding: 0 16px; outline: none; font-family: inherit; }
+.chat-send { width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.empty { text-align: center; color: var(--sub); font-size: 13px; padding: 60px 20px; line-height: 1.8; }
+.empty .e-ico { font-size: 40px; margin-bottom: 10px; }
+/* ===== 浏览器 ===== */
+.browser-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+.browser-page { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+.b-search { display: flex; align-items: center; gap: 10px; background: var(--soft); border-radius: 12px; padding: 12px 14px; color: var(--sub); font-size: 13px; cursor: pointer; }
+/* ===== 相册 ===== */
+.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.photo-grid .ph { aspect-ratio: 1; border-radius: 4px; cursor: pointer; }
+.photo-view { position: absolute; inset: 0; background: #111; z-index: 60; display: flex; align-items: center; justify-content: center; }
+/* ===== 音乐 ===== */
+.music-bg { display: flex; flex-direction: column; align-items: center; padding: 30px 0 10px; }
+.m-cover { width: 210px; height: 210px; border-radius: 26px; background: linear-gradient(135deg, var(--sage), #a9b8a2); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 40px rgba(110,125,107,.35); }
+.m-title { font-size: 18px; font-weight: 700; margin-top: 22px; }
+.m-artist { font-size: 13px; color: var(--sub); margin-top: 5px; }
+.m-progress { width: 100%; padding: 24px 8px 0; }
+.m-bar { height: 4px; background: var(--soft); border-radius: 999px; position: relative; }
+.m-bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 35%; background: var(--sage); border-radius: 999px; }
+.m-time { display: flex; justify-content: space-between; font-size: 11px; color: var(--sub); margin-top: 6px; }
+.m-ctrl { display: flex; align-items: center; gap: 30px; padding: 20px 0; }
+.m-btn { width: 56px; height: 56px; border-radius: 50%; border: none; background: var(--card); box-shadow: 0 4px 14px rgba(38,38,31,.08); color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.m-btn.play { width: 72px; height: 72px; background: var(--sage); color: #fff; }
+/* ===== 设置 ===== */
+.set-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 4px; border-bottom: 1px solid var(--line); }
+.set-row:last-child { border-bottom: none; }
+.set-label { font-size: 14px; font-weight: 500; }
+.set-sub { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.set-ico { width: 34px; height: 34px; border-radius: 10px; background: var(--sage-soft); color: var(--sage); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.set-title { font-size: 13px; color: var(--sage); font-weight: 700; margin: 16px 0 4px; }
+input[type=range] { accent-color: var(--sage); }
+/* 壁纸选择 */
+.wp-row { display: flex; gap: 10px; padding: 8px 0; }
+.wp-thumb { width: 56px; height: 100px; border-radius: 12px; cursor: pointer; border: 2px solid transparent; }
+.wp-thumb.sel { border-color: var(--sage); }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="screen">
+    <!-- 灵动岛 -->
+    <div class="island" id="island"><span id="island-timer">12:00</span></div>
+    <!-- 锁屏 -->
+    <div class="view active" id="view-lock">
+      <div class="lock-time" id="lock-time">12:00</div>
+      <div class="lock-date" id="lock-date">8月17日 星期一</div>
+      <div class="lock-hint">上滑解锁</div>
+    </div>
+    <!-- 主屏 -->
+    <div class="view" id="view-home">
+      <div class="statusbar">
+        <span id="sb-time">12:00</span>
+        <span class="sb-right" id="sb-right"></span>
+      </div>
+      <div class="widget">
+        <div class="w-date" id="w-date">8月17日 星期一</div>
+        <div class="w-greet" id="w-greet">你好，今天也要好好生活</div>
+        <div class="w-note" id="w-note">🌿 心情多云转晴 · 宜散步</div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="dock" id="dock"></div>
+    </div>
+    <!-- 应用页 -->
+    <div class="view" id="view-app">
+      <div class="statusbar"><span id="sb-time2">12:00</span><span class="sb-right" id="sb-right2"></span></div>
+      <div class="app-topbar">
+        <button class="app-back" id="app-back">‹</button>
+        <span class="app-title" id="app-title">应用</span>
+        <span class="app-space"></span>
+      </div>
+      <div class="app-body" id="app-body"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+'use strict';
+/* ============================================================
+   锦书机 · 从零开始（v1 干净版）
+   浅色治愈系 · 线稿图标 · 基础应用
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+
+/* ---------- SVG 图标库（Feather 风格线稿） ---------- */
+const ICO = {
+    phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+    msg: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+    globe: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+    photo: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+    music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+    gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+    wifi: '<path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>',
+    battery: '<rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="10" x2="23" y2="14"/>',
+    search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+    play: '<polygon points="5 3 19 12 5 21 5 3"/>',
+    pause: '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>',
+    prev: '<polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/>',
+    next: '<polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="5"/>',
+    plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+    sun: '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+    moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+    send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
+    bluetooth: '<polyline points="6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"/>',
+    airplane: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+};
+function ico(name, size) {
+    const p = ICO[name];
+    if (!p) return '';
+    return '<svg viewBox="0 0 24 24" width="' + (size || 20) + '" height="' + (size || 20) + '" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
+}
+
+/* ---------- 状态 ---------- */
+const state = {
+    locked: true,
+    app: null,
+    msgForm: false,
+    cf: {},
+    wifi: true, bt: true, airplane: false,
+    brightness: 100, theme: 'light',
+    wallpaper: 'w1',
+    contacts: [], chats: {}, chatId: null,
+    dialNum: '', calling: null, calls: [],
+    browserUrl: '',
+    photos: ['ph1','ph2','ph3','ph4','ph5','ph6'],
+    track: 0, playing: false,
+};
+const TRACKS = [
+    { t: '月光下的漫步', a: '锦书 · 治愈系' },
+    { t: '雨后初晴', a: '锦书 · 治愈系' },
+    { t: '咖啡与猫', a: '锦书 · 治愈系' },
+    { t: '夜航星', a: '锦书 · 治愈系' },
+];
+const WALLPAPERS = {
+    w1: ['#F8F6F1', '#EDEAE4'],
+    w2: ['#E8EFE6', '#CDDCC8'],
+    w3: ['#F6ECE4', '#EAD5C5'],
+    w4: ['#E6ECF2', '#C7D6E3'],
+};
+const PHOTO_COLORS = ['linear-gradient(135deg,#A8BFA4,#6E7D6B)', 'linear-gradient(135deg,#E8C9B0,#C99A7E)', 'linear-gradient(135deg,#9FB8D4,#6B87A8)', 'linear-gradient(135deg,#D9C7E8,#A98FC4)', 'linear-gradient(135deg,#F0D9A8,#D4AF5F)', 'linear-gradient(135deg,#A4D4C4,#5FA88E)'];
+const REPLY_POOL = ['嗯嗯，我知道啦～', '真的吗？好有意思！', '哈哈哈哈哈笑死我了', '我也这么觉得！', '然后呢然后呢？', '今天也要开心呀 🌿', '好呀好呀！', '让我想想……嗯，可以'];
+
+/* ---------- 工具 ---------- */
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '"', "'": '&#39;' }[c]));
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+function fmtTime(d) { return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function fmtDate(d) { const wk = ['日','一','二','三','四','五','六']; return (d.getMonth() + 1) + '月' + d.getDate() + '日 星期' + wk[d.getDay()]; }
+let toastTimer = null;
+function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+/* ---------- 时钟 ---------- */
+function tick() {
+    const now = new Date();
+    const t = fmtTime(now);
+    ['sb-time', 'sb-time2', 'lock-time', 'island-timer'].forEach(id => { const el = $(id); if (el) el.textContent = t; });
+    $('lock-date').textContent = fmtDate(now);
+    $('w-date').textContent = fmtDate(now);
+    $('sb-right').innerHTML = (state.wifi ? ico('wifi', 14) : '') + ico('battery', 15);
+    $('sb-right2').innerHTML = $('sb-right').innerHTML;
+}
+setInterval(tick, 1000); tick();
+
+/* ---------- 视图切换 ---------- */
+function showView(v) {
+    ['view-lock', 'view-home', 'view-app'].forEach(id => $(id).classList.remove('active'));
+    $(v).classList.add('active');
+    state.page = v.replace('view-', '');
+}
+function goHome() { state.app = null; showView('view-home'); }
+function openApp(id) {
+    if (!APPS[id]) return;
+    state.app = id;
+    $('app-title').textContent = APPS[id].name;
+    $('app-body').innerHTML = APPS[id].render();
+    showView('view-app');
+    if (APPS[id].init) APPS[id].init();
+}
+function unlock() { state.locked = false; showView('view-home'); }
+$('view-lock').addEventListener('click', unlock);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') goHome(); });
+
+/* ---------- 主屏 ---------- */
+const GRID_APPS = [
+    ['phone', '电话'], ['messages', '信息'], ['browser', '浏览器'],
+    ['photos', '相册'], ['music', '音乐'], ['settings', '设置'],
+];
+const DOCK_APPS = ['phone', 'messages', 'browser', 'music'];
+function iconHTML(id) {
+    const a = GRID_APPS.find(x => x[0] === id) || [id, id];
+    const ic = id === 'messages' ? 'msg' : id === 'browser' ? 'globe' : id === 'photos' ? 'photo' : id === 'settings' ? 'gear' : id;
+    return '<div class="app-icon" data-app="' + id + '"><div class="ico">' + ico(ic, 26) + '</div><span class="lbl">' + a[1] + '</span></div>';
+}
+function renderGrid() {
+    $('grid').innerHTML = GRID_APPS.map(a => iconHTML(a[0])).join('');
+    $('dock').innerHTML = DOCK_APPS.map(a => iconHTML(a[0])).join('');
+}
+function bindHomeClick(el) {
+    el.addEventListener('click', (e) => {
+        const i = e.target.closest('.app-icon');
+        if (i) openApp(i.dataset.app);
     });
-  });
- 
-  // 默认进入微信主框架 → 渲染聊天列表
-  WechatApp.renderList();
-  WechatApp.renderContact();
- 
-  // 首页图标
-  document.querySelectorAll('.app-icon').forEach(el => {
-    el.addEventListener('click', () => {
-      const app = el.dataset.app;
-      if (app === 'settings') { SettingsApp.render(); Router.go('settings'); }
-      else if (app === 'worldbook') { WorldBookApp.render(); Router.go('worldbook'); }
-      else if (app === 'wechat') { WechatApp.renderList(); Router.go('wechat-list'); }
-      else if (app === 'wechat') {
-        WechatApp.renderList();
-        Router.go('wechat-list');
-        // 重置 Tab 到 chat
-        wxTabs.forEach(t => t.classList.toggle('active', t.dataset.tab === 'chat'));
-        document.querySelectorAll('#wxMainBody .wx-tab-page').forEach(p => {
-          p.classList.toggle('active', p.dataset.tab === 'chat');
-        });
-        document.getElementById('wxMainTitle').textContent = '微信';
-        document.getElementById('btnAddChar').style.display = 'flex';
-      }
+}
+bindHomeClick($('grid'));
+bindHomeClick($('dock'));
+
+/* ============================================================
+   电话
+   ============================================================ */
+function renderPhone() {
+    const calls = state.calls.slice().reverse();
+    const list = calls.length ? '<div class="card" style="padding:6px 12px">' + calls.slice(0, 5).map(c =>
+        '<div class="msg-session" style="border:none;padding:9px 2px"><div class="m-avatar" style="width:36px;height:36px;font-size:15px;background:var(--sage)">' + ico('phone', 15) + '</div><div><div class="m-name" style="font-size:14px">' + esc(c.name) + '</div><div class="m-prev">' + c.time + (c.out ? ' · 已拨出' : '') + '</div></div></div>'
+    ).join('') + '</div>' : '';
+    return list +
+        '<div class="dial-num" id="dial-num">' + (state.dialNum || '&nbsp;') + '</div>' +
+        '<div class="dialpad">' +
+        [['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ'],['*',''],['0','+'],['#','']].map(k =>
+            '<button class="dkey" data-act="dk" data-v="' + k[0] + '">' + k[0] + (k[1] ? '<small>' + k[1] + '</small>' : '') + '</button>'
+        ).join('') + '</div>' +
+        '<div class="dial-ops"><button class="dial-del" data-act="dk-del">⌫</button>' +
+        '<button class="dial-call" data-act="dk-call">' + ico('phone', 22) + '</button>' +
+        '<span style="width:44px"></span></div>';
+}
+function doCall() {
+    const num = state.dialNum;
+    if (!num) return;
+    const c = state.contacts.find(x => x.phone && x.phone.replace(/\s/g, '') === num);
+    state.calling = { name: c ? c.name : num, icon: c ? c.avatar : '📞' };
+    state.calls.push({ name: state.calling.name, time: fmtTime(new Date()), out: true });
+    renderCalling();
+}
+function renderCalling() {
+    const c = state.calling;
+    const overlay = document.createElement('div');
+    overlay.className = 'calling';
+    overlay.innerHTML = '<div class="c-avatar">' + (c.icon || '📞') + '</div>' +
+        '<div class="c-name">' + esc(c.name) + '</div><div class="c-state">正在通话…</div>' +
+        '<button class="c-hang" data-act="hang">' + ico('phone', 26) + '</button>';
+    overlay.addEventListener('click', (e) => {
+        if (e.target.closest('[data-act="hang"]')) { overlay.remove(); state.calling = null; toast('通话已结束'); }
     });
-  });
- 
-6 lines hidden
-  document.getElementById('btnAddApi').addEventListener('click', () => SettingsApp.add());
-  document.getElementById('btnAddChar').addEventListener('click', () => WechatApp.addChar());
-  document.getElementById('btnAddWbGroup').addEventListener('click', () => WorldBookApp.addGroup());
- 
-  // Router.go 到 moments 时自动渲染
-  const _origGo = Router.go.bind(Router);
-  Router.go = function(name) {
-    if (name === 'wechat-moments') MomentsApp.render();
-    return _origGo(name);
-  };
+    document.querySelector('.screen').appendChild(overlay);
+}
+
+/* ============================================================
+   信息
+   ============================================================ */
+function renderMsgList() {
+    if (!state.contacts.length) {
+        return '<div class="empty"><div class="e-ico">💬</div>还没有联系人<br>点下面按钮添加一位朋友吧</div>' +
+            '<button class="btn" data-act="contact-new" style="width:100%">' + ico('plus', 16) + ' 添加联系人</button>';
+    }
+    return state.contacts.map(c => {
+        const msgs = state.chats[c.id] || [];
+        const last = msgs[msgs.length - 1];
+        return '<div class="msg-session" data-act="open-chat" data-v="' + c.id + '">' +
+            '<div class="m-avatar" style="background:' + c.bg + '">' + c.avatar + '</div>' +
+            '<div><div class="m-name">' + esc(c.name) + '</div><div class="m-prev">' + (last ? (last.from === 'out' ? '我：' : '') + esc(last.text) : '开始聊天吧～') + '</div></div>' +
+            '<span style="margin-left:auto;font-size:11px;color:var(--sub)">' + (last ? last.time : '') + '</span></div>';
+    }).join('');
+}
+function renderContactForm() {
+    const cf = state.cf;
+    return '<div class="card">' +
+        '<div class="row" style="margin-bottom:14px"><div class="m-avatar" id="cf-av" style="background:' + (cf.bg || '#6E7D6B') + '">' + (cf.avatar || '😊') + '</div>' +
+        '<div><div style="font-size:16px;font-weight:700">新朋友</div><div style="font-size:12px;color:var(--sub)">填写资料，让 TA 更像真人</div></div></div>' +
+        '<div class="row" style="margin-bottom:12px"><input class="input" id="cf-name" placeholder="姓名（必填）" maxlength="12"></div>' +
+        '<div class="row" style="margin-bottom:12px"><input class="input" id="cf-phone" placeholder="手机号（可留空）" maxlength="20"></div>' +
+        '<div class="row" style="margin-bottom:12px"><span style="font-size:13px">头像</span><div style="display:flex;gap:6px;flex-wrap:wrap">' +
+        ['😊','😎','🤖','👩','👨','🐱','🐶','🦊','🐼','👾'].map(e => '<button class="dkey" style="width:38px;height:38px;font-size:18px;border-radius:12px" data-act="cf-emoji" data-v="' + e + '">' + e + '</button>').join('') +
+        '</div></div>' +
+        '<div class="row" style="margin-bottom:12px"><span style="font-size:13px">颜色</span><div style="display:flex;gap:8px;flex-wrap:wrap">' +
+        ['#6E7D6B','#A98FC4','#C99A7E','#5FA88E','#8FA8C9','#D48A8A'].map(c => '<button class="dkey" style="width:30px;height:30px;border-radius:50%;background:' + c + ';font-size:0;box-shadow:none" data-act="cf-color" data-v="' + c + '"></button>').join('') +
+        '</div></div>' +
+        '<button class="btn" data-act="contact-save" style="width:100%;margin-top:6px">保存联系人</button></div>';
+}
+function renderChat(id) {
+    const c = state.contacts.find(x => x.id === id);
+    if (!c) return;
+    state.chatId = id;
+    $('app-title').textContent = c.name;
+    $('app-body').innerHTML =
+        '<div class="chat-day">今天</div><div class="chat-body" id="chat-body">' +
+        (state.chats[id] || []).map(m => '<div class="chat-bubble ' + (m.from === 'out' ? 'out' : 'in') + '">' + esc(m.text) + '</div>').join('') +
+        '</div>' +
+        '<div class="chat-input-row"><input class="chat-input" id="chat-input" placeholder="发消息…"><button class="chat-send" data-act="send">' + ico('send', 18) + '</button></div>';
+    const body = $('chat-body');
+    if (body) body.scrollTop = body.scrollHeight;
+}
+function sendMsg() {
+    const inp = $('chat-input');
+    if (!inp || !state.chatId) return;
+    const text = inp.value.trim();
+    if (!text) return;
+    if (!state.chats[state.chatId]) state.chats[state.chatId] = [];
+    state.chats[state.chatId].push({ from: 'out', text, time: fmtTime(new Date()) });
+    inp.value = '';
+    renderChat(state.chatId);
+    setTimeout(() => {
+        const reply = REPLY_POOL[Math.floor(Math.random() * REPLY_POOL.length)];
+        state.chats[state.chatId].push({ from: 'in', text: reply, time: fmtTime(new Date()) });
+        if (state.app === 'messages' && state.chatId) renderChat(state.chatId);
+    }, 900 + Math.random() * 700);
+}
+
+/* ============================================================
+   浏览器
+   ============================================================ */
+function renderBrowser() {
+    return '<div class="browser-bar"><input class="input" id="b-url" placeholder="搜索或输入网址" value="' + esc(state.browserUrl) + '"></div>' +
+        '<div class="browser-page">' +
+        '<div style="font-size:24px;font-weight:800;letter-spacing:.06em;margin-bottom:4px">锦书<span style="color:var(--sage)">搜</span></div>' +
+        '<div style="font-size:12px;color:var(--sub);margin-bottom:16px">治愈系搜索 · 干净又好看</div>' +
+        '<div class="b-search" data-act="b-go">' + ico('search', 16) + ' 搜索：' + esc(state.browserUrl || '输入你想知道的…') + '</div>' +
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px">' +
+        [['🌿','今日语录','随便翻翻，总有一句击中你'],['🎵','轻音乐','写作业时的小电台'],['📚','小故事','睡前读三分钟']].map(s =>
+            '<div style="background:var(--soft);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer" data-act="b-fake" data-v="' + s[1] + '"><div style="font-size:22px">' + s[0] + '</div><div style="font-size:13px;font-weight:600;margin-top:6px">' + s[1] + '</div><div style="font-size:10px;color:var(--sub);margin-top:3px;line-height:1.4">' + s[2] + '</div></div>'
+        ).join('') + '</div></div>';
+}
+
+/* ============================================================
+   相册
+   ============================================================ */
+function renderPhotos() {
+    return '<div style="padding:4px 0 10px;font-size:13px;color:var(--sub)">最近 · ' + state.photos.length + ' 张</div>' +
+        '<div class="photo-grid">' + state.photos.map((p, i) =>
+            '<div class="ph" data-act="ph-view" data-v="' + i + '" style="background:' + PHOTO_COLORS[i % PHOTO_COLORS.length] + '"></div>'
+        ).join('') + '</div>';
+}
+function viewPhoto(i) {
+    const ov = document.createElement('div');
+    ov.className = 'photo-view';
+    ov.innerHTML = '<div style="width:100%;height:100%;background:' + PHOTO_COLORS[i % PHOTO_COLORS.length] + '"></div>';
+    ov.addEventListener('click', () => ov.remove());
+    document.querySelector('.screen').appendChild(ov);
+}
+
+/* ============================================================
+   音乐
+   ============================================================ */
+function renderMusic() {
+    const t = TRACKS[state.track];
+    return '<div class="music-bg"><div class="m-cover">' + ico('music', 84) + '</div>' +
+        '<div class="m-title">' + t.t + '</div><div class="m-artist">' + t.a + '</div>' +
+        '<div class="m-progress"><div class="m-bar"><i style="width:' + (state.playing ? 35 : 0) + '%"></i></div>' +
+        '<div class="m-time"><span>0:00</span><span>3:24</span></div></div>' +
+        '<div class="m-ctrl"><button class="m-btn" data-act="m-prev">' + ico('prev', 22) + '</button>' +
+        '<button class="m-btn play" data-act="m-play">' + ico(state.playing ? 'pause' : 'play', 26) + '</button>' +
+        '<button class="m-btn" data-act="m-next">' + ico('next', 22) + '</button></div></div>';
+}
+
+/* ============================================================
+   设置
+   ============================================================ */
+function renderSettings() {
+    return '<div class="set-title">连接</div><div class="card" style="padding:4px 14px">' +
+        setRow('wifi', 'Wi-Fi', state.wifi ? '已连接：锦书_5G' : '未连接', 'sw-wifi', state.wifi) +
+        setRow('bluetooth', '蓝牙', state.bt ? '已开启' : '已关闭', 'sw-bt', state.bt) +
+        setRow('airplane', '飞行模式', '', 'sw-air', state.airplane) +
+        '</div>' +
+        '<div class="set-title">显示</div><div class="card" style="padding:4px 14px">' +
+        '<div class="set-row"><div class="row"><span class="set-ico">' + ico(state.theme === 'light' ? 'sun' : 'moon', 18) + '</span><div><div class="set-label">深色模式</div></div></div><div class="switch ' + (state.theme === 'dark' ? 'on' : '') + '" data-act="sw-theme"></div></div>' +
+        '<div class="set-row"><div class="row"><span class="set-ico">' + ico('sun', 18) + '</span><div><div class="set-label">亮度</div></div></div><input type="range" id="set-brightness" min="30" max="100" value="' + state.brightness + '" style="width:130px"></div>' +
+        '</div>' +
+        '<div class="set-title">壁纸</div><div class="card" style="padding:8px 14px"><div class="wp-row">' +
+        Object.keys(WALLPAPERS).map(w => '<div class="wp-thumb ' + (state.wallpaper === w ? 'sel' : '') + '" data-act="wp" data-v="' + w + '" style="background:linear-gradient(135deg,' + WALLPAPERS[w][0] + ',' + WALLPAPERS[w][1] + ')"></div>').join('') +
+        '</div></div>' +
+        '<div class="set-title">关于</div><div class="card" style="padding:4px 14px">' +
+        '<div class="set-row"><div><div class="set-label">型号</div></div><span style="font-size:13px;color:var(--sub)">锦书 · 从零开始</span></div>' +
+        '<div class="set-row"><div><div class="set-label">版本</div></div><span style="font-size:13px;color:var(--sub)">v1.0 干净版</span></div>' +
+        '</div>';
+}
+function setRow(icon, label, sub, act, on) {
+    return '<div class="set-row"><div class="row"><span class="set-ico">' + ico(icon, 18) + '</span><div><div class="set-label">' + label + '</div>' + (sub ? '<div class="set-sub">' + sub + '</div>' : '') + '</div></div>' +
+        '<div class="switch ' + (on ? 'on' : '') + '" data-act="' + act + '"></div></div>';
+}
+
+/* ============================================================
+   App 注册 & 事件
+   ============================================================ */
+const APPS = {
+    phone: { name: '电话', render: renderPhone },
+    messages: {
+        name: '信息',
+        render() { return state.msgForm ? renderContactForm() : renderMsgList(); },
+        init() {
+            if (state.msgForm) {
+                const n = $('cf-name'); if (n) n.focus();
+            }
+        },
+    },
+    browser: { name: '浏览器', render: renderBrowser },
+    photos: { name: '相册', render: renderPhotos },
+    music: { name: '音乐', render: renderMusic },
+    settings: { name: '设置', render: renderSettings },
+};
+
+$('app-back').addEventListener('click', goHome);
+$('app-body').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    const act = btn.dataset.act, v = btn.dataset.v;
+    if (state.app === 'phone') {
+        if (act === 'dk') { state.dialNum += v; const d = $('dial-num'); if (d) d.textContent = state.dialNum; }
+        else if (act === 'dk-del') { state.dialNum = state.dialNum.slice(0, -1); const d = $('dial-num'); if (d) d.textContent = state.dialNum || '&nbsp;'; }
+        else if (act === 'dk-call') doCall();
+    } else if (state.app === 'messages') {
+        if (act === 'open-chat') renderChat(v);
+        else if (act === 'contact-new') { state.msgForm = true; openApp('messages'); }
+        else if (act === 'cf-emoji') { state.cf.avatar = v; const av = $('cf-av'); if (av) av.textContent = v; }
+        else if (act === 'cf-color') { state.cf.bg = v; const av = $('cf-av'); if (av) av.style.background = v; }
+        else if (act === 'contact-save') {
+            const name = ($('cf-name') ? $('cf-name').value : '').trim();
+            if (!name) { toast('请输入姓名'); return; }
+            const id = 'c' + Date.now();
+            state.contacts.push({ id, name, phone: ($('cf-phone') ? $('cf-phone').value : '').trim(), avatar: state.cf.avatar || '😊', bg: state.cf.bg || '#6E7D6B' });
+            state.chats[id] = [];
+            state.cf = {};
+            state.msgForm = false;
+            openApp('messages');
+            toast('已添加联系人 ✓');
+        }
+        else if (act === 'send') sendMsg();
+    } else if (state.app === 'browser') {
+        if (act === 'b-go') {
+            const u = ($('b-url') ? $('b-url').value : '').trim();
+            state.browserUrl = u;
+            openApp('browser');
+            toast(u ? '正在打开「' + u + '」…' : '请输入想搜索的内容');
+        } else if (act === 'b-fake') {
+            toast('「' + v + '」内容准备中…');
+        }
+    } else if (state.app === 'photos') {
+        if (act === 'ph-view') viewPhoto(+v);
+    } else if (state.app === 'music') {
+        if (act === 'm-play') { state.playing = !state.playing; openApp('music'); }
+        else if (act === 'm-next') { state.track = (state.track + 1) % TRACKS.length; state.playing = true; openApp('music'); }
+        else if (act === 'm-prev') { state.track = (state.track - 1 + TRACKS.length) % TRACKS.length; state.playing = true; openApp('music'); }
+    } else if (state.app === 'settings') {
+        if (act === 'sw-wifi') { state.wifi = !state.wifi; openApp('settings'); }
+        else if (act === 'sw-bt') { state.bt = !state.bt; openApp('settings'); }
+        else if (act === 'sw-air') { state.airplane = !state.airplane; openApp('settings'); }
+        else if (act === 'sw-theme') { state.theme = state.theme === 'light' ? 'dark' : 'light'; openApp('settings'); }
+        else if (act === 'wp') { state.wallpaper = v; openApp('settings'); }
+    }
 });
-<\/script>
+document.addEventListener('input', (e) => {
+    if (e.target && e.target.id === 'set-brightness') state.brightness = +e.target.value;
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && state.app === 'messages' && state.chatId) { sendMsg(); }
+});
+
+/* ---------- 初始化 ---------- */
+renderGrid();
+tick();
+</script>
 </body>
 </html>
