@@ -1427,44 +1427,6 @@ body[data-icon="plain"] .app-icon .ico {
 .fp-btn:active { transform: scale(.96); }
 .fp-btn.fp-ok { background: linear-gradient(135deg, #0a84ff, #5e5ce6); color: #fff; }
 
-/* 悬浮球 */
-.float-ball {
-    position: fixed; right: 16px; bottom: 130px; z-index: 9000;
-    width: 56px; height: 56px; border-radius: 50%; cursor: pointer;
-    background: linear-gradient(135deg, rgba(90,100,255,.92), rgba(90,50,200,.92));
-    box-shadow: 0 8px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35);
-    display: flex; align-items: center; justify-content: center;
-    transition: transform .15s, opacity .3s;
-    user-select: none; -webkit-user-select: none;
-}
-.float-ball:hover { transform: scale(1.08); }
-.float-ball:active { transform: scale(.94); }
-.float-ball.hidden { display: none; }
-/* 悬浮球光晕脉动（借鉴 SullyOS glow 动效理念） */
-.float-ball:not(.hidden) { animation: fbGlow 3.2s ease-in-out infinite; }
-@keyframes fbGlow {
-    0%, 100% { box-shadow: 0 8px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35), 0 0 12px rgba(120,100,255,.25); }
-    50% { box-shadow: 0 8px 24px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35), 0 0 26px rgba(120,100,255,.55); }
-}
-.float-ball .fb-icon { width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
-.float-ball .fb-icon img { width: 100%; height: 100%; object-fit: cover; }
-/* 悬浮球菜单 */
-.fb-menu {
-    position: fixed; right: 16px; bottom: 196px; z-index: 9001;
-    width: 230px; background: rgba(30,33,48,.97); border: 1px solid rgba(255,255,255,.1);
-    border-radius: 18px; padding: 8px; box-shadow: 0 16px 50px rgba(0,0,0,.55);
-    display: none; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    --fb-color: #ffffff;
-}
-.fb-menu.show { display: block; animation: fbIn .18s ease-out; }
-@keyframes fbIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.fbm-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 12px; cursor: pointer; }
-.fbm-item:hover { background: rgba(255,255,255,.08); }
-.fbm-ico { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
-.fbm-title { font-size: 14px; color: var(--fb-color); font-weight: 500; transition: color .3s; }
-.fbm-desc { font-size: 11px; color: var(--fb-color); opacity: .55; margin-top: 2px; transition: color .3s; }
-.fbm-nick { padding: 8px 12px 6px; font-size: 11px; color: var(--fb-color); opacity: .65; letter-spacing: .16em; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 6px; font-family: var(--font-sans); font-weight: 300; }
-
 /* 预设选择行 */
 .preset-group { margin-bottom: 18px; }
 .preset-label { font-size: 12px; color: #8f96ab; margin-bottom: 8px; padding-left: 2px; }
@@ -1751,11 +1713,7 @@ body[data-icon="plain"] .app-icon .ico {
 [data-theme="chill"] .call-banner { background: rgba(255,255,255,.92) !important; color: #1a1a1a !important; box-shadow: 0 12px 40px rgba(0,0,0,.15); }
 [data-theme="chill"] .cb-info .cb-name { color: #1a1a1a !important; }
 [data-theme="chill"] .cb-info .cb-status { color: #6d7280 !important; }
-/* 悬浮球菜单：浅色 */
-[data-theme="chill"] .fb-menu { background: rgba(255,255,255,.96) !important; border-color: rgba(0,0,0,.08) !important; box-shadow: 0 16px 50px rgba(0,0,0,.18) !important; --fb-color: #1a1a1a !important; }
-[data-theme="chill"] .fbm-item:hover { background: rgba(0,0,0,.05) !important; }
-[data-theme="chill"] .fbm-ico { background: rgba(0,0,0,.05) !important; }
-[data-theme="chill"] .fbm-nick { border-bottom-color: rgba(0,0,0,.07) !important; }
+/* 悬浮球菜单：浅色（已迁移至灵动岛，样式由 island-menu 接管） */
 /* 浅色细节修补：时间戳 / 选择器 / 滑块 / 照片选择 */
 [data-theme="chill"] .chat-bubble.in .chat-time { color: rgba(0,0,0,.4) !important; }
 [data-theme="chill"] .form-color.sel { border-color: #1a1a1a !important; }
@@ -1934,6 +1892,24 @@ html, body { background: #EDEAE4 !important; }
     body { background: #EDEAE4 !important; }
     .phone { box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 36px 90px rgba(26,28,24,.32); }
 }
+/* ===== v10.6 灵动岛快捷菜单（悬浮球迁移 · 已删除悬浮球） ===== */
+.island { cursor: pointer; }
+.island:active { transform: translateX(-50%) scale(.94); }
+.island-menu {
+    position: fixed; left: 50%; top: 58px; transform: translateX(-50%);
+    z-index: 9001; width: 258px;
+    background: rgba(255,255,255,.97); border: 1px solid rgba(0,0,0,.06);
+    border-radius: 22px; padding: 8px; box-shadow: 0 20px 60px rgba(26,28,24,.18);
+    display: none; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    --fb-color: #26261F;
+}
+.island-menu.show { display: block; animation: islandIn .22s cubic-bezier(.34,1.4,.64,1); }
+@keyframes islandIn { from { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(.95); } to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } }
+@keyframes fbIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+[data-theme="chill"] .island-menu { background: rgba(255,255,255,.97) !important; border-color: rgba(0,0,0,.06) !important; --fb-color: #26261F !important; box-shadow: 0 20px 60px rgba(26,28,24,.18) !important; }
+.island-menu .fbm-ico { color: #6E7D6B; background: rgba(110,125,107,.1); }
+.island-menu .fbm-title, .island-menu .fbm-desc, .island-menu .fbm-nick { color: var(--fb-color); }
+.island-menu .fbm-desc { opacity: .55; }
 </style>
     <style id="user-css"></style>
 </head>
@@ -2133,18 +2109,13 @@ html, body { background: #EDEAE4 !important; }
 </div>
 
 
-<!-- ==================== 悬浮球 ==================== -->
-<div class="float-ball" id="float-ball" title="悬浮球">
-    <div class="fb-icon" id="fb-icon">🚀</div>
-</div>
-<div class="fb-menu" id="fb-menu">
+<!-- ==================== 灵动岛快捷菜单（原悬浮球功能迁移） ==================== -->
+<div class="fb-menu island-menu" id="island-menu">
     <div class="fbm-nick" id="fbm-nick">JINSHUJI</div>
-    <div class="fbm-item" data-fba="chill"><span class="fbm-ico">☁️</span><div><div class="fbm-title">浅色主题</div><div class="fbm-desc">一键切换极简浅色</div></div></div>
-    <div class="fbm-item" data-fba="chat-jump"><span class="fbm-ico">💬</span><div><div class="fbm-title">跳转聊天</div><div class="fbm-desc">快速找到 TA</div></div></div>
-    <div class="fbm-item" data-fba="app-launch"><span class="fbm-ico">🚀</span><div><div class="fbm-title">快捷启动</div><div class="fbm-desc">直接打开任意应用</div></div></div>
-    <div class="fbm-item" data-fba="preset"><span class="fbm-ico">🎨</span><div><div class="fbm-title">切换预设</div><div class="fbm-desc">CSS / 字体 / API 快速切换</div></div></div>
-    <div class="fbm-item" data-fba="fb"><span class="fbm-ico">⚙️</span><div><div class="fbm-title">悬浮球设置</div><div class="fbm-desc">外观 / 大小 / 颜色</div></div></div>
-    <div class="fbm-item" data-fba="hide"><span class="fbm-ico">🙈</span><div><div class="fbm-title">关闭悬浮球</div><div class="fbm-desc">可在「设置」中重新开启</div></div></div>
+    <div class="fbm-item" data-fba="chill"><span class="fbm-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span><div><div class="fbm-title">浅色主题</div><div class="fbm-desc">一键切换极简浅色</div></div></div>
+    <div class="fbm-item" data-fba="chat-jump"><span class="fbm-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span><div><div class="fbm-title">跳转聊天</div><div class="fbm-desc">快速找到 TA</div></div></div>
+    <div class="fbm-item" data-fba="app-launch"><span class="fbm-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span><div><div class="fbm-title">快捷启动</div><div class="fbm-desc">直接打开任意应用</div></div></div>
+    <div class="fbm-item" data-fba="preset"><span class="fbm-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><div><div class="fbm-title">切换预设</div><div class="fbm-desc">CSS / 字体 / API 快速切换</div></div></div>
 </div>
 
 <script>
@@ -2177,7 +2148,7 @@ const state = {
     contactForm: { avatar: '😀', bg: '#5e5ce6', autoReply: true, myNote: '', taNote: '', sign: '', gender: '保密', persona: '', personaDoc: '' },
     passcode: '',           // 锁屏密码（4-10位数字，空 = 未开启）
     passTry: '',            // 正在输入的密码
-    fb: { show: true, img: '', size: 56, opacity: 90, color: '#ffffff' },  // 悬浮球
+    fb: { show: true, img: '', size: 56, opacity: 90, color: '#ffffff' },  // 悬浮球（v10.6 已迁移至灵动岛，保留兼容）
     nickname: '',           // 称呼设置：TA 对你的称呼
     cssPreset: 0,           // CSS 主题预设索引
     fontPreset: 0,          // 字体预设索引
@@ -2360,7 +2331,6 @@ function loadPersist() {
     state.customCss = lsGet('simphone_css', '');
     state.customWallpaper = lsGet('simphone_wallpaper', '');
     state.passcode = lsGet('simphone_passcode', '');
-    state.fb = Object.assign({ show: true, img: '', size: 56, opacity: 90, color: '#ffffff' }, lsGet('simphone_fb', {}));
     state.cssPreset = lsGet('simphone_cssPreset', 0);
     state.fontPreset = lsGet('simphone_fontPreset', 0);
     state.iconStyle = lsGet('simphone_iconStyle', 'color');
@@ -2403,7 +2373,6 @@ function loadPersist() {
     if (_g) { state.gameView = _g.view || 'home'; state.guess = _g.guess || state.guess; state.rps = _g.rps || state.rps; state.quiz = _g.quiz || state.quiz; }
     const _lv = lsGet('simphone_lover', null);
     if (_lv) { state.lover = Object.assign({}, state.lover, _lv); if (state.lover.quizDone) state.loverView = 'home'; }
-    applyFB();
     applyWallpaper();
     applyIconStyle();
 }
@@ -2444,20 +2413,6 @@ function applyPresets() {
     const st = document.getElementById('user-css');
     if (st) st.textContent = (theme + '\n' + font + '\n' + state.customCss).trim();
 }
-function applyFB() {
-    const fb = $('float-ball'), icon = $('fb-icon');
-    if (!fb) return;
-    fb.classList.toggle('hidden', !state.fb.show);
-    if (fb) { fb.style.width = state.fb.size + 'px'; fb.style.height = state.fb.size + 'px'; fb.style.opacity = state.fb.opacity / 100; }
-    if (icon) icon.innerHTML = state.fb.img ? '<img src="' + state.fb.img + '" alt="">' : '🚀';
-    // 菜单文字颜色（参考站：可自定义字体颜色）
-    const menu = $('fb-menu');
-    if (menu) menu.style.setProperty('--fb-color', state.fb.color || '#ffffff');
-    // 称呼设置：悬浮球菜单顶部显示 TA 对你的称呼
-    const nick = $('fbm-nick');
-    if (nick) nick.textContent = state.nickname ? '· ' + state.nickname + ' ·' : 'JINSHUJI';
-}
-function persistFB() { lsSet('simphone_fb', state.fb); }
 loadPersist(); // 必须在 THEMES/FONTS/applyPresets 定义之后调用（修复 TDZ 黑屏 bug）
 
 /* ============================================================
@@ -2546,14 +2501,16 @@ function forgotOK() {
 })();
 
 /* ============================================================
-   悬浮球交互
+   灵动岛快捷菜单（原悬浮球功能迁移）
    ============================================================ */
 (function () {
-    const fb = $('float-ball'), menu = $('fb-menu');
-    if (!fb || !menu) return;
-    fb.addEventListener('click', (e) => {
+    const island = $('island'), menu = $('island-menu');
+    if (!island || !menu) return;
+    const nick = $('fbm-nick');
+    if (nick) nick.textContent = state.nickname ? '· ' + state.nickname + ' ·' : 'JINSHUJI';
+    island.addEventListener('click', (e) => {
         e.stopPropagation();
-        // 锁屏时不允许直接操作悬浮球（有密码先解锁）
+        // 锁屏时不允许直接操作（有密码先解锁）
         if (state.locked) {
             if (state.passcode) { toast('请先解锁手机 🔒'); return; }
             doUnlock();
@@ -2561,26 +2518,17 @@ function forgotOK() {
         menu.classList.toggle('show');
     });
     document.addEventListener('click', (e) => {
-        if (!menu.contains(e.target) && e.target !== fb && !fb.contains(e.target)) menu.classList.remove('show');
+        if (!menu.contains(e.target) && e.target !== island) menu.classList.remove('show');
     });
     menu.addEventListener('click', (e) => {
         const it = e.target.closest('[data-fba]');
         if (!it) return;
         menu.classList.remove('show');
         const act = it.dataset.fba;
-        if (act === 'hide') {
-            state.fb.show = false;
-            persistFB();
-            applyFB();
-            toast('悬浮球已关闭（可在设置中开启）');
-        } else if (act === 'preset') {
+        if (act === 'preset') {
             state.settingsPage = 'preset';
             openApp('settings');
             $('app-title').textContent = '预设切换';
-        } else if (act === 'fb') {
-            state.settingsPage = 'fb';
-            openApp('settings');
-            $('app-title').textContent = '悬浮球设置';
         } else if (act === 'chat-jump') {
             state.settingsPage = 'chat-jump';
             openApp('settings');
@@ -3125,17 +3073,6 @@ $('app-body').addEventListener('change', (e) => {
             toast('CSS 已导入并生效 📄');
         };
         r.readAsText(f);
-    } else if (t.id === 'fb-file') {
-        if (!/image\//.test(f.type)) { toast('请选择图片文件'); return; }
-        const r = new FileReader();
-        r.onload = () => {
-            state.fb.img = r.result;
-            persistFB();
-            applyFB();
-            openApp('settings');
-            toast('悬浮球图片已更新 🪄');
-        };
-        r.readAsDataURL(f);
     } else if (t.id === 'cf-import-file') {
         const r = new FileReader();
         r.onload = () => {
@@ -3685,25 +3622,7 @@ APPS.settings = {
                 '<div class="preset-group"><div class="preset-label">API 预设（已移至「API 配置」页）</div><div class="preset-row"><button class="preset-chip" data-act="goto-api">🔌 前往 API 配置</button></div></div>' +
                 '<div class="hint-note">💡 主题与字体立即生效并自动保存；API 预设请到「连接 → API 配置」中一键应用。</div></div>';
         }
-        // —— 悬浮球设置子页面 ——
-        if (state.settingsPage === 'fb') {
-            return '<div class="setting-group"><div class="setting-group-title">🪄 悬浮球设置</div>' +
-                backRow +
-                '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🙈</span><div>启用悬浮球</div></div><div class="switch ' + (state.fb.show ? 'on' : '') + '" data-act="fb-toggle"></div></div>' +
-                '<div class="form-row"><label class="form-label">自定义图片（可选）</label>' +
-                '<input type="file" id="fb-file" accept="image/*" style="display:none">' +
-                '<button class="upload-btn" data-act="fb-choose">🖼️ 选择图片</button>' +
-                (state.fb.img ? ' <button class="upload-btn" data-act="fb-clear" style="margin-left:6px">✕ 恢复默认</button>' : '') +
-                '<div class="hint-note">上传后悬浮球将显示该图片（支持 JPG / PNG）</div></div>' +
-                '<div class="form-row"><label class="form-label">大小：<b id="fb-size-val" style="color:#fff">' + state.fb.size + 'px</b></label>' +
-                '<input type="range" id="fb-size" min="36" max="96" value="' + state.fb.size + '" style="width:100%;accent-color:#0a84ff"></div>' +
-                '<div class="form-row"><label class="form-label">透明度：<b id="fb-op-val" style="color:#fff">' + state.fb.opacity + '%</b></label>' +
-                '<input type="range" id="fb-opacity" min="30" max="100" value="' + state.fb.opacity + '" style="width:100%;accent-color:#0a84ff"></div>' +
-                '<div class="form-row"><label class="form-label">菜单文字颜色</label>' +
-                '<input type="color" id="fb-color" value="' + esc(state.fb.color) + '" style="width:100%;height:42px;border:none;border-radius:10px;background:transparent;cursor:pointer"></div>' +
-                '<div class="hint-note">💡 修改实时生效并自动保存；关闭悬浮球后可在本页重新开启。</div></div>';
-        }
-        // —— 跳转聊天子页面（参考 YAN：联系人快速跳转）——
+        // —— 跳转聊天子页面（联系人快速跳转）——
         if (state.settingsPage === 'chat-jump') {
             const rows = state.contacts.length ? state.contacts.map(c =>
                 '<div class="setting-row" data-act="chat-jump" data-v="' + c.id + '" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">' + esc(c.avatar) + '</span><div>' + esc(c.name) +
@@ -3757,9 +3676,6 @@ APPS.settings = {
             '<div class="setting-group"><div class="setting-group-title">安全</div>' +
             '<div class="setting-row" data-act="passcode" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🔒</span><div>锁屏密码<div class="sr-sub">' + (state.passcode ? '已开启' : '未开启') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
             '</div>' +
-            '<div class="setting-group"><div class="setting-group-title">悬浮球</div>' +
-            '<div class="setting-row" data-act="fb" style="cursor:pointer"><div class="sr-left"><span class="sr-emoji">🪄</span><div>悬浮球设置<div class="sr-sub">' + (state.fb.show ? '已开启' : '已关闭，点击开启') + '</div></div></div><span style="color:#8f96ab;font-size:15px">›</span></div>' +
-            '</div>' +
             '<div class="setting-group"><div class="setting-group-title">显示与亮度</div>' +
             '<div class="setting-row"><div class="sr-left"><span class="sr-emoji">🔆</span><div>亮度</div></div><input type="range" id="set-brightness" min="20" max="100" value="' + state.brightness + '" style="width:130px;accent-color:#fff"></div>' +
             '<div class="setting-row" style="flex-direction:column;align-items:stretch"><div class="sr-left" style="margin-bottom:10px"><span class="sr-emoji">🖼️</span><div>壁纸</div></div><div class="wallpaper-row">' +
@@ -3780,25 +3696,6 @@ APPS.settings = {
             $('dim').style.opacity = (100 - state.brightness) / 100;
             $('cc-brightness').value = state.brightness;
         });
-        // 悬浮球：大小 / 透明度 / 菜单颜色（实时预览，change 时保存）
-        const fsz = $('fb-size');
-        if (fsz) fsz.addEventListener('input', (e) => {
-            state.fb.size = +e.target.value;
-            const v = $('fb-size-val'); if (v) v.textContent = state.fb.size + 'px';
-            applyFB();
-        });
-        const fop = $('fb-opacity');
-        if (fop) fop.addEventListener('input', (e) => {
-            state.fb.opacity = +e.target.value;
-            const v = $('fb-op-val'); if (v) v.textContent = state.fb.opacity + '%';
-            applyFB();
-        });
-        const fcol = $('fb-color');
-        if (fcol) fcol.addEventListener('input', (e) => {
-            state.fb.color = e.target.value;
-            applyFB();
-        });
-        [fsz, fop, fcol].forEach(el => { if (el) el.addEventListener('change', () => persistFB()); });
     },
 };
 HANDLERS.settings = {
@@ -3808,7 +3705,6 @@ HANDLERS.settings = {
     'music-mgr': () => { state.settingsPage = 'music-mgr'; openApp('settings'); $('app-title').textContent = '音乐管理'; },
     passcode: () => { state.settingsPage = 'passcode'; openApp('settings'); $('app-title').textContent = '锁屏密码'; },
     preset: () => { state.settingsPage = 'preset'; openApp('settings'); $('app-title').textContent = '预设切换'; },
-    fb: () => { state.settingsPage = 'fb'; openApp('settings'); $('app-title').textContent = '悬浮球设置'; },
     'settings-back': () => { state.settingsPage = 'main'; openApp('settings'); },
     'chill-toggle': () => { toggleChill(); openApp('settings'); },
     'chat-jump': (b) => {
@@ -3830,7 +3726,8 @@ HANDLERS.settings = {
         if (!inp) return;
         state.nickname = inp.value.trim().slice(0, 12);
         lsSet('simphone_nickname', state.nickname);
-        applyFB();
+        const nk = $('fbm-nick');
+        if (nk) nk.textContent = state.nickname ? '· ' + state.nickname + ' ·' : 'JINSHUJI';
         toast(state.nickname ? '称呼已保存：' + state.nickname + ' 💌' : '已清除称呼');
     },
     'api-save': () => {
@@ -3959,23 +3856,6 @@ HANDLERS.settings = {
         toast(state.widgetEdit ? '小组件编辑模式 ✏️' : '已退出小组件编辑');
         openApp('settings');
         $('app-title').textContent = '自定义美化';
-    },
-    // —— 悬浮球 ——
-    'fb-toggle': (b) => {
-        state.fb.show = !state.fb.show;
-        b.classList.toggle('on', state.fb.show);
-        persistFB();
-        applyFB();
-        toast(state.fb.show ? '悬浮球已开启 🪄' : '悬浮球已关闭');
-        setTimeout(() => { state.settingsPage = 'main'; openApp('settings'); }, 500);
-    },
-    'fb-choose': () => { const f = $('fb-file'); if (f) f.click(); },
-    'fb-clear': () => {
-        state.fb.img = '';
-        persistFB();
-        applyFB();
-        openApp('settings');
-        toast('已恢复默认图标');
     },
 };
 
